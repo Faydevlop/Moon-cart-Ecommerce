@@ -1,0 +1,590 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Evara Dashboard</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
+    <style>
+        .preview-container {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .preview-image {
+      margin: 8px;
+      max-width: 100px;
+      max-height: 100px;
+    }
+
+    .remove-button {
+      cursor: pointer;
+      color: red;
+      font-weight: bold;
+      margin-top: 5px;
+      display: block;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <a href="/"><img src="https://i.ibb.co/DDpVWsq/logo.png" alt="" ></a>
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/dashboard"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/page-products-list">List Product </a>
+                        <a href="/admin/page-listcategory">List categories</a>
+                        <!-- <a href="page-products-grid.html">Product grid</a>
+                        <a href="page-products-grid-2.html">Product grid 2</a>
+                        <a href="page-categories.html">Categories</a> -->
+                    </div>
+                </li>
+                <!-- <li class="menu-item has-submenu">
+                    <a class="menu-link" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="page-orders-1.html">Order list 1</a>
+                        <a href="page-orders-2.html">Order list 2</a>
+                        <a href="page-orders-detail.html">Order detail</a>
+                        <a href="page-orders-tracking.html">Order tracking</a>
+<a href="page-invoice.html">Invoice</a>
+                    </div>
+                </li> -->
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="-+llers-cards.html"> <i class="icon material-icons md-store"></i>
+                        <span class="text">User Management</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/page-list-users">List Users</a>
+                        <!-- <a href="page-sellers-list.html">Sellers list</a>
+                        <a href="page-seller-detail.html">Seller profile</a> -->
+                    </div>
+                </li>
+                <li class="menu-item has-submenu active">
+                    <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
+                        <span class="text">Add product</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/page-add-products" class="active">Add product </a>
+                        <a href="/admin/page-add-categorys">Add categories</a>
+                        <!-- <a href="page-form-product-2.html">Add product 2</a>
+                       
+                        <a href="page-form-product-4.html">Add product 4</a>  -->
+                    </div>
+                </li>
+                <!-- <li class="menu-item has-submenu">
+                    <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Transactions</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="page-transactions-1.html">Transaction 1</a>
+                        <a href="page-transactions-2.html">Transaction 2</a>
+                        <a href="page-transactions-details.html">Transaction Details</a>
+                    </div>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>
+                        <span class="text">Account</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="page-account-login.html">User login</a>
+                        <a href="page-account-register.html">User registration</a>
+                        <a href="page-error-404.html">Error 404</a>
+                    </div>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="page-reviews.html"> <i class="icon material-icons md-comment"></i>
+                        <span class="text">Reviews</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="page-brands.html"> <i class="icon material-icons md-stars"></i>
+                        <span class="text">Brands</span> </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
+                        <span class="text">Statistics</span>
+                    </a>
+                </li> -->
+            </ul>
+            <hr>
+            <ul class="menu-aside">
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
+                        <span class="text">Settings</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="page-settings-1.html">Setting sample 1</a>
+                        <a href="page-settings-2.html">Setting sample 2</a>
+                    </div>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="page-blank.html"> <i class="icon material-icons md-local_offer"></i>
+                        <span class="text"> Starter page </span>
+                    </a>
+                </li>
+            </ul>
+            <br>
+            <br>
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
+                        <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
+                    </div>
+                    <datalist id="search_terms">
+                        <option value="Products">
+                        <option value="New orders">
+                        <option value="Apple iphone">
+                        <option value="Ahmed Hassan">
+                    </datalist>
+                </form>
+            </div>
+            <div class="col-nav">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon" href="#">
+                            <i class="material-icons md-notifications animation-shake"></i>
+                            <span class="badge rounded-pill">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                            <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English">English</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français">Français</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png" alt="Français">日本語</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png" alt="Français">中国人</a>
+                        </div>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assets/imgs/people/avatar2.jpg" alt="User"></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="content-main">
+            <div class="row">
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Add New Product</h2>
+                      
+                       
+                    </div>
+                </div>
+
+                
+                <div class="col-lg-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Product Information</h4>
+                        </div>
+                   -     <div class="card-body">
+
+                    <form action="/admin/page-add-products" method="post" enctype="multipart/form-data" onsubmit="return ValidateProduct()">
+                        <div class="mb-4">
+                            <label for="addproductname" class="form-label">Product Title</label>
+                            <input type="text" placeholder="Type here" class="form-control" id="addproductname" name="name">
+                            <span id="addproductname-error" class="text-danger validation-error"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label for="addproductbrand" class="form-label">Brand</label>
+                            <input type="text" placeholder="Type here" class="form-control" id="addproductbrand" name="brand">
+                            <span id="addproductbrand-error" class="text-danger validation-error"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label for="product_model" class="form-label">Model</label>
+                            <input type="text" placeholder="Type here" class="form-control" id="product_model" name="model">
+                            <span id="addproductbrand-error" class="text-danger validation-error"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label for="addproductcategory" class="form-label">Product Category</label>
+                            <select class="form-select" id="addproductcategory" name="category" oninput="validateProductCategory()">
+                                <option value="">Choose a Category</option>
+                                <% if(category && category.length>0){ %>
+                                    <% category.forEach((cat)=>{ %>
+                                        <% if(!category.isActive) {%>
+                                        <option value="<%= cat._id %>"><%= cat.categoryname%></option>
+                                        <%}%>
+                                    <% }) %>
+                                <% } %>
+                            </select>
+                            <span id="addproductcategory-error" class="text-danger validation-error"></span>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="mb-4">
+                                <label for="addproductprice" class="form-label">Price</label>
+                                <input placeholder="$" type="number" class="form-control" id="addproductprice" name="price">
+                                <span id="addproductprice-error" class="text-danger validation-error"></span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="addproductdescription" class="form-label">Description</label>
+                            <textarea placeholder="Type here" class="form-control" rows="4" id="addproductdescription" name="description"></textarea>
+                            <span id="addproductdescription-error" class="text-danger validation-error"></span>
+                        </div>
+                                <div class="row">
+                                    <!-- <div class="col-lg-12">
+                                        <div class="mb-4">
+                                            <label for="product_price" class="form-label">Regular Price</label>
+                                            <input placeholder="$" type="text" class="form-control" id="product_price" name="price">
+                                        </div>
+                                    </div> -->
+<!--                                    
+                                    <div class="col-lg-6">
+                                        <label for="product_currency" class="form-label">Currency</label>
+                                        <select class="form-select" id="product_currency" name="currency">
+                                            <option value="USD">USD</option>
+                                            <option value="EUR">EUR</option>
+                                            <option value="RUBL">RUBL</option>
+                                        </select>
+                                    </div>
+                                </div> -->
+                                
+                                <div class="form-group">
+                                    <label for="productSingleImage">Single Image URL</label>
+                                    <input type="file" class="form-control" id="addproductimage" name="singleimage" >
+                                    <span id="productSingleImage-error" class="text-danger"></span>
+                                    <div id="single-image-preview" class="preview-container"></div>
+                                  </div>
+                                
+                          <div class="form-group">
+                            <label for="productMultipleImages">Multiple Images</label>
+                            <input type="file" class="form-control" id="addproductimages" name="multipleImages" multiple>
+                            <span id="productMultipleImages-error" class="text-danger"></span>
+                            <div id="multiple-images-preview" class="preview-container"></div>
+                          </div>
+
+                                <div class="mb-4">
+                                    <label for="addproductcount" class="form-label">Stock</label>
+                                    <input type="number" placeholder="Quantity" class="form-control" id="addproductcount" name="stock">
+                                    <span id="addproductcount-error" class="text-danger validation-error"></span>
+                                </div>
+                                <!-- <div class="form-check mb-4">
+                                    <input class="form-check-input" type="checkbox" value="" id="make_template" name="makeTemplate">
+                                    <label class="form-check-label" for="make_template">Make a Template</label>
+                                </div> -->
+                                
+                                <div class="mb-4">
+                                    <button type="submit" class="btn btn-primary">Add Product</button>
+                                    <% if(locals.error){ %>
+                                        <p class="mb-4 text-center" style="color: rgb(255, 0, 0);"><%= locals.error %></p>
+                                    <% } %>
+                                    <% if(locals.done){ %>
+                                        <p class="mb-4 text-center" style="color: rgb(98, 255, 0);"><%= locals.done %></p>
+                                    <% } %>
+                                </div>
+                            
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div>
+                    
+                </div>
+                
+                </div>
+                
+                   
+                </div>
+            </div>
+        </section> <!-- content-main end// -->
+       
+        
+    </main>
+    <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/vendors/select2.min.js"></script>
+    <script src="/assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/assets/js/vendors/jquery.fullscreen.min.js"></script>
+
+    <!-- Main Script -->
+    <script src="/assets/js/main.js" type="text/javascript"></script>
+    <script src="/assets/js/validation.js" type="text/javascript"></script>
+    <script>
+
+function ValidateProduct() {
+    
+   
+    // Get the values of the form fields
+    const name = document.getElementById('addproductname').value.trim();
+    const brand = document.getElementById('addproductbrand').value.trim();
+    const model = document.getElementById('product_model').value.trim();
+    const category = document.getElementById('addproductcategory').value;
+    const price = document.getElementById('addproductprice').value.trim();
+    const description = document.getElementById('addproductdescription').value.trim();
+    const singleImage = document.getElementById('addproductimage').files[0];
+    const multipleImages = document.getElementById('addproductimages').files;
+    const stock = document.getElementById('addproductcount').value.trim();
+  
+    // Validate the name field
+    if (!name) {
+      showError('addproductname', 'Please enter a product name.');
+      return false;
+    } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+      showError('addproductname', 'Product name must contain only letters and spaces.');
+      return false;
+    }
+  
+    // Validate the brand field
+    if (!brand) {
+      showError('addproductbrand', 'Please enter a product brand.');
+      return false;
+    }
+  
+    // Validate the category field
+    if (!category) {
+      showError('addproductcategory', 'Please select a product category.');
+      return false;
+    }
+  
+    // Validate the price field
+    if (!price) {
+      showError('addproductprice', 'Please enter a product price.');
+      return false;
+    } else if (!/^\d+\.?\d*$/.test(price)) {
+      showError('addproductprice', 'Product price must be a valid number.');
+      return false;
+    }
+  
+    // Validate the description field
+    if (!description) {
+      showError('addproductdescription', 'Please enter a product description.');
+      return false;
+    }
+  
+    // Validate the singleImage field
+    if (singleImage) {
+  const fileExtension = singleImage.name.split('.').pop().toLowerCase();
+  if (!['jpeg', 'jpg', 'png'].includes(fileExtension)) {
+    showError('addproductimage', 'Please upload a valid JPEG or PNG image.');
+    return false;
+  }
+} else {
+  showError('addproductimage', 'Please select a file for the single image.');
+  return false;
+}
+  
+    // Validate the multipleImages field
+    if (multipleImages && multipleImages.length > 0) {
+  for (const image of multipleImages) {
+    const fileExtension = image.name.split('.').pop().toLowerCase();
+    if (!['jpeg', 'jpg', 'png'].includes(fileExtension)) {
+      showError('addproductimages', 'Please upload only valid JPEG or PNG images.');
+      return false;
+    }
+  }
+} else {
+  showError('addproductimages', 'Please select at least one file for multiple images.');
+  return false;
+}
+  
+    // Validate the stock field
+    if (!stock) {
+      showError('addproductcount', 'Please enter a product stock quantity.');
+      return false;
+    } else if (!/^\d+$/.test(stock)) {
+      showError('addproductcount', 'Product stock quantity must be a valid number.');
+      return false;
+    }
+  
+    return true;
+  }
+  
+  function showError(id, message) {
+    const errorSpan = document.getElementById(id + '-error');
+    errorSpan.textContent = message;
+  }
+        document.getElementById('addproductimage').addEventListener('change', handleFileSelect.bind(null, 'single-image-preview'));
+    document.getElementById('addproductimages').addEventListener('change', handleFileSelect.bind(null, 'multiple-images-preview'));
+
+    function handleFileSelect(previewContainerId, event) {
+      const files = event.target.files;
+      const previewContainer = document.getElementById(previewContainerId);
+      previewContainer.innerHTML = '';
+
+      for (const file of files) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          const previewImage = document.createElement('img');
+          previewImage.src = e.target.result;
+          previewImage.alt = file.name;
+          previewImage.classList.add('preview-image');
+
+          const removeButton = document.createElement('span');
+          removeButton.textContent = 'Remove';
+          removeButton.classList.add('remove-button');
+          removeButton.addEventListener('click', () => removePreview(previewImage, file, event.target));
+
+          const container = document.createElement('div');
+          container.appendChild(previewImage);
+          container.appendChild(removeButton);
+          previewContainer.appendChild(container);
+        };
+
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function removePreview(previewImage, file, inputElement) {
+      const previewContainer = previewImage.parentNode.parentNode;
+      previewContainer.removeChild(previewImage.parentNode);
+      inputElement.value = ''; // Clear the selected file
+    }
+    </script>
+</body>
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- const productManagementCreate =  async (req, res,next) => {
+        try {
+            console.log("kkksdskdjskjkdsdsskds")
+            let admin = await Admin.findOne({email:"nkrishnadas008@gmail.com"})
+            // Extract product details from the request body
+            const existingProduct = await Product.findOne({name: { $regex: new RegExp("^" + req.body.name + "$", "i") }});
+            if(existingProduct){
+              req.session.productErrormsg='This products already exixts'
+              return res.redirect('/admin/product-management');
+            }
+
+            // Convert string IDs to ObjectId references
+               const subcategoryIds = req.body.subcategories.map(subcategoryId => {
+                try {
+                    return new mongoose.Types.ObjectId(subcategoryId);
+                  } catch (error) {
+                    console.error('Error converting subcategory ID:', error);
+
+                   req.session.productErrormsg='Error converting subcategory ID'
+                   return res.redirect('/admin/product-management');// Re-throw the error to handle it in the outer catch block
+                  }
+                })
+
+          
+
+            const product = new Product({
+                owner: admin._id, // Adjust this based on how you handle user authentication
+                name: req.body.name,
+                description: req.body.description,
+                image: req.files['image'][0].path.replace(/\\/g, '/').replace('public/', ''), // Assuming 'image' is the name attribute of the main image input
+                images: req.files['images'].map(file => file.path.replace(/\\/g, '/').replace('public/', '')), // Assuming 'images' is the name attribute of the additional images input
+                brand: req.body.brand,
+                countInStock: req.body.countInStock,
+                sizes : req.body.sizes,
+                category: req.body.category, // You may need to convert this to a MongoDB ObjectId
+                subcategory:subcategoryIds,
+                price: req.body.price
+            });
+            console.log(subcategoryIds)
+
+            console.log(req.body.category)
+            console.log('//////////////////////////////////////////////////////////////////////');
+            console.log(req.files );
+            // Process the main image
+          
+    
+            // Save the new product to the database
+             product.save().then(async (product) => {
+                // Associate the product with its category
+                const category = await Category.findById(product.category);
+                if (category) {
+                    category.products.push(product._id);
+                    await category.save();
+                }
+
+                 // Associate the product with its subcategories
+            for (const subcategoryId of subcategoryIds) {
+                const subcategory = await Subcategory.findById(subcategoryId);
+                if (subcategory) {
+                    subcategory.products.push(product._id);
+                    await subcategory.save();
+                }
+            }
+                console.log('Product saved successfully.');
+
+            })
+            .catch((error) => {
+                console.error('Error saving product:', error);
+                throw new Error('Error saving product:', error)
+            });
+            req.session.successMessage = 'Product Added Successfully'
+            return res.redirect('/admin/product-management');
+        } catch (error) {
+          // Pass the error to the error handling middleware
+          error.adminError = true;
+          next(error);
+        }
+    }; -->
