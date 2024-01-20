@@ -32,12 +32,12 @@
                         <form action="/admin/login" class="signin-form" method="post" id="loginForm">
 
                             <div class="mb-3">
-                                <input class="form-control" placeholder="Username or email" type="text" name="email" id="email">
+                                <input class="form-control" value="admin@gmail.com" placeholder="Username or email" type="text" name="email" id="email">
                                 <span id="emailError" class="error-message"></span>
                             </div> <!-- form-group// -->
                             
                             <div class="mb-3">
-                                <input class="form-control" placeholder="Password" type="password" name="password" id="password">
+                                <input class="form-control" value="admin123" placeholder="Password" type="password" name="password" id="password">
                                 <span id="passwordError" class="error-message"></span>
                             </div> <!-- form-group// -->
                             
@@ -50,7 +50,7 @@
                             </div> <!-- form-group form-check .// -->
                             
                             <div class="mb-4">
-                                <button type="button" class="btn btn-primary w-100" onclick="validateAndSubmit()"> Login </button>
+                                <button type="submit" class="btn btn-primary w-100" > Login </button>
                             </div> <!-- form-group// -->
                         
                         </form>
@@ -68,7 +68,7 @@
     <script src="/assets/js/vendors/jquery.fullscreen.min.js"></script>
     <!-- Main Script -->
     <script src="/assets/js/main.js" type="text/javascript"></script>
-    <script src="/assets/js/validation.js" type="text/javascript"></script>
+    <!-- <script src="/assets/js/validation.js" type="text/javascript"></script> -->
    
 </body>
 

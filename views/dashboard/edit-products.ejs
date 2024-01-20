@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Evara Dashboard</title>
+    <title>MoonCart Shop & eCommerce HTML Template</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,6 +13,10 @@
     <meta property="og:image" content="">
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- Include Cropper.js library -->
+    <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
+    <script src="https://unpkg.com/cropperjs"></script>
     <!-- Template CSS -->
     <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
     <style>
@@ -43,7 +47,7 @@
     <aside class="navbar-aside" id="offcanvas_aside">
         <div class="aside-top">
             <a href="index.html" class="brand-wrap">
-                <img src="assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">
+                <a href="/admin/dashboard"><img src="https://i.ibb.co/DDpVWsq/logo.png" alt=""  ></a>
             </a>
             <div>
                 <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
@@ -103,7 +107,7 @@
                         <a href="page-form-product-4.html">Add product 4</a> -->
                     </div>
                 </li>
-                <li class="menu-item has-submenu">
+                <!-- <li class="menu-item has-submenu">
                     <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
                         <span class="text">Transactions</span>
                     </a>
@@ -136,7 +140,7 @@
                     <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
                         <span class="text">Statistics</span>
                     </a>
-                </li>
+                </li> -->
             </ul>
             <hr>
             <ul class="menu-aside">
@@ -226,9 +230,9 @@
                     <a href="#" class="btn btn-primary btn-sm rounded">Create new</a>
                 </div> -->
             </div>
-            <div class="card mb-4">
-              
-                </header> <!-- card-header end// -->
+            
+<!--               header close was here -->
+<div class="card mb-4"></div>
 
 
                 <div class="card-body">
@@ -282,35 +286,40 @@
                             <input type="file" class="form-control" id="addproductimages" name="multipleImages" multiple>
                             <span id="productMultipleImages-error"  class="text-danger"></span>
                             <div id="multiple-images-preview" class="preview-container">
-                                 <!-- Display old multiple images if available -->
-                            <% if (products.multipleImages && products.multipleImages.length > 0) { %>
-                                <% products.multipleImages.forEach((image) => { %>
-                                    <img src="<%= image %>" alt="Old Multiple Image" style="max-width: 100%; max-height: 100px;">
-                                <% }); %>
-                            <% } %>
+                                <!-- Display old multiple images if available -->
+                                <% if (products.multipleImages && products.multipleImages.length > 0) { %>
+                                    <% products.multipleImages.forEach((image, index) => { %>
+                                        <div class="image-container">
+                                            <img src="<%= image %>" alt="Old Multiple Image" style="max-width: 100%; max-height: 100px;">
+                                            <button class="edit-button btn btn-sm" onclick="editImage('<%= index %>', '<%= products._id %>')">Edit</button>
+                                        </div>
+                                    <% }); %>
+                                <% } %>
                             </div>
-                          </div>
-                      
+                        </div>
+                          
                           <div class="form-group">
                             <label for="productStock">Stock</label>
                             <input type="number" class="form-control" id="addproductcount" name="stock" value="<%= products.stock %>">
                             <span id="productStock-error" class="text-danger"></span>
                           </div>
                       
+                          <% console.log("Selected category ID:", products.category); %>
                           <div class="form-group">
-                            <label for="product_category" class="form-label">Product Category</label>
-                            <select class="form-select" id="addproductcategory" name="category">
-                                <option value="<%= products.categoryname %>">change categorie</option>
+                              <label for="product_category" class="form-label">Product Category</label>
+                              <select class="form-select" id="addproductcategory" name="category">
+                                <option value="">Select a category</option>
                                 <% if (category && category.length > 0) { %>
                                     <% category.forEach((cat) => { %>
                                         <% if (cat.isActive) { %>
-                                            <option value="<%= cat._id %>" <%= products.category == cat._id ? 'selected' : '' %>><%= cat.categoryname %></option>
+                                            <option value="<%= cat._id %>" <%= products.category && products.category._id.equals(cat._id) ? 'selected' : '' %>><%= cat.categoryname %></option>
                                         <% } %>
                                     <% }) %>
                                 <% } %>
                             </select>
-                            <span id="product_category-error" class="text-danger"></span>
-                        </div>
+                              <span id="product_category-error" class="text-danger"></span>
+                          </div>
+                        
                           
                           <button type="submit" class="btn btn-primary">Save Changes</button>
                           <a href="/admin/page-products-list"><button type="button" class="btn btn-primary">back</button></a>
@@ -328,154 +337,238 @@
    
     <script>
 
-        const editProductForm = document.getElementById('editProductForm');
-        editProductForm.addEventListener('submit', function (event) {
-            // Prevent the default form submission
-            event.preventDefault();
-    // Set verify to true initially
-    let verify = true;
+document.addEventListener('DOMContentLoaded', function () {
+    const editProductForm = document.getElementById('editProductForm');
 
-    // Get the values of the form fields
-    const name = document.getElementById('addproductname').value.trim();
-    const brand = document.getElementById('addproductbrand').value.trim();
-    const model = document.getElementById('product_model').value.trim();
-    const category = document.getElementById('addproductcategory').value;
-    const price = document.getElementById('addproductprice').value.trim();
-    const description = document.getElementById('addproductdescription').value.trim();
-    const singleImage = document.getElementById('addproductimage')?.files[0];
-    const multipleImages = document.getElementById('addproductimages')?.files;
-    const stock = document.getElementById('addproductcount').value.trim();
+    // Add submit event listener
+    editProductForm.addEventListener('submit', function (event) {
+        // Prevent the default form submission
+        event.preventDefault();
 
-    // Validate the name field
-    if (!name) {
-        showError('productName', 'Please enter a product name.');
-        verify = false;
-    } else if (!/^[a-zA-Z\s]+$/.test(name)) {
-        showError('productName', 'Product name must contain only letters and spaces.');
-        verify = false;
-    }
+        // Set verify to true initially
+        let verify = true;
 
-    // Validate the brand field
-    if (!brand) {
-        showError('productBrand', 'Please enter a product brand.');
-        verify = false;
-    }
+        // Get the values of the form fields
+        const name = document.getElementById('addproductname').value.trim();
+        const brand = document.getElementById('addproductbrand').value.trim();
+        const model = document.getElementById('product_model').value.trim();
+        const category = document.getElementById('addproductcategory').value;
+        const price = document.getElementById('addproductprice').value.trim();
+        const description = document.getElementById('addproductdescription').value.trim();
+        const singleImage = document.getElementById('addproductimage')?.files[0];
+        const multipleImages = document.getElementById('addproductimages')?.files;
+        const stock = document.getElementById('addproductcount').value.trim();
 
-    // Validate the category field
-    
-    // if (!category) {
-    //     alert()
-    //     showError('product_category', 'Please select a product category.');
-    //     verify = false;
-    // }
-
-    // Validate the price field
-    if (!price) {
-        showError('productPrice', 'Please enter a product price.');
-        verify = false;
-    } else if (!/^\d+\.?\d*$/.test(price)) {
-        showError('productPrice', 'Product price must be a valid number.');
-        verify = false;
-    }
-
-    // Validate the description field
-    if (!description) {
-        showError('productDescription', 'Please enter a product description.');
-        verify = false;
-    }
-
-    // Validate the singleImage field
-    if (singleImage) {
-        const fileExtension = singleImage.name.split('.').pop().toLowerCase();
-        if (!['jpeg', 'jpg', 'png','webp'].includes(fileExtension)) {
-            showError('productSingleImage', 'Please upload a valid JPEG or PNG image.');
+        // Validate the name field
+        if (!name) {
+            showError('productName', 'Please enter a product name.');
+            verify = false;
+        } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+            showError('productName', 'Product name must contain only letters and spaces.');
             verify = false;
         }
-    } 
-   
 
-    // Validate the multipleImages field
-    if (multipleImages && multipleImages.length > 0) {
-        for (const image of multipleImages) {
-            const fileExtension = image.name.split('.').pop().toLowerCase();
-            if (!['jpeg', 'jpg', 'png','webp'].includes(fileExtension)) {
-                showError('productMultipleImages', 'Please upload only valid JPEG or PNG images.');
+        // Validate the brand field
+        if (!brand) {
+            showError('productBrand', 'Please enter a product brand.');
+            verify = false;
+        }
+
+        // Validate the category field
+        // if (!category) {
+        //     showError('product_category', 'Please select a product category.');
+        //     verify = false;
+        // }
+
+        // Validate the price field
+        if (!price) {
+            showError('productPrice', 'Please enter a product price.');
+            verify = false;
+        } else if (!/^\d+\.?\d*$/.test(price)) {
+            showError('productPrice', 'Product price must be a valid number.');
+            verify = false;
+        }
+
+        // Validate the description field
+        if (!description) {
+            showError('productDescription', 'Please enter a product description.');
+            verify = false;
+        }
+
+        // Validate the singleImage field
+        if (singleImage) {
+            const fileExtension = singleImage.name.split('.').pop().toLowerCase();
+            if (!['jpeg', 'jpg', 'png', 'webp'].includes(fileExtension)) {
+                showError('productSingleImage', 'Please upload a valid JPEG or PNG image.');
                 verify = false;
             }
         }
-    }
-     
-    // Validate the stock field
-    if (!stock) {
-        showError('productStock', 'Please enter a product stock quantity.');
-        verify = false;
-    } else if (!/^\d+$/.test(stock)) {
-        showError('productStock', 'Product stock quantity must be a valid number.');
-        verify = false;
-    }
 
-    if (verify) {
-        this.submit(); // 'this' refers to the form element
-    }
-    // Return the final verification result
-})
-  
-  function showError(id, message) {
+        // Validate the multipleImages field
+        if (multipleImages && multipleImages.length > 0) {
+            for (const image of multipleImages) {
+                const fileExtension = image.name.split('.').pop().toLowerCase();
+                if (!['jpeg', 'jpg', 'png', 'webp'].includes(fileExtension)) {
+                    showError('productMultipleImages', 'Please upload only valid JPEG or PNG images.');
+                    verify = false;
+                }
+            }
+        }
+
+        // Validate the stock field
+        if (!stock) {
+            showError('productStock', 'Please enter a product stock quantity.');
+            verify = false;
+        } else if (!/^\d+$/.test(stock)) {
+            showError('productStock', 'Product stock quantity must be a valid number.');
+            verify = false;
+        }
+
+        if (verify) {
+            this.submit(); // 'this' refers to the form element
+        }
+    });
+});
+
+function showError(id, message) {
     const errorSpan = document.getElementById(id + '-error');
     errorSpan.textContent = message;
-  }
+}
 
-  document.addEventListener('DOMContentLoaded', function () {
-            const editProductForm = document.getElementById('editProductForm');
-            editProductForm.addEventListener('submit', function (event) {
-                event.preventDefault();
-                let verify = true;
 
-                // ... (Your existing form validation logic) ...
-
-                if (verify) {
-                    this.submit();
-                }
-            });
 
             document.getElementById('addproductimage').addEventListener('change', handleFileSelect.bind(null, 'single-image-preview'));
-            document.getElementById('addproductimages').addEventListener('change', handleFileSelect.bind(null, 'multiple-images-preview'));
+    document.getElementById('addproductimages').addEventListener('change', handleFileSelect.bind(null, 'multiple-images-preview'));
 
-            function handleFileSelect(previewContainerId, event) {
-                const files = event.target.files;
-                const previewContainer = document.getElementById(previewContainerId);
-                previewContainer.innerHTML = '';
+    function handleFileSelect(previewContainerId, event) {
+        const files = event.target.files;
+        const previewContainer = document.getElementById(previewContainerId);
+        previewContainer.innerHTML = '';
 
-                for (const file of files) {
-                    const reader = new FileReader();
+        for (const file of files) {
+            const reader = new FileReader();
 
-                    reader.onload = function (e) {
-                        const previewImage = document.createElement('img');
-                        previewImage.src = e.target.result;
-                        previewImage.alt = file.name;
-                        previewImage.classList.add('preview-image');
+            reader.onload = function (e) {
+                const previewImage = document.createElement('img');
+                previewImage.src = e.target.result;
+                previewImage.alt = file.name;
+                previewImage.classList.add('preview-image');
 
-                        const removeButton = document.createElement('span');
-                        removeButton.textContent = 'Remove';
-                        removeButton.classList.add('remove-button');
-                        removeButton.addEventListener('click', () => removePreview(previewImage, file, event.target));
+                const removeButton = document.createElement('span');
+                removeButton.textContent = 'Remove';
+                removeButton.classList.add('remove-button');
+                removeButton.addEventListener('click', () => removePreview(previewImage, file, event.target));
 
-                        const container = document.createElement('div');
-                        container.appendChild(previewImage);
-                        container.appendChild(removeButton);
-                        previewContainer.appendChild(container);
-                    };
+                const container = document.createElement('div');
+                container.appendChild(previewImage);
+                container.appendChild(removeButton);
+                previewContainer.appendChild(container);
+            };
 
-                    reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function removePreview(previewImage, file, inputElement) {
+        const previewContainer = previewImage.parentNode.parentNode;
+        previewContainer.removeChild(previewImage.parentNode);
+        inputElement.value = ''; // Clear the selected file
+    }
+    //edit image here
+
+
+    function editImage(index, productId) {
+    const event = window.event || arguments.callee.caller.arguments[0];
+
+    // Prevent the default form submission behavior
+    if (event) {
+        event.preventDefault();
+    }
+
+    // Declare the file variable
+    let file;
+
+    // Change individual image
+    const handleImageUpload = async () => {
+        try {
+            const { value } = await Swal.fire({
+                title: 'Upload an Image',
+                input: 'file',
+                inputAttributes: {
+                    accept: 'image/*',
+                    'aria-label': 'Upload your profile picture',
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Upload',
+                cancelButtonText: 'Cancel',
+                showLoaderOnConfirm: true,
+            });
+
+            // Optional: If you need to use the file variable outside the preConfirm block
+            if (value) {
+                try {
+                    // Assign the value to the file variable
+                    file = value;
+
+                    const formData = new FormData();
+                    formData.append('image', file);
+                    formData.append('productId', productId);
+
+                    formData.append('index', index);
+
+                    // Perform the fetch to upload the image
+                    const response = await fetch('/admin/singleimage', {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+
+                        Swal.fire({
+                            title: 'Upload Successful!',
+                            imageUrl: URL.createObjectURL(file),
+                            imageAlt: 'Uploaded Image',
+                            text: 'You have successfully uploaded the image.',
+                            icon: 'success',
+                        });
+                        setTimeout(() => {
+        window.location.reload();
+    }, 500);
+                    } else {
+                        Swal.fire({
+                            title: 'Upload Failed',
+                            text: 'There was an issue uploading the image.',
+                            icon: 'error',
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error during upload:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'An error occurred during upload.',
+                        icon: 'error',
+                    });
                 }
             }
+        } catch (error) {
+            console.error('Error opening Swal:', error);
+        }
+    };
 
-            function removePreview(previewImage, file, inputElement) {
-                const previewContainer = previewImage.parentNode.parentNode;
-                previewContainer.removeChild(previewImage.parentNode);
-                inputElement.value = ''; // Clear the selected file
-            }
-        });
+    // Call the function to handle image upload
+    handleImageUpload();
+
+   
+}
+
+
+
+
+
+
+
+
         
 </script>
 <script src="/assets/js/vendors/jquery-3.6.0.min.js"></script>

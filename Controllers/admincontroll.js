@@ -17,43 +17,44 @@ const adminloginget = (req,res)=>{
 
 
     //admin login post 
-const adminloginpost = async(req,res)=>{
-       
+    const adminloginpost = async (req, res) => {
         try {
-            // const admin = await Admin.findOne({email:req.body.email}); 
-               const admin = await Admin.findOne({email:req.body.email})
-            console.log(admin); 
-
-           if(admin){
-
-            if(req.body.password == admin.password){
-
-                res.redirect('/admin/dashboard');
-
-            }else{
-                req.session.error = 'Invalid password';
-                res.redirect('/admin/login')
-
+            const admin = await Admin.aggregate([
+                { $match: { email: req.body.email } }
+            ]);
+    
+            if (admin.length > 0) {  // Use admin.length to check if any matching document is found
+                if (req.body.email === admin[0].email) {  // Access the first element in the array
+    
+                    if (req.body.password === admin[0].password) {  // Access the first element in the array
+                        req.session.adminhere = req.body.email;
+                        res.redirect('/admin/dashboard');
+                  
+    
+                    } else {
+                        req.session.error = 'Invalid password';
+                        res.redirect('/admin/login');
+                    }
+                }
+            } else {
+                req.session.error = 'Invalid email';
+                res.redirect('/admin/login');
             }
-           }else{
-
-            req.session.error = 'invalid email';
-            res.redirect('/admin/login')
-
-           }
         } catch (error) {
             console.error(error);
-            res.status(500).send('Internal Server Error ');
-            
+            res.status(500).send('Internal Server Error');
         }
-    }
+    };
+    
 
 
  const admindashboardget =(req,res)=>{
-        res.setHeader('Cache-Control', 'no-store');
+      
            return res.render('dashboard/admindashboard');
     }
+    
       
+
     
    
     
@@ -66,7 +67,8 @@ const adminloginpost = async(req,res)=>{
 module.exports = {
     adminloginget,
     adminloginpost,
-    admindashboardget
+    admindashboardget,
+
 
 
 

@@ -18,6 +18,11 @@ const productSchema = new mongoose.Schema({
     required: true,
     min: 0,
   },
+  oldprice: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
   description: {
     type: String,
     required: true,
@@ -36,6 +41,10 @@ const productSchema = new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:'Category',
     required:true
+  },
+   discount:{
+   type:Number,
+   default:0
   }
   // You might want to include additional fields like 'color', 'size', etc., based on your needs.
 });

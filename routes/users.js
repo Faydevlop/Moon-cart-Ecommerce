@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const user = require('../models/user');
 const controller = require('../Controllers/usercontroll')
+const ordercontroller = require('../Controllers/orders')
+const staticcontroller = require('../Controllers/staticcontroller')
 // const cartcontroller = require('../Controllers/cartcontroller')
 
 
@@ -54,22 +56,22 @@ router.post('/postVerification',controller.otploginpost)
 
 /* product page*/ 
 
-router.get('/productpage/:productID',controller.productpageget);
+router.get('/productpage/:productID',isBlocked,controller.productpageget);
 
 router.post('/productpage/:productID',controller.productpagepost);
 
 /*user account*/ 
-router.get('/accounts',controller.useraccount);
+router.get('/accounts',isBlocked,controller.useraccount);
 
 
 
 /* update user*/ 
-router.get('/editac/:userId',controller.updateuserget);
+router.get('/editac/:userId',isBlocked,controller.updateuserget);
 
 
 
 /* chekout */ 
-router.get('/checkout',controller.checkout);
+router.get('/checkout',isBlocked,controller.checkout);
 
 /* update user id */
 router.post('/userupdate',controller.updatedetials) 
@@ -77,7 +79,7 @@ router.post('/userupdate',controller.updatedetials)
 
 
 /*add to cart*/
-router.get('/cart/:productId',controller.addtocart)
+router.get('/cart/:productId',isBlocked,controller.addtocart)
 
 router.post('/cart/:productId',controller.addtocartppost)
 
@@ -101,7 +103,9 @@ router.get('/restpass/:userId/:token',controller.resetpass);
 router.post('/restpass/:userId/:token',controller.resetpasspost);
 
 /* cartpage */ 
-router.get('/cartpage',controller.cartpage)
+router.get('/cartpage',isBlocked,controller.cartpage)
+
+router.post('/postcart',controller.postcart)
 
 /* quantity increaing  */
 router.post('/updateQuantity',controller.updateQuantity) 
@@ -122,6 +126,48 @@ router.get('/editaddress/:id',controller.editaddress)
 router.post('/editaddress/:id',controller.editaddresspost);
 
 router.post('/orderConfirmation',controller.orderconfirmed);
+
+// order success page
+router.get('/success',controller.successpage);
+
+router.post('/rzrpay-verify',controller.razorpayverify)
+
+// oreder page
+
+router.get('/orders',controller.orders);
+
+// cancel order
+router.post('/cancelorder',controller.cancelorder)
+
+
+// ordered product page 
+
+router.get('/productorder/:productId',ordercontroller.orderedproductpage);
+
+// remove copon
+router.post('/removecop',controller.removecopen)
+
+
+// listing all static pages 
+
+router.get('/blog',isBlocked,staticcontroller.blogpage)
+router.get('/aboutus',isBlocked,staticcontroller.aboutuspage)
+router.get('/aboutme',isBlocked,staticcontroller.aboutmepage)
+router.get('/whatwedo',isBlocked,staticcontroller.whatwedopage)
+router.get('/faqs',isBlocked,staticcontroller.faqspage)
+router.get('/contactus',isBlocked,staticcontroller.contactuspage)
+router.get('/blog2',isBlocked,staticcontroller.blogpage2)
+router.get('/ourteam',isBlocked,staticcontroller.ourteampage)
+router.get('/pricetable',isBlocked,staticcontroller.pricingpage)
+
+// product modal method
+router.get('/products/:productId',controller.modal)
+
+// add to cart short method 
+router.post('/addcart',controller.addtocartshort);
+// order return 
+router.post('/returnorder',controller.returnorder)
+
 
 
 

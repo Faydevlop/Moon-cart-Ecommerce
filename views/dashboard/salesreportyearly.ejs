@@ -1,0 +1,140 @@
+<!-- views/yearlySalesReport.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MoonCart Shop & eCommerce HTML Template</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            margin: 20px;
+        }
+
+        h4 {
+            color: #007bff;
+        }
+
+        div {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        @media print {
+            #print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-md-6">
+                <h1><strong>Mooncart</strong> </h1>
+                <h4>Yearly Sales Report</h4>
+            </div>
+            <div class="col-md-6 text-md-right">
+                <button id="print-button" class="btn btn-primary">Print report</button>
+            </div>
+        </div>
+
+        <!-- Display year, total orders, and total sales -->
+        <div class="mb-4">
+            <p>Year: <%= year %></p>
+            <p>Total Orders: <%= orders.length %> </p>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Order ID</th>
+                        <th>Product Name</th>
+                        <th>Price(per.pc)</th>
+                        <th>Offer Price(Per.pc)</th>
+                        <th>Quantity</th>
+                        <th>Sub total</th>
+                        <!-- Add more columns as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (orders.length > 0) { %>
+                        <% let totalSales = 0; %>
+                        <% orders.reverse().forEach(order => { %>
+                            <% if (order.status !== 'Cancelled') { %>
+                            <% order.products.forEach(product => { %>
+                                <tr>
+                                    <td><%= order.createdAt.toISOString().split('T')[0] %></td>
+                                    <td>#<%= order.order_id %></td>
+                                    <td><%= product.product.name %></td>
+                                    <td>₹<%=  product.product.oldprice %></td>
+                                    
+                                    <td>₹<%=  product.price %></td>
+                                    <td><%= product.quantity %></td>
+                                    <td><%= product.quantity * product.price %></td>
+                                    
+                                    <!-- Add more columns as needed -->
+                                </tr>
+                                <% totalSales += (product.price * product.quantity); %>
+                            <% }); %>
+                            <%}%>
+                        <% }); %>
+                        <tr>
+                            <td colspan="5"></td>
+                            <td>Total Sales:</td>
+                            <td>₹<%= totalSales.toFixed(2) %></td>
+                        </tr>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5">No orders</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            function printInvoice(event) {
+                window.print()
+            }
+            document.getElementById("print-button").addEventListener('click', printInvoice);
+        </script>
+
+        <!-- Bootstrap JS and Popper.js -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+        <!-- Include any necessary JavaScript scripts or external scripts here -->
+    </body>
+
+    </html>

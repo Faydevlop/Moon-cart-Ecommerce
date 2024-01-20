@@ -24,13 +24,15 @@ app.use(session({
 //mongo connection 
 
 
+// console.log(process.env.MONGODB_URI);
+// let MONGODB_URI="mongodb+srv://fayfayis74:kblrYOKV6k37prh1@mooncart-db.hh6wpmo.mongodb.net/EcommerceDb"
 
-mongoose.connect('mongodb://localhost:27017/zencom', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  // useUnifiedTopology: true,
 });
 
-const db = mongoose.connection;
+const db = mongoose.connection; 
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {

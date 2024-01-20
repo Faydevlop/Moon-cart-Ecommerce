@@ -1,4 +1,4 @@
-const { model } = require('mongoose');
+const { model, default: mongoose } = require('mongoose');
 const Categeory = require('../models/categorymodel');
 
 
@@ -20,10 +20,13 @@ const Categeory = require('../models/categorymodel');
         
         try {
             
-            const category = await Categeory.findOne({categoryname: req.body.name   })
-            if(category){
+            const category = await Categeory.aggregate([
+                { $match: { categoryname: req.body.name } }
+            ]);
+            if(category.length > 0 ){
                 
                 req.session.error = 'category already exist';
+                
                 return res.redirect('/admin/page-add-categorys')
                 
             }
@@ -77,36 +80,44 @@ const Categeory = require('../models/categorymodel');
 
 
 
-    const deletecategory = async (req,res)=>{
-
+    const deleteCategory = async (req, res) => {
+        console.log('jijiji');
         try {
-
             const categoryId = req.params.categoryId;
-            const cat = await Categeory.findById(categoryId);
-            if(cat){
-                await Categeory.deleteOne({_id:categoryId});
-                console.log('product deleted succesfully');
-
-                req.session.donee = 'Category deleted'
-                return res.redirect('/admin/page-listcategory')
+    
+            const result = await Categeory.aggregate([
+                { $match: { _id: new mongoose.Types.ObjectId(categoryId) } },
+                { $project: { _id: 1 } }
+            ]);
+    
+            if (result.length > 0) {
+                await Categeory.deleteOne({ _id: new mongoose.Types.ObjectId(categoryId) });
+                console.log('Category deleted successfully');
+                req.session.donee = 'Category deleted';
+            } else {
+                req.session.errorr = 'Category not found';
             }
-
-            req.session.errorr = 'Category not found'
-            return res.redirect('/admin/page-listcategory')
-            
+    
+            return res.redirect('/admin/page-listcategory');
         } catch (error) {
             console.error(error);
-            
+            // Handle the error appropriately, e.g., send an error response
+            res.status(500).send('Internal Server Error');
         }
-       
+    };
+    
 
-    }
+    
 
     const editcategoryget = async(req,res)=>{
-        const cat = req.params.cateId;
-        const Category = await Categeory.findById(cat);
-        if(Category){ 
-            console.log(Category)
+        const catId = req.params.cateId;
+        
+        const Category = await Categeory.aggregate([
+            {$match:{_id: new mongoose.Types.ObjectId(catId)}}
+        ])
+       
+        if(Category.length > 0){ 
+            console.log(Category[0])
 
             if(req.session.error){
                 const error = req.session.error;
@@ -114,7 +125,7 @@ const Categeory = require('../models/categorymodel');
                 res.render('dashboard/editcat',{data:Category,error});
             }
             
-            res.render('dashboard/editcat',{data:Category});
+            res.render('dashboard/editcat',{data:Category[0]});
 
         }
 
@@ -122,86 +133,112 @@ const Categeory = require('../models/categorymodel');
 
     }
 
-    const editcategorypost = async (req,res)=>{
-
-        const catid = req.params.cateId;
-        const category = await Categeory.findById(catid);
-        if(category){
-
-            const name = req.body.categoryname;
-            const rename = await Categeory.findOne({categoryname:name});
-            if(rename){
-                req.session.error = 'category already exists'
-               return res.redirect('/admin/editcat/'+catid)
-            }else
-           
-            category.categoryname = req.body.categoryname;
-            category.categeoryOffers = req.body.categeoryOffers;
-            category.description = req.body.description;
-
-            await category.save();
-
-
-            console.log('product edited successfully');
-            return res.redirect('/admin/page-listcategory')
-
-        }else{
-            res.send('category not found')
+    const editcategorypost = async (req, res) => {
+        try {
+            const catid = req.params.cateId;
+    
+            const result = await Categeory.aggregate([
+                { $match: { _id: new mongoose.Types.ObjectId(catid) } }
+            ]);
+    
+            if (result.length > 0) {
+                const name = req.body.categoryname;
+                const rename = await Categeory.aggregate([
+                    { $match: { categoryname: name } }
+                ]);
+    
+                if (rename.length > 0) {
+                    req.session.error = 'Category already exists';
+                    return res.redirect('/admin/editcat/' + catid);
+                } else {
+                    await Categeory.updateOne(
+                        { _id: new mongoose.Types.ObjectId(catid) },
+                        {
+                            $set: {
+                                categoryname: req.body.categoryname,
+                                categeoryOffers: req.body.categeoryOffers,
+                                description: req.body.description
+                            }
+                        }
+                    );
+    
+                    console.log('Category edited successfully');
+                    return res.redirect('/admin/page-listcategory');
+                }
+            } else {
+                return res.send('Category not found');
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
         }
-
-
-    }
+    };
     
 
     /*list/unlist cat*/;
-
-const listcat =  async (req,res)=>{
-    try {
-        const catId = req.params.catId;
-    const cat = await Categeory.findById(catId);
-    if(cat){
-        console.log('category unlisted');
-        cat.isActive = !cat.isActive;
-        await cat.save()
-        res.redirect('/admin/page-listcategory');
-    }else{
-        res.send('page not found');
-    }
-        
-    } catch (error) {
-        console.log(error);
-    }
+    const listcat = async (req, res) => {
+        try {
+            const catId = req.params.catId;
     
-}
-
-const unlistcat =  async (req,res)=>{
-    try {
-        const catId = req.params.catId;
-    const cate = await Categeory.findById(catId);
-    if(cate){
-        console.log('category unlisted');
-        cate.isActive = !cate.isActive;
-        await cate.save()
-        res.redirect('/admin/page-listcategory');
-    }else{
-        res.send('page not found');
-    }
-        
-    } catch (error) {
-        console.log(error);
-    }
+            const result = await Categeory.aggregate([
+                { $match: { _id: new mongoose.Types.ObjectId(catId) } }
+            ]);
     
-}
+            if (result.length > 0) {
+                const cat = result[0];
+                console.log('Category unlisted');
+                
+                await Categeory.updateOne(
+                    { _id: new mongoose.Types.ObjectId(catId) },
+                    { $set: { isActive: !cat.isActive } }
+                );
+                
+                res.redirect('/admin/page-listcategory');
+            } else {
+                res.send('Category not found');
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+        }
+    };
+
+    const unlistcat = async (req, res) => {
+        try {
+            const catId = req.params.catId;
+    
+            const result = await Categeory.aggregate([
+                { $match: { _id: new mongoose.Types.ObjectId(catId) } }
+            ]);
+    
+            if (result.length > 0) {
+                const cate = result[0];
+                console.log('Category unlisted');
+                
+                await Categeory.updateOne(
+                    { _id: new mongoose.Types.ObjectId(catId) },
+                    { $set: { isActive: !cate.isActive } }
+                );
+    
+                res.redirect('/admin/page-listcategory');
+            } else {
+                res.send('Category not found');
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Internal Server Error');
+        }
+    };
 
 
 module.exports = {
     categorypageget,
     categorypagepost,
     listcategory,
-    deletecategory,
     editcategoryget,
     editcategorypost,
     unlistcat,
-    listcat
+    listcat,
+    deleteCategory
 
 }

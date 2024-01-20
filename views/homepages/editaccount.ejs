@@ -3,6 +3,7 @@
 
 
 <!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/page-account.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:11:15 GMT -->
+
 <head>
     <meta charset="utf-8">
     <title>Evara - eCommerce HTML Template</title>
@@ -15,12 +16,15 @@
     <meta property="og:image" content="">
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
+
     <!-- Template CSS -->
     <link rel="stylesheet" href="/assetss/css/maind134.css?v=3.4">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 </head>
 
 <body>
-    
+
     <div class="mobile-header-active mobile-header-wrapper-style">
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
@@ -46,16 +50,22 @@
                         <a class="categori-button-active-2" href="#">
                             <span class="fi-rs-apps"></span> Browse Categories
                         </a>
-                    <div class="categori-dropdown-wrap categori-dropdown-active-small">
+                        <div class="categori-dropdown-wrap categori-dropdown-active-small">
                             <ul>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-dress"></i>Women's Clothing</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-tshirt"></i>Men's Clothing</a></li>
-                                <li> <a href="shop-grid-right.html"><i class="evara-font-smartphone"></i> Cellphones</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-desktop"></i>Computer & Office</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-cpu"></i>Consumer Electronics</a></li>
+                                <li><a href="shop-grid-right.html"><i class="evara-font-dress"></i>Women's Clothing</a>
+                                </li>
+                                <li><a href="shop-grid-right.html"><i class="evara-font-tshirt"></i>Men's Clothing</a>
+                                </li>
+                                <li> <a href="shop-grid-right.html"><i class="evara-font-smartphone"></i> Cellphones</a>
+                                </li>
+                                <li><a href="shop-grid-right.html"><i class="evara-font-desktop"></i>Computer &
+                                        Office</a></li>
+                                <li><a href="shop-grid-right.html"><i class="evara-font-cpu"></i>Consumer
+                                        Electronics</a></li>
                                 <li><a href="shop-grid-right.html"><i class="evara-font-home"></i>Home & Garden</a></li>
                                 <li><a href="shop-grid-right.html"><i class="evara-font-high-heels"></i>Shoes</a></li>
-                                <li><a href="shop-grid-right.html"><i class="evara-font-teddy-bear"></i>Mother & Kids</a></li>
+                                <li><a href="shop-grid-right.html"><i class="evara-font-teddy-bear"></i>Mother &
+                                        Kids</a></li>
                                 <li><a href="shop-grid-right.html"><i class="evara-font-kite"></i>Outdoor fun</a></li>
                             </ul>
                         </div>
@@ -63,7 +73,8 @@
                     <!-- mobile menu start -->
                     <nav>
                         <ul class="mobile-menu">
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="index.html">Home</a>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a
+                                    href="index.html">Home</a>
                                 <ul class="dropdown">
                                     <li><a href="index.html">Home 1</a></li>
                                     <li><a href="index-2.html">Home 2</a></li>
@@ -71,14 +82,16 @@
                                     <li><a href="index-4.html">Home 4</a></li>
                                 </ul>
                             </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="shop-grid-right.html">shop</a>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a
+                                    href="shop-grid-right.html">shop</a>
                                 <ul class="dropdown">
                                     <li><a href="shop-grid-right.html">Shop Grid – Right Sidebar</a></li>
                                     <li><a href="shop-grid-left.html">Shop Grid – Left Sidebar</a></li>
                                     <li><a href="shop-list-right.html">Shop List – Right Sidebar</a></li>
                                     <li><a href="shop-list-left.html">Shop List – Left Sidebar</a></li>
                                     <li><a href="shop-fullwidth.html">Shop - Wide</a></li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Single Product</a>
+                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a
+                                            href="#">Single Product</a>
                                         <ul class="dropdown">
                                             <li><a href="shop-product-right.html">Product – Right Sidebar</a></li>
                                             <li><a href="shop-product-left.html">Product – Left Sidebar</a></li>
@@ -92,9 +105,11 @@
                                     <li><a href="shop-compare.html">Shop – Compare</a></li>
                                 </ul>
                             </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Mega menu</a>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Mega
+                                    menu</a>
                                 <ul class="dropdown">
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Women's Fashion</a>
+                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a
+                                            href="#">Women's Fashion</a>
                                         <ul class="dropdown">
                                             <li><a href="shop-product-right.html">Dresses</a></li>
                                             <li><a href="shop-product-right.html">Blouses & Shirts</a></li>
@@ -102,14 +117,16 @@
                                             <li><a href="shop-product-right.html">Women's Sets</a></li>
                                         </ul>
                                     </li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Men's Fashion</a>
+                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a
+                                            href="#">Men's Fashion</a>
                                         <ul class="dropdown">
                                             <li><a href="shop-product-right.html">Jackets</a></li>
                                             <li><a href="shop-product-right.html">Casual Faux Leather</a></li>
                                             <li><a href="shop-product-right.html">Genuine Leather</a></li>
                                         </ul>
                                     </li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Technology</a>
+                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a
+                                            href="#">Technology</a>
                                         <ul class="dropdown">
                                             <li><a href="shop-product-right.html">Gaming Laptops</a></li>
                                             <li><a href="shop-product-right.html">Ultraslim Laptops</a></li>
@@ -120,13 +137,15 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="blog-category-fullwidth.html">Blog</a>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a
+                                    href="blog-category-fullwidth.html">Blog</a>
                                 <ul class="dropdown">
                                     <li><a href="blog-category-grid.html">Blog Category Grid</a></li>
                                     <li><a href="blog-category-list.html">Blog Category List</a></li>
                                     <li><a href="blog-category-big.html">Blog Category Big</a></li>
                                     <li><a href="blog-category-fullwidth.html">Blog Category Wide</a></li>
-                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="#">Single Product Layout</a>
+                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a
+                                            href="#">Single Product Layout</a>
                                         <ul class="dropdown">
                                             <li><a href="blog-post-left.html">Left Sidebar</a></li>
                                             <li><a href="blog-post-right.html">Right Sidebar</a></li>
@@ -161,7 +180,7 @@
                 </div>
                 <div class="mobile-header-info-wrap mobile-header-border">
                     <div class="single-mobile-header-info mt-30">
-                        <a  href="page-contact.html"> Our location </a>
+                        <a href="page-contact.html"> Our location </a>
                     </div>
                     <div class="single-mobile-header-info">
                         <a href="page-login-register.html">Log In / Sign Up </a>
@@ -185,8 +204,8 @@
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow">Home</a>
-                    
+                    <a href="/" rel="nofollow">Home</a>
+
                     <span></span> Account
                     <span></span> Account detials
                 </div>
@@ -201,213 +220,290 @@
                                 <div class="dashboard-menu">
                                     <ul class="nav flex-column" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="false"><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                            <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab"
+                                                href="#dashboard" role="tab" aria-controls="dashboard"
+                                                aria-selected="false"><i
+                                                    class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#track-orders " role="tab" aria-controls="orders" aria-selected="false"><i class="fi-rs-user mr-10"></i>Edit Account</a>
+                                            <a class="nav-link" id="orders-tab" data-bs-toggle="tab"
+                                                href="#track-orders " role="tab" aria-controls="orders"
+                                                aria-selected="false"><i class="fi-rs-user mr-10"></i>Edit Account</a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address   "
+                                                role="tab" aria-controls="address" aria-selected="true"><i
+                                                    class="fi-rs-marker mr-10"></i>My Address</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab" href="#orders" role="tab" aria-controls="track-orders" aria-selected="false"><i class="fi-rs-shopping-cart-check mr-10"></i>Orders</a>
+                                            <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab"
+                                                href="#account-detail" role="tab" aria-controls="account-detail"
+                                                aria-selected="true"><i class="fi-rs-marker mr-10"></i>Add Address </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address   " role="tab" aria-controls="address" aria-selected="true"><i class="fi-rs-marker mr-10"></i>My Address</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="true"><i class="fi-rs-marker mr-10"></i>Add Address </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="/login"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                            <a class="nav-link" href="/login"><i
+                                                    class="fi-rs-sign-out mr-10"></i>Logout</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <% if(locals.users){ %>
-                            <div class="col-md-8">
-                                <div class="tab-content dashboard-content">
-                                    <div class="tab-pane fade active show" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="mb-0 text-center">Hello <%= users.Username %> !!!</h5>
-                                            </div>
-                                            <div class="card-body">
-                                                <p class="text-center text-dark">Username:<%= users.Username %></p>
-                                                <p class="text-center text-dark">Email : <%= users.email %></p>
-                                                <p class="text-center text-dark">Phone:<%= users.Mobile %></p>
-                                               
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="mb-0">Your Orders</h5>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="table-responsive">
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Order</th>
-                                                                <th>Date</th>
-                                                                <th>Status</th>
-                                                                <th>Total</th>
-                                                                <th>Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>#1357</td>
-                                                                <td>March 45, 2020</td>
-                                                                <td>Processing</td>
-                                                                <td>$125.00 for 2 item</td>
-                                                                <td><a href="#" class="btn-small d-block">View</a></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>#2468</td>
-                                                                <td>June 29, 2020</td>
-                                                                <td>Completed</td>
-                                                                <td>$364.00 for 5 item</td>
-                                                                <td><a href="#" class="btn-small d-block">View</a></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>#2366</td>
-                                                                <td>August 02, 2020</td>
-                                                                <td>Completed</td>
-                                                                <td>$280.00 for 3 item</td>
-                                                                <td><a href="#" class="btn-small d-block">View</a></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                <div class="col-md-8">
+                                    <div class="tab-content dashboard-content">
+                                        <div class="tab-pane fade active show" id="dashboard" role="tabpanel"
+                                            aria-labelledby="dashboard-tab">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="mb-0 text-center">Hello <%= users.Username %> !!!</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p class="text-center text-dark">Username:<%= users.Username %>
+                                                    </p>
+                                                    <p class="text-center text-dark">Email : <%= users.email %>
+                                                    </p>
+                                                    <p class="text-center text-dark">Phone:<%= users.Mobile %>
+                                                    </p>
+                                                    <a href="/shop"><button type="submit" class="btn btn-danger">Start
+                                                            Shoping</button></a>
+
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="tab-pane fade" id="orders" role="tabpanel"
+                                            aria-labelledby="orders-tab">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="mb-0">Your Orders</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Order</th>
+                                                                    <th>Date</th>
+                                                                    <th>Status</th>
+                                                                    <th>Total</th>
+                                                                    <th>Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>#1357</td>
+                                                                    <td>March 45, 2020</td>
+                                                                    <td>Processing</td>
+                                                                    <td>$125.00 for 2 item</td>
+                                                                    <td><a href="#" class="btn-small d-block">View</a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>#2468</td>
+                                                                    <td>June 29, 2020</td>
+                                                                    <td>Completed</td>
+                                                                    <td>$364.00 for 5 item</td>
+                                                                    <td><a href="#" class="btn-small d-block">View</a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>#2366</td>
+                                                                    <td>August 02, 2020</td>
+                                                                    <td>Completed</td>
+                                                                    <td>$280.00 for 3 item</td>
+                                                                    <td><a href="#" class="btn-small d-block">View</a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
 
-                                    
-                                        <div class="tab-pane fade" id="track-orders" role="tabpanel" aria-labelledby="update-details-tab">
+
+                                        <div class="tab-pane fade" id="track-orders" role="tabpanel"
+                                            aria-labelledby="update-details-tab">
                                             <div class="card">
                                                 <div class="card-header">
                                                     <h5 class="mb-0">Update User Details</h5>
                                                 </div>
                                                 <div class="card-body contact-from-area">
                                                     <%if(locals.error){%>
-                                                        <p class="mb-4 text-center" style="color: rgb(255, 0, 0);" ><%= locals.error %></p>
+                                                        <p class="mb-4 text-center" style="color: rgb(255, 0, 0);">
+                                                            <%= locals.error %>
+                                                        </p>
                                                         <%}%>
-                                                    <div class="row">
-                                                        <div class="col-lg-8">
-                                                            <form class="contact-form-style mt-30 mb-50" action="/userupdate" method="post" id="signupForm" onsubmit="return validateSignupForm(event)">
-                                                                <!-- Username Input -->
-                                                                <div class="input-style mb-20">
-                                                                    <label>Username</label>
-                                                                    <input name="username" placeholder="Enter your username" value="<%= users.Username %>" type="text" id="username"  class="square">
-                                                                    <span style="color: red;" id="usernameError" class="error-message"></span>
+                                                            <div class="row">
+                                                                <div class="col-lg-8">
+                                                                    <form class="contact-form-style mt-30 mb-50"
+                                                                        action="/userupdate" method="post"
+                                                                        id="signupForm"
+                                                                        onsubmit="return validateSignupForm(event)" enctype="multipart/form-data">
+
+                                                                        <label>Profile (Optional)</label>
+                                                                        <input type="file" id="profilePic" value="<%= users.pImage %>" onchange="cropBanner('profilePic')" name="pimage" accept="image/*">
+                                                                        <img src="" id="show_profilePic" style="max-width: 300px; height: 200px;" alt="">
+                                                                        <button class="btn btn-primary" id="save_profilePic" style="display: none; margin-top: 30px;" onclick="uploadBannerImage('profilePic')" type="button">Save</button>
+                                                                      
+                                                                   
+                                                                        <!-- Username Input -->
+                                                                       
+                                                                       
+                                                                        <div class="input-style mb-20">
+                                                                            <label>Username</label>
+                                                                            <input name="username"
+                                                                                placeholder="Enter your username"
+                                                                                value="<%= users.Username %>"
+                                                                                type="text" id="username"
+                                                                                class="square">
+                                                                            <span style="color: red;" id="usernameError"
+                                                                                class="error-message"></span>
+                                                                        </div>
+
+                                                                        <!-- Email Input -->
+                                                                        <div class="input-style mb-20">
+                                                                            <label>Email</label>
+                                                                            <input name="email"
+                                                                                placeholder="Enter your email"
+                                                                                type="email" value="<%= users.email %>"
+                                                                                id="email" class="square">
+                                                                            <span style="color: red;" id="emailError"
+                                                                                class="error-message"></span>
+                                                                        </div>
+
+                                                                        <!-- Phone Number Input -->
+                                                                        <div class="input-style mb-20">
+                                                                            <label>Phone Number</label>
+                                                                            <input name="Mobile"
+                                                                                placeholder="Enter your phone number"
+                                                                                value="<%= users.Mobile %>" id="Mobile"
+                                                                                type="tel" class="square">
+                                                                            <span style="color: red;" id="MobileError"
+                                                                                class="error-message"></span>
+                                                                        </div>
+
+                                                                        <!-- Save Button -->
+                                                                        <button class="submit submit-auto-width"
+                                                                            type="submit">Save</button>
+                                                                    </form>
                                                                 </div>
-                                        
-                                                                <!-- Email Input -->
-                                                                <div class="input-style mb-20">
-                                                                    <label>Email</label>
-                                                                    <input name="email" placeholder="Enter your email" type="email" value="<%= users.email %>" id="email"  class="square">
-                                                                    <span style="color: red;"  id="emailError" class="error-message"></span>
-                                                                </div>
-                                        
-                                                                <!-- Phone Number Input -->
-                                                                <div class="input-style mb-20">
-                                                                    <label>Phone Number</label>
-                                                                    <input name="Mobile" placeholder="Enter your phone number" value="<%= users.Mobile %>" id="Mobile"  type="tel" class="square">
-                                                                    <span style="color: red;"  id="MobileError" class="error-message"></span>
-                                                                </div>
-                                        
-                                                                <!-- Save Button -->
-                                                                <button class="submit submit-auto-width" type="submit">Save</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
+                                                            </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        
 
 
-                                    <div class="tab-pane fade  " id="address" role="tabpanel" aria-labelledby="address-tab">
-                                        <div class="row">
-                                            <% if (users && users.address && users.address.length > 0) { %>
-                                                <% users.address.forEach(address => { %>
-                                                  <div class="col-lg-12 mt-4">
-                                                    <div class="card">
-                                                      <div class="card-header">
-                                                        <h5 class="mb-0 text-center">Shipping Address</h5>
-                                                      </div>
-                                                      <div class="card-body">
-                                                        <div class="address text-center">
-                                                          <strong><%= address.name %></strong><br>
-                                                          Phone: <%= address.mobile %><br>
-                                                          City: <%= address.city %><br>
-                                                          Postal Code: <%= address.postalCode %><br>
-                                                          Country: <%= address.country %><br><br> <!-- Add some spacing between addresses -->
-                                                          <!-- Delete button and form -->
-                                                          <form method="POST" action="/delete-address/<%= address._id %>" onsubmit="return confirm('Are you sure you want to delete this address?');">
-                                                            <input type="hidden" name="_method" value="DELETE">
-                                                            <button type="submit" class="btn btn-danger">Delete Address</button>
-                                                          </form>
+
+                                        <div class="tab-pane fade  " id="address" role="tabpanel"
+                                            aria-labelledby="address-tab">
+                                            <div class="row">
+                                                <% if (users && users.address && users.address.length> 0) { %>
+                                                    <% users.address.forEach(address=> { %>
+                                                        <div class="col-lg-12 mt-4">
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    <h5 class="mb-0 text-center">Shipping Address</h5>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="address text-center">
+                                                                        <strong>
+                                                                            <%= address.name %>
+                                                                        </strong><br>
+                                                                        Phone: <%= address.mobile %><br>
+                                                                            City: <%= address.city %><br>
+                                                                                Postal Code: <%= address.postalCode %>
+                                                                                    <br>
+                                                                                    Country: <%= address.country %>
+                                                                                        <br><br>
+                                                                                        <!-- Add some spacing between addresses -->
+                                                                                        <!-- Delete button and form -->
+                                                                                        <form method="POST"
+                                                                                            action="/delete-address/<%= address._id %>"
+                                                                                            onsubmit="return confirm('Are you sure you want to delete this address?');">
+                                                                                            <input type="hidden"
+                                                                                                name="_method"
+                                                                                                value="DELETE">
+                                                                                            <button type="submit"
+                                                                                                class="btn btn-danger">Delete
+                                                                                                Address</button>
+                                                                                            <a
+                                                                                                href="/editaddress/<%= address._id %>">
+                                                                                                <button type="button"
+                                                                                                    class="btn btn-danger">Edit</button>
+
+                                                                                            </a>
+                                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                <% }); %>
-                                              <% } else { %>
-                                                <p>Please add an address</p>
-                                              <% } %>
-                                            
+                                                        <% }); %>
+                                                            <% } else { %>
+                                                                <p>Please add an address</p>
+                                                                <% } %>
+
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5>Add New Address</h5>
+                                        <div class="tab-pane fade" id="account-detail" role="tabpanel"
+                                            aria-labelledby="account-detail-tab">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5>Add New Address</h5>
+                                                </div>
+                                                <div class="card-body">
+
+                                                    <form method="post" action="/address/<%= users._id %>" name="enq"
+                                                        onsubmit="return validateForm()">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-12">
+                                                                <label> Name <span>*</span></label>
+                                                                <input class="form-control square" name="displayName"
+                                                                    type="text">
+                                                                <span id="displayNameError"
+                                                                    class="error- text-danger"></span>
+                                                            </div>
+
+                                                            <div class="form-group col-md-12">
+                                                                <label>Mobile <span>*</span></label>
+                                                                <input class="form-control square" name="mobile"
+                                                                    type="number">
+                                                                <span id="mobileError"
+                                                                    class="error- text-danger"></span>
+                                                            </div>
+
+                                                            <div class="form-group col-md-12">
+                                                                <label>City <span>*</span></label>
+                                                                <input class="form-control square" name="city"
+                                                                    type="text">
+                                                                <span id="cityError" class="error- text-danger"></span>
+                                                            </div>
+                                                            <div class="form-group col-md-12">
+                                                                <label>Postal Code <span>*</span></label>
+                                                                <input class="form-control square" name="postalCode"
+                                                                    type="number">
+                                                                <span id="postalCodeError"
+                                                                    class="error- text-danger"></span>
+                                                            </div>
+                                                            <div class="form-group col-md-12">
+                                                                <label>Country <span>*</span></label>
+                                                                <input class="form-control square" name="country"
+                                                                    type="text">
+                                                                <span id="countryError"
+                                                                    class="error- text-danger"></span>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <button type="submit" class="btn btn-fill-out submit"
+                                                                    name="submit" value="Submit">Add Address</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
                                             </div>
-                                            <div class="card-body">
-                                                
-                                                <form method="post" action="/address/<%= users._id %>" name="enq" onsubmit="return validateForm()">
-                                                    <div class="row">
-                                                        <div class="form-group col-md-12">
-                                                            <label> Name <span>*</span></label>
-                                                            <input class="form-control square" name="displayName" type="text">
-                                                            <span id="displayNameError" class="error- text-danger"></span>
-                                                        </div>
-                                                      
-                                                        <div class="form-group col-md-12">
-                                                            <label>Mobile <span>*</span></label>
-                                                            <input  class="form-control square" name="mobile" type="number">
-                                                            <span id="mobileError" class="error- text-danger"></span>
-                                                        </div>
-                                                      
-                                                        <div class="form-group col-md-12">
-                                                            <label>City <span>*</span></label>
-                                                            <input  class="form-control square" name="city" type="text">
-                                                            <span id="cityError" class="error- text-danger"></span>
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label>Postal Code <span>*</span></label>
-                                                            <input  class="form-control square" name="postalCode" type="number">
-                                                            <span id="postalCodeError" class="error- text-danger"></span>
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label>Country <span>*</span></label>
-                                                            <input  class="form-control square" name="country" type="text">
-                                                            <span id="countryError" class="error- text-danger"></span>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <button type="submit" class="btn btn-fill-out submit" name="submit" value="Submit">Add Address</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -415,7 +511,7 @@
         </section>
         <%}%>
     </main>
-    
+
     <!-- Preloader Start
     <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
@@ -451,128 +547,201 @@
     <script src="/assetss/js/plugins/scrollup.js"></script>
     <script src="/assetss/js/plugins/jquery.vticker-min.js"></script>
     <script src="/assetss/js/plugins/jquery.theia.sticky.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
     <!-- Template  JS -->
     <script src="/assetss/js/maind134.js?v=3.4"></script>
     <script>
         function validateSignupForm(event) {
-    // Reset previous error messages
-    resetErrorMessages();
+            // Reset previous error messages
+            resetErrorMessages();
 
-    // Validate username, email, and password
-    const usernameInput = document.getElementById('username');
-    const usernameError = document.getElementById('usernameError');
-    const usernameValue = usernameInput.value.trim();
+            // Validate username, email, and password
+            const usernameInput = document.getElementById('username');
+            const usernameError = document.getElementById('usernameError');
+            const usernameValue = usernameInput.value.trim();
 
-    if (usernameValue === '') {
-        usernameError.innerHTML = 'Username is required.';
-        event.preventDefault(); // Prevent form submission
+            if (usernameValue === '') {
+                usernameError.innerHTML = 'Username is required.';
+                event.preventDefault(); // Prevent form submission
+            }
+
+            const emailInput = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            const emailValue = emailInput.value.trim();
+
+            if (emailValue === '') {
+                emailError.innerHTML = 'Email is required.';
+                event.preventDefault(); // Prevent form submission
+            } else if (!isValidEmail(emailValue)) {
+                emailError.innerHTML = 'Email is not valid.';
+                event.preventDefault(); // Prevent form submission
+            } else if (!isValidEmail(emailValue)) {
+                emailError.innerHTML = 'Email is not valid.';
+                event.preventDefault(); // Prevent form submission
+            }
+
+
+
+
+
+
+            const mobileinput = document.getElementById('Mobile');
+            const mobileerror = document.getElementById('MobileError');
+            const mobilevalue = mobileinput.value.trim();
+
+            if (mobilevalue === '') {
+                mobileerror.innerHTML = 'Mobile number is required';
+                event.preventDefault();
+            } else if (mobilevalue.length < 10 || mobilevalue.length > 13) {
+                mobileerror.innerHTML = 'invalid phone number';
+                event.preventDefault();
+            }
+
+
+        }
+
+        function resetErrorMessages() {
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(function (errorMessage) {
+                errorMessage.innerHTML = '';
+            });
+        }
+
+
+        function isValidEmail(email) {
+            // Simple email validation, you may need to use a more comprehensive approach
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function resetErrorMessages() {
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(function (errorMessage) {
+                errorMessage.innerHTML = '';
+            });
+        }
+
+        function validateForm() {
+    var displayName = document.forms["enq"]["displayName"].value;
+    var mobile = document.forms["enq"]["mobile"].value;
+    var city = document.forms["enq"]["city"].value;
+    var postalCode = document.forms["enq"]["postalCode"].value;
+    var country = document.forms["enq"]["country"].value;
+
+    // Clear previous error messages
+    document.getElementById("displayNameError").innerHTML = "";
+    document.getElementById("mobileError").innerHTML = "";
+    document.getElementById("cityError").innerHTML = "";
+    document.getElementById("postalCodeError").innerHTML = "";
+    document.getElementById("countryError").innerHTML = "";
+
+    // Validate each field
+    if (displayName === "") {
+        document.getElementById("displayNameError").innerHTML = "Name is required";
+        return false;
+    } else if (!/^[A-Za-z\s]+$/.test(displayName)) {
+        document.getElementById("displayNameError").innerHTML = "Name must contain only letters";
+        return false;
     }
 
-    const emailInput = document.getElementById('email');
-    const emailError = document.getElementById('emailError');
-    const emailValue = emailInput.value.trim();
-
-    if (emailValue === '') {
-        emailError.innerHTML = 'Email is required.';
-        event.preventDefault(); // Prevent form submission
-    } else if (!isValidEmail(emailValue)) {
-        emailError.innerHTML = 'Email is not valid.';
-        event.preventDefault(); // Prevent form submission
-    } else if (!isValidEmail(emailValue)) {
-        emailError.innerHTML = 'Email is not valid.';
-        event.preventDefault(); // Prevent form submission
+    if (city === "") {
+        document.getElementById("cityError").innerHTML = "City is required";
+        return false;
+    } else if (!/^[A-Za-z\s]+$/.test(city)) {
+        document.getElementById("cityError").innerHTML = "City must contain only letters";
+        return false;
     }
 
-    
-
-    
-    
-
-    const mobileinput = document.getElementById('Mobile');
-    const mobileerror = document.getElementById('MobileError');
-    const mobilevalue = mobileinput.value.trim();
-
-    if(mobilevalue === ''){
-        mobileerror.innerHTML = 'Mobile number is required';
-        event.preventDefault();
-    }else if(mobilevalue.length < 10 || mobilevalue.length > 13) {
-        mobileerror.innerHTML = 'invalid phone number';
-        event.preventDefault();
+    if (country === "") {
+        document.getElementById("countryError").innerHTML = "Country is required";
+        return false;
+    } else if (!/^[A-Za-z\s]+$/.test(country)) {
+        document.getElementById("countryError").innerHTML = "Country must contain only letters";
+        return false;
     }
 
-
-}
-
-function resetErrorMessages() {
-    const errorMessages = document.querySelectorAll('.error-message');
-    errorMessages.forEach(function (errorMessage) {
-        errorMessage.innerHTML = '';
-    });
-}
-
-
-function isValidEmail(email) {
-    // Simple email validation, you may need to use a more comprehensive approach
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-function resetErrorMessages() {
-    const errorMessages = document.querySelectorAll('.error-message');
-    errorMessages.forEach(function (errorMessage) {
-        errorMessage.innerHTML = '';
-    });
-}
-
-/*second validation*/ 
-function validateForm() {
-        var displayName = document.forms["enq"]["displayName"].value;
-        var mobile = document.forms["enq"]["mobile"].value;
-        var city = document.forms["enq"]["city"].value;
-        var postalCode = document.forms["enq"]["postalCode"].value;
-        var country = document.forms["enq"]["country"].value;
-
-        // Clear previous error messages
-        document.getElementById("displayNameError").innerHTML = "";
-        document.getElementById("mobileError").innerHTML = "";
-        document.getElementById("cityError").innerHTML = "";
-        document.getElementById("postalCodeError").innerHTML = "";
-        document.getElementById("countryError").innerHTML = "";
-
-        // Validate each field
-        if (displayName === "") {
-            document.getElementById("displayNameError").innerHTML = "Name is required";
-            return false;
-        }
-
-  
-
-        if (mobile === "") {
-            document.getElementById("mobileError").innerHTML = "Mobile is required";
-            return false;
-        }
-
-        if (city === "") {
-            document.getElementById("cityError").innerHTML = "City is required";
-            return false;
-        }
-
-        if (postalCode === "") {
-            document.getElementById("postalCodeError").innerHTML = "Postal Code is required";
-            return false;
-        }
-
-        if (country === "") {
-            document.getElementById("countryError").innerHTML = "Country is required";
-            return false;
-        }
-
-        return true;
+    if (mobile === "") {
+        document.getElementById("mobileError").innerHTML = "Mobile is required";
+        return false;
+    } else if (!/^\d{10}$/.test(mobile)) {
+        document.getElementById("mobileError").innerHTML = "Phone number must be 10 digits";
+        return false;
     }
+
+    if (postalCode === "") {
+        document.getElementById("postalCodeError").innerHTML = "Postal Code is required";
+        return false;
+    } else if (!/^[A-Za-z\d]{6}$/.test(postalCode)) {
+        document.getElementById("postalCodeError").innerHTML = "Postal Code must be 6 alphanumeric characters";
+        return false;
+    }
+
+    return true;
+}
+
+        
+                                                                            let cropper;
+                                                                            function cropBanner(id) {
+                                                                                const input = document.getElementById(id);
+                                                                                const canvas = document.getElementById(`show_${id}`);
+                                                                                const file = input.files[0];
+
+                                                                                if (file) {
+                                                                                    const reader = new FileReader();
+
+                                                                                    reader.onload = function (e) {
+                                                                                        canvas.src = e.target.result;
+                                                                                        if (cropper) {
+                                                                                            cropper.destroy();
+                                                                                        }
+
+                                                                                        cropper = new Cropper(canvas, {
+                                                                                            viewMode: 2,
+                                                                                        });
+                                                                                    };
+
+                                                                                    reader.readAsDataURL(file);
+                                                                                    document.getElementById('save_'+id).style.display = 'block'
+                                                                                } else {
+                                                                                    canvas.src = '';
+                                                                                    if (cropper) {
+                                                                                        cropper.destroy();
+                                                                                    }
+                                                                                }
+                                                                            }
+
+                                                                            function uploadBannerImage(id) {
+                                                                                const canvas = cropper.getCroppedCanvas();
+                                                                                if (canvas) {
+                                                                                    canvas.toBlob((blob) => {
+                                                                                        const fileName = 'croppedImage.jpg';
+                                                                                        const file = new File([blob], fileName, { type: 'image/jpeg' });
+                                                                                        const input = document.getElementById(id);
+
+                                                                                        if (DataTransfer && FileList) {
+                                                                                            const dataTransfer = new DataTransfer();
+                                                                                            dataTransfer.items.add(file);
+                                                                                            input.files = dataTransfer.files;
+                                                                                        } else {
+                                                                                            console.error('FileList and DataTransfer are not supported in this browser.');
+                                                                                        }
+
+                                                                                        const showImg = document.getElementById(`show_${id}`);
+                                                                                        showImg.src = URL.createObjectURL(blob);
+
+                                                                                        cropper.destroy();
+                                                                                    });
+                                                                                    document.getElementById('save_' + id).style.display = 'none'
+                                                                                }
+                                                                            }
+
+
+                                                                        
 
     </script>
 </body>
 
 
 <!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/page-account.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Jul 2023 10:11:15 GMT -->
+
 </html>

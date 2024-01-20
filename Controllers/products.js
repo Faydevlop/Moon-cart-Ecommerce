@@ -3,8 +3,8 @@ const productmodel = require('../models/prodectmodel')
 const path = require('path')
 const categoryModel = require('../models/categorymodel')
 
-
-const productspage1get = async (req, res) => {
+// no needed
+const   productspage1get = async (req, res) => {
     try {
         // const products = await productmodel.find({});
         const category = await categoryModel.find({ isActive: true })
@@ -65,6 +65,7 @@ const productspagepost = async (req, res) => {
             multipleImages,
             stock,
             category,
+            oldprice:price,
         });
 
 
@@ -135,48 +136,48 @@ const editproductsget = async (req, res) => {
     
 const editproductspost = async (req, res) => {
     try {
-      console.log('step1');
-      const productId = req.params.productId;
-      console.log(productId);
-      const product = await productmodel.findById(productId);
-  
-      if (!product) {
-        return res.status(404).send('Product not found');
-      }
-      console.log('step2');
-  
-      // Extract fields from the request body
-      const { name, brand, model, price, description, stock, category } = req.body;
-  
-      // Process single image
-      const singleImage = req.files && req.files['singleImage'] ? req.files['singleImage'][0].path.replace(/\\/g, '/').replace('public/', '/') : null;
-      console.log(singleImage)
-  
-      // Process multiple images
-      const multipleImages = req.files && req.files['multipleImages'] ? req.files['multipleImages'].map(file => file.path.replace(/\\/g, '/').replace('public/', '/')) : [];
-      console.log(multipleImages)
+        console.log('step1');
+        const productId = req.params.productId;
+        console.log(productId);
+        const product = await productmodel.findById(productId);
 
-      // Update the product fields with new values from the request body
-      product.name = name || product.name;
-      product.brand = brand || product.brand;
-      product.model = model || product.model;
-      product.price = price || product.price;
-      product.description = description || product.description;
-      product.singleImage = singleImage || product.singleImage   ;
-      product.multipleImages = multipleImages || product.multipleImages;
-    //   product.multipleImages.slice().concat(multipleImages);
-      product.stock = stock || product.stock;
-      product.category = category || product.category;
-  
-      await product.save();
-  
-      res.redirect('/admin/page-products-list');
+        if (!product) {
+            return res.status(404).send('Product not found');
+        }
+        console.log('step2');
+
+        // Extract fields from the request body
+        const { name, brand, model, price, description, stock, category } = req.body;
+
+        // Process single image
+        const singleImage = req.files && req.files['singleImage'] ? req.files['singleImage'][0].path.replace(/\\/g, '/').replace('public/', '/') : null;
+        console.log(singleImage);
+
+        // Process multiple images
+        const multipleImages = req.files && req.files['multipleImages']
+            ? req.files['multipleImages'].map(file => file.path.replace(/\\/g, '/').replace('public/', '/'))
+            : product.multipleImages; // Retain existing images if not updated
+        console.log(multipleImages);
+
+        // Update the product fields with new values from the request body
+        product.name = name || product.name;
+        product.brand = brand || product.brand;
+        product.model = model || product.model;
+        product.price = price || product.price;
+        product.description = description || product.description;
+        product.singleImage = singleImage || product.singleImage;
+        product.multipleImages = multipleImages;
+        product.stock = stock || product.stock;
+        product.category = category || product.category;
+
+        await product.save();
+
+        res.redirect('/admin/page-products-list');
     } catch (error) {
-      console.error('Error updating product:', error);
-      res.status(500).send('Internal Server Error');
+        console.error('Error updating product:', error);
+        res.status(500).send('Internal Server Error');
     }
-  };
-
+};
   const deleteproductget = async (req, res) => {
     
 

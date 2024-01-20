@@ -9,7 +9,9 @@ const CartItemSchema = new mongoose.Schema(
     },
     products: [
       {
-        product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+        product: { type: mongoose.Schema.Types.ObjectId, 
+          ref: 'Product',
+         },
         quantity: { type: Number, default: 1 },
       },
     ],
@@ -17,10 +19,15 @@ const CartItemSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    appliedCoupon: {
+      type: Boolean,
+    default:false
+  }
   },
   {
     timestamps: true,
-  }
+  },
+ 
 );
 
 // Ensure that the Cart model is created

@@ -7,12 +7,25 @@ const cat = require('../models/categorymodel');
 const categorymodel = require('../models/categorymodel');
 const Cart = require('../models/addtocartmodel')
 const Address = require('../models/address');
-const { route } = require('../routes/users');
-const router = require('../routes/users');
+const multer = require('multer')
+const path = require('path')
+const couponmodel = require('../models/coupen')
+
+
 const jwt = require('jsonwebtoken');
 const nodemailer =require('nodemailer');
 const Order = require('../models/orders');
+const shortid = require('shortid');;
 const { Types } = mongoose;
+
+require('dotenv').config();
+const Razorpay = require('razorpay');
+
+
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_ID_KEY,
+    key_secret: process.env.RAZORPAY_SECRET_KEY, 
+  });
 
 
 
@@ -40,7 +53,7 @@ const userloginpost = async (req, res) => {
    
     if (loguser) {
         req.session.iduser = loguser._id
-        console.log(req.session.iduser);
+        // console.log(req.session.iduser);
 
 
         const passwordmatch = await bcrypt.compare(req.body.password, loguser.password);
@@ -53,6 +66,7 @@ const userloginpost = async (req, res) => {
                 return res.status(403).render('dashboard/page-account-login', { error: 'You were blocked' });
             } else {
                 req.session.user = loguser
+                req.session.orders = loguser._id;
                 
                 res.redirect('/');
             }
@@ -101,6 +115,14 @@ const usersinuppost = async (req, res) => {
     req.session.email = req.body.email;
     req.session.Mobile = req.body.Mobile;
     req.session.password = req.body.password;
+    if (req.body.referral) {
+        referrer = await User.findOne({ referralCode:req.body.referral });
+        req.session.referral = referrer._id;
+        console.log(referrer);
+      }else{
+        referrer =''
+      }
+  
 
     try {
         // if (req.body.action === 'resend_otp') {
@@ -127,7 +149,7 @@ const resendOtp=async(req,res)=>{
     try{
         const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
         req.session.otp = otp;
-        console.log(req.session.email);
+        // console.log(req.session.email);
         await authcontroller.sendVerificationEmail(req.session.email, req.session.otp);
         return res.status(200).json({success:true}) 
     }catch(err){
@@ -146,7 +168,9 @@ const homepageget = async (req, res) => {
     
     const userdetials = await User.findById(req.session._id);
     const users = await Cart.findOne({user:userId}).populate('products.product');
-    console.log(users);
+    
+    
+    // console.log(users);
     
     if(userdetials){
        return res.render('homepages/index-3', { products ,user , userdetials:userdetials,users:users})
@@ -161,9 +185,11 @@ const homeshop = async (req, res) => {
 
     const products = await productsmodel.find({})
     const categorys = await cat.find({})
+
+    const users = await Cart.findOne({user:req.session.iduser}).populate('products.product');
     
 
-    res.render('homepages/shop1', { products, categorys });
+    res.render('homepages/shop1', { products, categorys,users:users  });
 }
 
 
@@ -185,8 +211,11 @@ const otploginpost = async (req, res) => {
 
     try {
         if (Number(req.body.enteredOtp) === Number(req.session.otp)) {
-
-            console.log(req.session.username, req.session.email, req.session.password);
+            
+            
+            const referrer = req.session.referral || null
+            req.session.referral = ''
+            // console.log(req.session.username, req.session.email, req.session.password);
 
             const hashedPassword = await bcrypt.hash(req.session.password, 6)
             const newUser = new User({
@@ -194,9 +223,20 @@ const otploginpost = async (req, res) => {
                 Username: req.session.username,
                 email: req.session.email,
                 Mobile:req.session.Mobile,
-                password: hashedPassword
+                password: hashedPassword,
+                referrer:referrer,
+                referralCode: generateReferralCode(), // Implement a function to generate referral codes
+
                 // check email existing
             });
+           // Check if referrer is a valid ObjectId before attempting to find the user
+           if (mongoose.Types.ObjectId.isValid(referrer)) {
+            const user = await User.findById(referrer);
+            if (user) {
+                user.Wallet += 250;
+                await user.save();
+            }
+        }
             await newUser.save();
             req.session.done = 'Verification Completed Please login'
             return res.redirect('/login');
@@ -212,15 +252,22 @@ const otploginpost = async (req, res) => {
     }
 
 }
+function generateReferralCode() {
+    // Generate a unique referral code using shortid
+    const referralCode = shortid.generate();
+    return referralCode;
+  }
 
-const productpageget = async (req, res) => {
+const  productpageget = async (req, res) => {
 
     const product = req.params.productID
+    const userId = req.session.iduser;
+    const users = await Cart.findOne({ user: userId }).populate('products.product');
 
     const products = await productsmodel.findById(product);
-    if (products) {
-        console.log(products)
-        res.render('homepages/productpage1', { products });
+    if (products && users) {
+        // console.log(products)
+        res.render('homepages/productpage1', { products , users});
     } else {
         res.redirect('/error')
     }
@@ -238,12 +285,11 @@ const useraccount = async (req,res)=>{
 
     
     const userId = req.session._id;
-    console.log('hi hi hi hi hi hi hi hi hi hi hi hi hi hi');
-    console.log(userId);
+    
 
     const users = await User.findById(userId).populate('address');
     if(users){
-        console.log(users)
+        // console.log(users)
 
         return res.render('homepages/account',{users:users});
 
@@ -256,40 +302,75 @@ const useraccount = async (req,res)=>{
 
 const updateuserget = async(req,res)=>{
     const userId = req.params.userId;
+    console.log(userId);
     const users = await User.findById(userId).populate('address');
-    if(users){
-      return  res.render('homepages/editaccount',{users:users});
+   
+    
+
+    if(users && orders){
+      return  res.render('homepages/editaccount',{users:users,orders:orders});
     }
     res.render('homepages/editaccount');
 
     
 
-}
+};
 
+// Set up Multer for handling file uploads
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/uploads/profile'); // Set the destination folder for profile images
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    },
+  });
+  
+  const upload = multer({ storage: storage });
 
-const updatedetials = async(req,res)=>{
-   req.session.data = {
-    username:req.body.username,
-    email:req.body.email,
-    Mobile:req.body.Mobile
-   }
-   const email = req.session.data.email;
-   
-
-//    const newuser = await User.findOne({ email: req.body.data.email });
-//     if (newuser) {
-//         req.session.error = 'email already exist';
-//         return res.redirect('/signup')
-//         // return res.render('dashboard/page-account-register', { error: 'email already exist' });
-//     }
-    const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
-    req.session.otp = otp;
-    await authcontroller.sendVerificationEmail(email, req.session.otp);
-    res.redirect('/verification2');
-
-
-
-}
+  const updatedetials = async (req, res) => {
+    // Use 'single' if you're uploading a single file with the field name 'pimage'
+    upload.single('pimage')(req, res, async (err) => {
+      try {
+        if (err) {
+          console.error(err);
+          // Handle the error, e.g., send an error response
+          return res.status(500).send('File upload failed');
+        }
+  
+        // Now, you can access the uploaded file details in req.file
+        if (req.file) {
+          // Save the profile image URL in the session
+          req.session.pimage = '/uploads/profile/' + req.file.filename;
+          console.log('photo' + req.session.pimage);
+  
+          // Continue with the rest of your logic
+          req.session.data = {
+            username: req.body.username,
+            email: req.body.email,
+            Mobile: req.body.Mobile,
+            Pimage:req.session.pimage
+        
+          };
+  
+          const email = req.session.data.email;
+  
+          // The rest of your code...
+          const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
+          req.session.otp = otp;
+          await authcontroller.sendVerificationEmail(email, req.session.otp);
+          res.redirect('/verification2');
+        } else {
+          // Handle the case when no file is uploaded
+          return res.status(400).send('No file uploaded');
+        }
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+      }
+    });
+  };
 
 
 const otplogin2 = (req, res) => {
@@ -321,6 +402,7 @@ const otploginpost2 = async (req, res) => {
                 user.Username = req.session.data.username,
                 user.email = req.session.data.email,
                 user.Mobile = req.session.data.Mobile,
+                user.pImage = req.session.data.Pimage
 
                 await user.save();
 
@@ -365,33 +447,137 @@ const resendOtp2 =async(req,res)=>{
 const cartpage = async (req, res) => {
     try {
         const userId = req.session.iduser;
+        const coupons = await couponmodel.find()
+       
         
 
         // Find the user by ID and populate the 'products' field
     const user = await Cart.findOne({user:userId}).populate('products.product');
+    const users = await Cart.findOne({user:userId}).populate('products.product');
     console.log(user);
+        req.session.cartitem = user;
+
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.render('homepages/shop-cart', { user });
+    res.render('homepages/shop-cart', { user ,coupons:coupons,users});
 
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+// post method for apllying coupens
+const postcart = async (req, res) => {
+    try {
+        const coupen = req.body.couponId;
+        req.session.copon = coupen
+        const userId = req.session.iduser;
+        const user = await Cart.findOne({ user: userId }).populate('products.product');
 
+        if (user.appliedCoupon === true) {
+            return res.status(200).json({ message: 'You have already applied a coupon' });
+        }
+
+        const couponData = await couponmodel.findOne({ couponCode: coupen });
+        
+
+        if (!couponData) {
+            return res.sendStatus(404).send('Coupon is not Found');
+        }
+
+        const { totalPrice, products } = user;
+        const { discountPercentage, maxDiscountAmount, minAmount, maxAmount,expiryDate } = couponData;
+
+        // Check if the coupon has already been applied
+        if (couponData.isUsed ) {
+            return res.status(200).json({ message: 'Coupon has already been applied' });
+        }
+
+         // Check if the coupon has expired
+         const currentDate = new Date();
+         if (expiryDate && currentDate > new Date(expiryDate)) {
+            couponData.isExpared = true;
+            couponData.Status = 'expired';
+            await couponData.save();
+
+             return res.status(200).json({ message: 'Coupon has expired' });
+             
+         }
+        
+
+       
+        if (totalPrice >= minAmount && totalPrice <= maxAmount) {
+           
+            const discountAmount = (totalPrice * discountPercentage) / 100;
+
+      
+            const discountedTotal = Math.round(Math.max(totalPrice - discountAmount, totalPrice - maxDiscountAmount));
+
+            const total = user.totalPrice;
+            req.session.TotalPrice = total;
+
+          
+            user.totalPrice = discountedTotal;
+            user.appliedCoupon = true;
+            couponData.isUsed = true;
+            const coponid = couponData;
+            req.session.coponid = coponid;
+            await user.save();
+            await couponData.save()
+
+
+            return res.status(200).json({ message: 'Coupon applied successfully', discountedTotal });
+        } else {
+            // Coupon is not applicable
+            return res.status(200).json({ message: 'Coupon is not applicable to the current total price' });
+        }
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+// remove coupen
+const removecopen = async (req,res)=>{
+    try {
+        const copon = req.body.couponId;
+        const userId = req.session.iduser;
+
+        const user = await Cart.findOne({ user: userId }).populate('products.product');
+        console.log(user)
+
+        const findcopon = await couponmodel.findOne({couponCode:copon})
+        if(!findcopon){
+           return res.status(400).json({message:'Coupon not found'})
+        }
+        findcopon.isUsed = false;
+        user.appliedCoupon = false;
+        req.session.coponid = '';
+        user.totalPrice = req.session.TotalPrice; 
+        await user.save()
+
+        await findcopon.save();
+
+        return res.status(200).json({message:'Coupon Removed Succeccfully'})
+        
+    } catch (error) {
+        console.error(error);
+        
+    }
+}
 /* add to cart */
 
 const addtocart = async (req, res) => {
     try {
       const productId = req.params.productId;
       const userId = req.session.iduser; // Adjust how you get the user ID from the session
+      const checkquantity = await productsmodel.findOne({_id:productId})
       
-      console.log(productId);
-      console.log(userId);
+    //   console.log(productId);
+    //   console.log(userId);
       
       // Validate input
       if (!userId || !productId) {
@@ -420,6 +606,7 @@ const addtocart = async (req, res) => {
   
       // Check if the product is already in the user's cart
       const existingCartItemIndex = userCart.products.findIndex(p => p.product.equals(productId));
+    //   chechk if the product stock is there or not
   
       if (existingCartItemIndex !== -1) {
         // If the product is already in the cart, update the quantity
@@ -434,8 +621,8 @@ const addtocart = async (req, res) => {
         const productPrice = product.price; // Replace with the actual property containing the product price
         return total + item.quantity * productPrice;
       }, 0);
-  
-      // Save the updated cart
+      
+    //   Save the updated cart
       await userCart.save();
   
       res.redirect('/cartpage');
@@ -444,6 +631,63 @@ const addtocart = async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   };
+
+  const addtocartshort = async (req,res)=>{
+    try {
+        const { productId } = req.body;
+        const userId = req.session.iduser;
+        const product = await productsmodel.findById(productId);
+
+
+              // Check if the user has a cart
+      let userCart = await Cart.findOne({ user: userId });
+  
+      if (!userCart) {
+        // If the user does not have a cart, create one
+        userCart = await Cart.create({
+          user: userId,
+          products: [],
+          totalPrice: 0,
+        });
+      }
+
+      // Check if the product is already in the user's cart
+      const existingCartItemIndex = userCart.products.findIndex(p => p.product.equals(productId));
+      
+    //   chechk if the product stock is there or not
+  
+      if (existingCartItemIndex !== -1) {
+        // If the product is already in the cart, update the quantity
+        userCart.products[existingCartItemIndex].quantity += 1;
+        // return res.status(200).json({message:'product Quantity is updated'})
+      } else {
+        // If not, add a new item to the cart with quantity 1
+        userCart.products.push({ product: productId, quantity: 1 });
+        //  res.status(200).json({message:'New product is added to cart'})
+      }
+  
+
+      // Calculate total price based on quantity
+      userCart.totalPrice = userCart.products.reduce((total, item) => {
+        const productPrice = product.price; // Replace with the actual property containing the product price
+        return total + item.quantity * productPrice;
+      }, 0);
+      
+    //   Save the updated cart
+      await userCart.save();
+      return res.status(200).json({message:'Product added to the cart'})
+  
+
+
+        
+        
+    } catch (error) {
+        console.error(error);
+        return res.status(400).json({message:'Product Cant add to the cart'})
+        
+    }
+
+  }
   
 
 // delte items in cart
@@ -485,12 +729,19 @@ const addtocartppost = async (req,res)=>{
 }
 
 const checkout = async(req,res)=>{
+
+    if(req.session.error){
+        const error = req.session.error;
+        req.session.error = '';
+        return res.render('homepages/checkouts',{users:users,user:user,error:error});
+
+    }
     const userId = req.session.iduser;
-    console.log(userId);
+    // console.log(userId);
     const users = await User.findById(userId).populate('address');
-    console.log(users);
+    // console.log(users);
     const user = await Cart.findOne({user:userId}).populate('products.product');
-    console.log(user);
+    // console.log(user);
     if(users){
        return res.render('homepages/checkouts',{users:users,user:user});
     }
@@ -527,7 +778,7 @@ const address = async (req,res)=>{
     user.address.push(newAddress);
     await user.save();
 
-    console.log('Address saved');
+    // console.log('Address saved');
     res.redirect('/editac/'+userId)
 
 
@@ -586,26 +837,26 @@ const forgetpass = (req,res)=>{
     res.render('homepages/forgotpass');
 }
 
-const forgetpasspost = async(req,res)=>{
+const forgetpasspost = async (req, res) => {
+    const { email } = req.body;
 
-    const {email} = req.body;
-    console.log(email);
+    const user = await User.findOne({ email: email });
 
-    const user = await User.findOne({email:email})
-    if(!user){ 
-        req.session.error = 'email not found please signup'
-        return res.redirect('/forgotpass')
+    if (!user) {
+        req.session.error = 'Email not found. Please sign up.';
+        return res.redirect('/forgotpass');
     }
+
     const secret = JWT_SECRET + user.password;
     const payload = {
-        email:user.email,
-        id:user._id
-    }
-    const token = jwt.sign(payload,secret,{expiresIn:'15m'})
-    const link = `http://localhost:3001/restpass/${user._id}/${token}`;
-    console.log(link);
+        email: user.email,
+        id: user._id
+    };
 
-        // Nodemailer configuration
+    const token = jwt.sign(payload, secret, { expiresIn: '15m' });
+    const link = `http://localhost:3001/restpass/${user._id}/${token}`;
+
+    // Nodemailer configuration
     const transporter = nodemailer.createTransport({
         service: 'gmail', // Use your email service (e.g., 'gmail')
         auth: {
@@ -619,7 +870,7 @@ const forgetpasspost = async(req,res)=>{
         from: 'zenwrists@gmail.com',
         to: user.email,
         subject: 'Password Reset Link',
-        text: `Click on the following link to reset your password: ${link}`
+        html: `<p>Click on the following link to reset your password: <a href=${link}>Click here</a></p>`
     };
 
     // Send email
@@ -629,17 +880,11 @@ const forgetpasspost = async(req,res)=>{
             req.session.error = 'Failed to send reset password email.';
             return res.redirect('/forgotpass');
         } else {
-            console.log('Email sent: ' + info.response);
             req.session.done = 'Reset password link sent to your email.';
-            
             return res.redirect('/forgotpass');
         }
     });
-    
-
-
-  
-}
+};
 
 const resetpass = async(req,res)=>{
 const {userId,token} = req.params
@@ -696,28 +941,50 @@ const resetpasspost = async (req, res) => {
     }
 };
 
-const  updateQuantity = async (req, res) => {
+const updateQuantity = async (req, res) => {
     try {
-      const {  productId, newQuantity } = req.body;
+      const { productId, newQuantity } = req.body;
   
       // Assuming you have a Cart model defined
-      const cart = await Cart.findOneAndUpdate(
-        { user: req.session.iduser, 'products.product': productId },
-        { $set: { 'products.$.quantity': newQuantity } },
-        { new: true }
-      );
+      const cart = await Cart.findOne({
+        user: req.session.iduser,
+      }).populate('products.product');
   
       if (!cart) {
         return res.status(404).json({ message: 'Cart or product not found' });
       }
   
-      res.json({ message: 'Quantity updated successfully', cart });
+      // Find the index of the product in the products array
+      const productIndex = cart.products.findIndex(
+        (item) => item.product._id.toString() === productId.toString()
+      );
+  
+      // Update the quantity of the specific product
+      cart.products[productIndex].quantity = newQuantity;
+  
+      // Recalculate the total price based on the updated quantities
+      cart.totalPrice = cart.products.reduce((total, item) => {
+        const productPrice = item.product.price;
+        
+        // Check if productPrice is a valid number and item.quantity is a valid number
+        if (!isNaN(productPrice) && !isNaN(item.quantity)) {
+          return total + item.quantity * productPrice;
+        } else {
+          return total;
+        }
+      }, 0);
+  
+      // Save the updated cart
+      await cart.save();
+  
+      res.status(201).json({ success:true, message: 'Quantity updated successfully', cart });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
-
+  
+  
 
 //   error page
 const errorpage = (req,res)=>{
@@ -734,7 +1001,7 @@ const toggleAddress = async (req, res) => {
             foundAddress.isSelect = !foundAddress.isSelect; // Toggle the value
             await foundAddress.save();
 
-            console.log('Address after update:', foundAddress);
+            // console.log('Address after update:', foundAddress);
             return res.redirect('/checkout');
         }
 
@@ -758,7 +1025,7 @@ const editaddress = async (req, res) => {
 };
 
 const editaddresspost = async (req, res) => {
-    console.log('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+    // console.log('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
     const addressId = req.params.id;
     const address = await Address.findOne({ _id: addressId });
 
@@ -776,46 +1043,375 @@ const editaddresspost = async (req, res) => {
     res.redirect('/checkout');
 };
 
-const orderconfirmed = async(req,res)=>{
+const successpage = (req,res)=>{
+    // const order = 
+    res.render('homepages/success')
+}
+
+
+const orderconfirmed = async (req, res) => {
     const userdID = req.session.iduser;
     const addresId = req.body.addressId;
     const paymentmethod = req.body.PaymentMethod;
-    console.log(userdID);
-    console.log(addresId);
-    console.log(paymentmethod);
 
-    const cart = await Cart.findOne({user:userdID}).populate('products.product');
-    if(paymentmethod === 'cashondelivery'){
-        const order = {
-            user:req.session.iduser,
-            address:addresId,
-            paymentmethod:paymentmethod,
-            products : cart.products.map((item)=>{
-                return{
-                    product:item.product,
-                    quantity:item.quantity,
-                    price:item.product.price,
-                    total:item.totalPrice,
-                }
-            }),
-            grandTotal:cart.totalPrice,
+    console.log(paymentmethod, addresId, userdID + 'HERE ');
 
-        }
-
-        await Order.insertMany(Order);
-
-        for(item of cart.products){
-            const product = item.product;
-             
-            const updateQuantity = product.quantity - item.quantity;
-            const orderQuantity = product.order + item.quantity;
-              
-        }
-    }
+    const cart = await Cart.findOne({ user: userdID }).populate('products.product');
+    const saveaddress = await Address.findOne({ _id: addresId });
+    const coponid = req.session.coponid ;
+    const findcopon = await couponmodel.findOne({_id:coponid}) 
 
     
 
+
+
+
+    if (paymentmethod === 'cashondelivery') {
+        const order = {
+            user: req.session.iduser,
+            address: [
+                {
+                    name: saveaddress.name,
+                    mobile: saveaddress.mobile,
+                    city: saveaddress.city,
+                    postalCode: saveaddress.postalCode,
+                    country: saveaddress.country
+                }
+            ],
+            paymentmethod: paymentmethod,
+            products: cart.products.map((item) => {
+                return {
+                    product: item.product._id,
+                    quantity: item.quantity,
+                    price: item.product.price,
+                    total: item.totalPrice,
+                };
+            }),
+            grandTotal: cart.totalPrice,
+            
+           
+        };
+
+        await Order.insertMany(order);
+
+        for (item of cart.products) {
+            const product = item.product;
+            const oredrproduct = await Cart.findOne({ user: userdID }).populate('products.product');
+            for (const oredrItem of oredrproduct.products) {
+                const updateQuantity = product.stock - oredrItem.quantity;
+                await productsmodel.findByIdAndUpdate(product._id, { stock: updateQuantity });
+            }
+        } 
+
+      
+        if (findcopon) {
+            // Found the coupon, now delete it
+            const deleteResult = await couponmodel.deleteOne({_id: coponid});
+            
+            if (deleteResult.deletedCount > 0) {
+              console.log('Coupon deleted successfully');
+            } else {
+              console.log('Coupon not found or already deleted');
+            }
+          } else {
+            console.log('Coupon not found');
+          }
+
+          await Cart.findOneAndUpdate(
+            { user: userdID },
+            { $set: { products: [], totalPrice: 0 }, $unset: { appliedCoupon: false } },
+            { new: true } // to return the updated document
+          );
+        res.status(201).json({ success: true, message: "success" });
+    } 
+    
+    else if (paymentmethod === 'upi') {
+        console.log('upi working');
+      console.log(razorpay);
+
+        const options = {
+            amount: cart.totalPrice * 100,
+            currency: 'INR',
+            receipt: 'order_' + Date.now(),
+        };                                                                                                                                                                                                                                                                                              
+        console.log(options);
+
+        try {
+            const order = await new Promise((resolve, reject) => {
+                razorpay.orders.create(options, (err, order) => {
+                    if (err) {
+                        console.error('Razorpay order creation failed:', err);
+                        reject(err);
+                    } else {
+                        resolve(order);
+                    }
+                });
+            });
+
+            const upiOrder = {
+                user: req.session.iduser,
+                address: [
+                    {
+                        name: saveaddress.name,
+                        mobile: saveaddress.mobile,
+                        city: saveaddress.city,
+                        postalCode: saveaddress.postalCode,
+                        country: saveaddress.country
+                    }
+                ],
+                paymentmethod: paymentmethod,
+                products: cart.products.map((item) => {
+                    return {
+                        product: item.product._id,
+                        quantity: item.quantity,
+                        price: item.product.price,
+                        total: item.totalPrice,
+                    }
+                }),
+                grandTotal: cart.totalPrice,
+                // order_id:
+            };
+
+            await Order.insertMany(upiOrder);
+
+            for (item of cart.products) {
+                const product = item.product;
+                const oredrproduct = await Cart.findOne({ user: userdID }).populate('products.product');
+                for (const oredrItem of oredrproduct.products) {
+                    const updateQuantity = product.stock - oredrItem.quantity;
+                    await productsmodel.findByIdAndUpdate(product._id, { stock: updateQuantity });
+                }
+            }
+            if (findcopon) {
+                // Found the coupon, now delete it
+                const deleteResult = await couponmodel.deleteOne({_id: coponid});
+                
+                if (deleteResult.deletedCount > 0) {
+                  console.log('Coupon deleted successfully');
+                } else {
+                  console.log('Coupon not found or already deleted');
+                }
+              } else {
+                console.log('Coupon not found');
+              }
+
+              await Cart.findOneAndUpdate(
+                { user: userdID },
+                { $set: { products: [], totalPrice: 0 }, $unset: { appliedCoupon: false } },
+                { new: true } // to return the updated document
+              );
+            res.status(200).json({ success: true, orderId: order.id, order, key_id: process.env.RAZORPAY_ID_KEY });
+        } catch (error) {
+            console.error('Error during Razorpay order creation:', error);
+            res.status(500).json({ success: false, message: 'Razorpay order creation failed' });
+        }
+
+        
+    }
+
+
+};
+
+// 657c1daed21422ff6a8ecd8f
+
+
+const razorpayverify = async (req, res) => {
+    const crypto = require('crypto');
+    try {
+
+        console.log(req.body)
+        // getting the details back from our front-end
+        const {
+            orderCreationId,
+            razorpayPaymentId,
+            razorpayOrderId,
+            razorpaySignature,
+        } = req.body.data;
+
+        console.log(orderCreationId, razorpayPaymentId, razorpayOrderId, razorpaySignature);
+
+        // Ensure you replace 'YOUR_SECRET_KEY' with your actual Razorpay secret key
+        const shasum = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET_KEY);
+
+        shasum.update(`${orderCreationId}|${razorpayPaymentId}`);
+
+        const digest = shasum.digest("hex");
+
+        // comparing our digest with the actual signature
+        if (digest !== razorpaySignature)
+            return res.status(400).json({ msg: "Transaction not legit!" });
+
+        // THE PAYMENT IS LEGIT & VERIFIED
+        // YOU CAN SAVE THE DETAILS IN YOUR DATABASE IF YOU WANT
+
+        res.status(200).json({
+            msg: "success",
+            orderId: razorpayOrderId,
+            paymentId: razorpayPaymentId, 
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+};
+
+
+
+
+
+
+const   orders = async(req,res)=>{
+    
+    try {
+        const user = req.session.iduser;
+        // console.log("User:",user)
+
+        const orders = await Order.find({user:user}).populate('products.product');
+        
+        if(orders){
+            return  res.render('homepages/orders',{orders:orders});
+        }
+        res.send('no products found');
+    } catch (error) {
+        console.error(error);
+        
+    } 
+ 
+} 
+ 
+const cancelorder = async (req, res) => {
+    const productId = req.body.productId;
+    const userid = req.session.iduser;
+
+    try {
+        const order = await Order.findOne({
+            user: userid,
+            'products.product': productId,
+            cancelrequest: false,
+            status: { $in: ['Pending', 'Shipped'] },
+        });
+
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found or cannot be cancelled' });
+        }
+
+        // Update order details
+        order.cancelrequest = true;
+        order.status = 'Cancelled';
+
+        // Save the updated order
+        const updatedOrder = await order.save();
+
+        // Product quantity update;
+        const product = await productsmodel.findById(productId);
+        if (product) {
+            const updatedquantity = updatedOrder.products.find(p => p.product.equals(productId)).quantity;
+            product.stock += updatedquantity;
+            await product.save();
+        } else {
+            console.error('Product not found for the canceled order');
+        }
+
+        res.status(200).json(updatedOrder);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+const updatesingleimage = async (req, res) => {
+    try {
+        console.log('////////////////////req.file',req.file)
+        console.log(req.body)
+        const productid = req.body.productId;
+        const index = req.body.index;
+
+        console.log(productid)
+
+        // Find the product in the database using the product ID
+        const product = await productsmodel.findOne({ _id: productid });
+
+        // Get the file path from the uploaded file
+        const file = req.file.path.replace(/\\/g, '/').replace('public/', '/');
+
+        // Log information for debugging
+        console.log(productid, index, file);
+        console.log(product);
+
+        // Check if the product exists
+        if (product) {
+            // Remove the old image at the specified index and replace it with the new file path
+            product.multipleImages.splice(index, 1, file);
+
+            // Save the updated product in the database
+            await product.save();
+
+            // Respond with a success status
+            res.status(200).json({ success: true });
+        }
+    } catch (err) {
+        // Log and respond with an error status if any exception occurs
+        console.log(err);
+        res.status(500).json({ success: false });
+    }
+};
+
+
+const modal = async (req,res)=>{
+    try {
+        const productId = req.params.productId;
+        const product = await productsmodel.findById(productId);
+    
+        if (!product) {
+          return res.status(404).json({ error: 'Product not found' });
+        }
+    
+        res.json(product);
+      } catch (error) {
+        console.error('Error fetching product details:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
 }
+
+const returnorder = async (req,res)=>{
+    try {
+
+        const orderId = req.body.orderId;
+        const order = await Order.findOne({_id:orderId});
+        const productId = req.body.productId
+
+        if(!order){
+           return res.status(400).send('order not found');
+        }
+        if(order.status === 'returned'){
+            return res.status(200).json({message:'Order already returned'});
+
+        }
+       
+
+        order.status ='returned';
+        const updatedOrder = await order.save();
+
+         // Product quantity update;
+         const product = await productsmodel.findById(productId);
+         if (product) {
+             const updatedquantity = updatedOrder.products.find(p => p.product.equals(productId)).quantity;
+             product.stock += updatedquantity;
+             await product.save();
+         } else {
+             console.error('Product not found for the canceled order');
+         }
+        
+        return res.status(200).json({message:'Order returned'});
+
+        
+    } catch (error) {
+        console.error(error);
+        return res.status(400).json({message:'Something Went Wrong'});
+        
+    }
+}
+
 
 module.exports = {
 
@@ -853,7 +1449,17 @@ module.exports = {
     toggleAddress,
     editaddress,
     editaddresspost,
-    orderconfirmed
+    orderconfirmed,
+    successpage,
+    orders,
+    cancelorder,
+    razorpayverify,
+    updatesingleimage,
+    postcart,
+    removecopen,
+    modal,
+    addtocartshort,
+    returnorder
     
 
 }

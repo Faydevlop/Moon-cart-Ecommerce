@@ -36,6 +36,8 @@
     <link rel="stylesheet" type="text/css" href="/home/vendor/lightgallery/dist/css/lg-thumbnail.css">
     <link rel="stylesheet" type="text/css" href="/home/vendor/lightgallery/dist/css/lg-zoom.css">
 	<link rel="stylesheet" type="text/css" href="/home/css/style.css">
+	<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 	
 	<!-- GOOGLE FONTS-->
 	<link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -62,7 +64,7 @@
 				<div class="container-fluid clearfix">
 					<!-- Website Logo -->
 					<div class="logo-header logo-dark me-md-5">
-						<a href="index.html"><img src="/home/images/logo.svg" alt="logo"></a>
+						<a href="/"><img src="/home/images/logo.svg" alt="logo"></a>
 					</div>
 					
 					<!-- Nav Toggle Button -->
@@ -88,7 +90,7 @@
 									</a>
 								</li>
 								<li class="nav-item search-link">
-									<a class="nav-link"  href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+									<a class="nav-link"  href="/" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
 										<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<circle cx="10.0535" cy="10.55" r="7.49047" stroke="var(--white)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 											<path d="M15.2632 16.1487L18.1999 19.0778" stroke="var(--white)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -96,7 +98,7 @@
 									</a>
 								</li>
 								<li class="nav-item wishlist-link">
-									<a class="nav-link" href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+									<a class="nav-link" href="/" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
 										<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<path fill-rule="evenodd" clip-rule="evenodd" d="M2.64119 10.4097C1.74702 7.61808 2.79202 4.42724 5.72285 3.48308C7.26452 2.98558 8.96619 3.27891 10.2479 4.24308C11.4604 3.30558 13.2245 2.98891 14.7645 3.48308C17.6954 4.42724 18.747 7.61808 17.8537 10.4097C16.462 14.8347 10.2479 18.2431 10.2479 18.2431C10.2479 18.2431 4.07952 14.8864 2.64119 10.4097Z" stroke="var(--white)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 											<path d="M13.5813 6.32781C14.473 6.61614 15.103 7.41197 15.1788 8.34614" stroke="var(--white)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -104,13 +106,13 @@
 									</a>
 								</li>
 								<li class="nav-item cart-link">
-									<a href="javascript:void(0);" class="nav-link cart-btn"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+									<a href="/" class="nav-link cart-btn"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
 										<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<path fill-rule="evenodd" clip-rule="evenodd" d="M1.08374 2.61947C1.08374 2.27429 1.36356 1.99447 1.70874 1.99447H3.29314C3.91727 1.99447 4.4722 2.39163 4.67352 2.98239L5.06379 4.1276H15.4584C17.6446 4.1276 19.4168 5.89981 19.4168 8.08593V11.5379C19.4168 13.7241 17.6446 15.4963 15.4584 15.4963H9.22182C7.30561 15.4963 5.66457 14.1237 5.32583 12.2377L4.00967 4.90953L3.49034 3.3856C3.46158 3.30121 3.3823 3.24447 3.29314 3.24447H1.70874C1.36356 3.24447 1.08374 2.96465 1.08374 2.61947ZM5.36374 5.3776L6.55614 12.0167C6.78791 13.3072 7.91073 14.2463 9.22182 14.2463H15.4584C16.9542 14.2463 18.1668 13.0337 18.1668 11.5379V8.08593C18.1668 6.59016 16.9542 5.3776 15.4584 5.3776H5.36374Z" fill="var(--white)"/>
 											<path fill-rule="evenodd" clip-rule="evenodd" d="M8.16479 17.8278C8.16479 17.1374 8.72444 16.5778 9.4148 16.5778H9.42313C10.1135 16.5778 10.6731 17.1374 10.6731 17.8278C10.6731 18.5182 10.1135 19.0778 9.42313 19.0778H9.4148C8.72444 19.0778 8.16479 18.5182 8.16479 17.8278Z" fill="var(--white)"/>
 											<path fill-rule="evenodd" clip-rule="evenodd" d="M14.8315 17.8278C14.8315 17.1374 15.3912 16.5778 16.0815 16.5778H16.0899C16.7802 16.5778 17.3399 17.1374 17.3399 17.8278C17.3399 18.5182 16.7802 19.0778 16.0899 19.0778H16.0815C15.3912 19.0778 14.8315 18.5182 14.8315 17.8278Z" fill="var(--white)"/>
 										</svg>
-										<span class="badge badge-circle">5</span>
+										<!-- <span class="badge badge-circle">!</span> -->
 									</a>
 								</li>
 							</ul>
@@ -136,12 +138,12 @@
 							</li>
 							<li class="has-mega-menu sub-menu-down">
 								<a href="/shop"><span>Shop</span></a>
-								<div class="mega-menu shop-menu">
+								<!-- <div class="mega-menu shop-menu">
 									<div class="row"> 
 										<div class="col-lg-12 col-md-12 col-sm-12"> 
 											<div class="row"> 
 												<div class="col-md-4 col-sm-6 col-6"> 
-													<a href="javascript:;" class="menu-title">Shop Structure</a>
+													<a href="/="menu-title">Shop Structure</a>
 													<ul>
 														<li><a href="shop-standard.html">Shop Standard</a></li>
 														<li><a href="shop-list.html">Shop List</a></li>
@@ -150,14 +152,14 @@
 														<li><a href="shop-sidebar.html">Shop Sidebar</a></li>
 														<li><a href="shop-style-1.html">Shop Style 1</a></li>
 													</ul>
-													<a href="javascript:;" class="menu-title">Product Structure</a>
+													<a href="/="menu-title">Product Structure</a>
 													<ul>
 														<li><a href="product-default.html">Default</a></li>
 														<li><a href="product-thumbnail.html">Thumbnail</a></li>
 													</ul>
 												</div>
 												<div class="col-md-3 col-sm-6 col-12"> 
-													<a href="javascript:;" class="menu-title">Shop Pages</a>
+													<a href="/="menu-title">Shop Pages</a>
 													<ul>						
 														<li><a href="shop-wishlist.html">Wishlist</a></li>
 														<li><a href="shop-cart.html">Cart</a></li>
@@ -199,34 +201,34 @@
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> -->
 							</li>
-							<li class="has-mega-menu sub-menu-down"><a href="javascript:void(0);"><span>Blog</span></a>
-								<div class="mega-menu blog-menu">
+							<li class="has-mega-menu sub-menu-down"><a href="/blog"><span>Blog</span></a>
+								<!-- <div class="mega-menu blog-menu">
 									<div class="row"> 
 										<div class="col-md-6 col-sm-6 col-6"> 
-											<a href="javascript:;" class="menu-title">Blog Dark Style</a>
+											<a href="/="menu-title">Blog Dark Style</a>
 											<ul>
 												<li><a href="blog-dark-2-column.html">Blog 2 Column</a></li>
 												<li><a href="blog-dark-2-column-sidebar.html">Blog 2 Column Sidebar</a></li>
 												<li><a href="blog-dark-3-column.html">Blog 3 Column</a></li>
 												<li><a href="blog-dark-half-image.html">Blog Half Image</a></li>
 											</ul>
-											<a href="javascript:;" class="menu-title">Blog Light Style</a>
+											<a href="/="menu-title">Blog Light Style</a>
 											<ul>
 												<li><a href="blog-light-2-column.html">Blog 2 Column</a></li>
 												<li><a href="blog-light-2-column-sidebar.html">Blog 2 Column Sidebar</a></li>
 												<li><a href="blog-light-3-column.html">Blog 3 Column</a></li>
 												<li><a href="blog-light-half-image.html">Blog Half Image</a></li>
 											</ul>
-											<a href="javascript:;" class="menu-title">Blog Details</a>
+											<a href="/="menu-title">Blog Details</a>
 											<ul>	
 												<li><a href="post-standard.html">Post Standard</a></li>
 												<li><a href="post-header-image.html">Post Header Image</a></li>
 											</ul>
 										</div>
 										<div class="col-md-6 col-sm-6 col-12">
-											<a href="javascript:;" class="menu-title">Recent Posts</a>
+											<a href="/="menu-title">Recent Posts</a>
 											<div class="widget widget_post pt-2">
 												<ul>
 													<li>
@@ -278,32 +280,28 @@
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> -->
 							</li>
-							<li class="sub-menu sub-menu-down"><a href="javascript:void(0);"><span>Pages</span></a>
+							<li class="sub-menu sub-menu-down"><a href="#"><span>Pages</span></a>
 								<ul class="sub-menu">
-									<li><a href="about-us.html">About Us</a></li>
-									<li><a href="about-me.html">About Me</a></li>
-									<li><a href="pricing-table.html">Pricing Table</a></li>
-									<li><a href="our-gift-vouchers.html">Our Gift Vouchers</a></li>
-									<li><a href="what-we-do.html">What We Do</a></li>
-									<li><a href="faqs-1.html">Faqs</a></li>
-									<li><a href="our-team.html">Our Team</a></li>
-									<li><a href="contact-us-1.html">Contact Us</a></li>
-									<li><a href="error-1.html">Error 404</a></li>
-									<li><a href="under-construction.html">Under Construction</a></li>
-									<li><a href="coming-soon.html">Coming Soon</a></li>
+									<li><a href="/aboutus">About Us</a></li>
+									<li><a href="/aboutme">About Me</a></li>
+									<li><a href="/pricetable">Pricing Table</a></li>
+									<li><a href="/whatwedo">What We Do</a></li>
+									<li><a href="/faqs">Faqs</a></li>
+									<li><a href="/ourteam">Our Team</a></li>
+									<li><a href="/contactus">Contact Us</a></li>
 								</ul>
 							</li>
-							<li><a href="contact-us-1.html">Contact Us</a></li>
+							<li><a href="/contactus">Contact Us</a></li>
 						</ul>
 						
 						<div class="dz-social-icon">
 							<ul>
-								<li><a class="fab fa-facebook-f" target="_blank" href="javascript:void(0);"></a></li>
-								<li><a class="fab fa-twitter" target="_blank" href="javascript:void(0);"></a></li>
+								<li><a class="fab fa-facebook-f" target="_blank" href="/"></a></li>
+								<li><a class="fab fa-twitter" target="_blank" href="/"></a></li>
 								<li><a class="fab fa-linkedin-in" target="_blank" href="https://www.linkedin.com/showcase/3686700/admin/"></a></li>
-								<li><a class="fab fa-instagram" target="_blank" href="javascript:void(0);"></a></li>
+								<li><a class="fab fa-instagram" target="_blank" href="/"></a></li>
 							</ul>
 						</div>
 					</div>
@@ -360,7 +358,7 @@
 								<div class="swiper-slide">
 									<div class="shop-card">
 										<div class="dz-media">
-											<img src="/home/images/shop/product/1.png" alt="image">
+											<!-- s -->
 										</div>
 										<div class="dz-content">
 											<h6 class="title"><a href="shop-list.html">Wooden Water Bottles</a></h6>
@@ -464,55 +462,61 @@
 						<ul class="nav nav-tabs center" id="myTab" role="tablist">
 							<li class="nav-item" role="presentation">
 								<button class="nav-link active" id="shopping-cart" data-bs-toggle="tab" data-bs-target="#shopping-cart-pane" type="button" role="tab" aria-controls="shopping-cart-pane" aria-selected="true">Shopping Cart
-									<span class="badge badge-light">5</span>
+									
+									<span class="badge badge-light"></span>
 								</button>
 							</li>
 							<li class="nav-item" role="presentation">
 								<button class="nav-link" id="wishlist" data-bs-toggle="tab" data-bs-target="#wishlist-pane" type="button" role="tab" aria-controls="wishlist-pane" aria-selected="false">Wishlist
-									<span class="badge badge-light">2</span>
+									<span class="badge badge-light"></span>
 								</button>
 							</li>
 						</ul>
 						<div class="tab-content pt-4" id="dz-shopcart-sidebar">
-							<div class="tab-pane fade show active" id="shopping-cart-pane" role="tabpanel" aria-labelledby="shopping-cart" tabindex="0">
-								<div class="shop-sidebar-cart">
-									<%
-									let total = 0;
-									if (users.products && users.products.length > 0) {
-								  %>
-								  <% users.products.forEach(cart => { %>
-									<ul class="sidebar-cart-list">
-										<li>
-											<div class="cart-widget">
-												<div class="dz-media me-3">
-													<img src="<%= cart.product.singleImage %>" alt="">
-												</div>
-												<div class="cart-content">
-													<h6 class="title"><a href="product-thumbnail.html"><%= cart.product.name %></a></h6>
-													<div class="d-flex align-items-center">
-														<div class="btn-quantity light quantity-sm me-3">
-															<input type="text" value="1" name="demo_vertical2">
-														</div>
-														<h6 class="dz-price text-primary mb-0">$<%= cart.product.price %></h6>
-													</div>
-												</div>
-												<a href="javascript:void(0);" class="dz-close">
-													<i class="ti-close"></i>
-												</a>
-											</div>
-										</li>
-										<% }) %>
-										<% } else { %>
-											<tr>
-											  <td colspan="4">No products</td>
-											</tr>
-										  <% } %>
+    <div class="tab-pane fade show active" id="shopping-cart-pane" role="tabpanel" aria-labelledby="shopping-cart" tabindex="0">
+        <div class="shop-sidebar-cart">
+			
+            <%
+                let total = 0;
+                if (users && users.products && users.products.length > 0) {
+            %>
+            <% users.products.forEach(cart => { %>
+                <ul class="sidebar-cart-list">
+                    <li>
+                        <div class="cart-widget">
+                            <div class="dz-media me-3">
+                                <img src="<%= cart.product.singleImage %>" alt="" class="fixed-size-image"  >
+                            </div>
+                            <div class="cart-content">
+                                <h6 class="title"><a href="product-thumbnail.html"><%= cart.product.name %></a></h6>
+                                <div class="d-flex align-items-center">
+                                    <div class="btn-quantity light quantity-sm me-3">
+                                        <input type="text" value="1" name="demo_vertical2">
+                                    </div>
+                                    <h6 class="dz-price text-primary mb-0">$<%= cart.product.price %></h6>
+                                </div>
+                            </div>
+                            <a href="/" class="dz-close">
+                                <i class="ti-close"></i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="4">No products</td>
+                </tr>
+            <% } %>
+        </div>
+    </div>
+</div>
 
 											
 									</ul>
 									<div class="cart-total">
-										<h5 class="mb-0">Subtotal:</h5>
-										<h5 class="mb-0">300.00$</h5>
+										<!-- <h5 class="mb-0">Subtotal:</h5>
+										<h5 class="mb-0">300.00$</h5> -->
 									</div>
 									<div class="mt-auto">
 										<div class="shipping-time">													
@@ -529,45 +533,17 @@
 											</div>
 										</div>
 										<a href="/checkout" class="btn btn-light btn-block m-b20">Checkout</a>	
-										<a href="/cartpage" class="btn btn-secondary btn-block">View Cart</a>	
+										<a href="/cartpage" class="btn btn-secondary btn-block">View Cart</a>
+										<% if(locals.users) {%>
+										<a href="/orders" class="btn btn-secondary btn-block mt-3">My Orders</a>
+										<%}%>		
 									</div>	
 								</div>	
 							</div>
 							<div class="tab-pane fade" id="wishlist-pane" role="tabpanel" aria-labelledby="wishlist" tabindex="0">
 								<div class="shop-sidebar-cart">
 									<ul class="sidebar-cart-list">
-										<li>
-											<div class="cart-widget">
-												<div class="dz-media me-3">
-													<img src="/home/images/shop/shop-cart/pic1.jpg" alt="">
-												</div>
-												<div class="cart-content">
-													<h6 class="title"><a href="product-thumbnail.html">Wooden Water Bottles</a></h6>
-													<div class="d-flex align-items-center">
-														<h6 class="dz-price text-primary mb-0">$50.00</h6>
-													</div>
-												</div>
-												<a href="javascript:void(0);" class="dz-close">
-													<i class="ti-close"></i>
-												</a>
-											</div>
-										</li>
-										<li>
-											<div class="cart-widget">
-												<div class="dz-media me-3">
-													<img src="/home/images/shop/shop-cart/pic2.jpg" alt="">
-												</div>
-												<div class="cart-content">
-													<h6 class="title"><a href="product-thumbnail.html">Wooden Cup</a></h6>
-													<div class="d-flex align-items-center">
-														<h6 class="dz-price text-primary mb-0">$40.00</h6>
-													</div>
-												</div>
-												<a href="javascript:void(0);" class="dz-close">
-													<i class="ti-close"></i> 
-												</a>
-											</div>
-										</li>
+										
 										<li>
 											<div class="cart-widget">
 												<div class="dz-media me-3">
@@ -579,7 +555,7 @@
 														<h6 class="dz-price text-primary mb-0">$65.00</h6>
 													</div>
 												</div>
-												<a href="javascript:void(0);" class="dz-close">
+												<a href="/" class="dz-close">
 													<i class="ti-close"></i>
 												</a>
 											</div>
@@ -641,8 +617,8 @@
 												</div>
 												
 												<div class="content-btn" data-swiper-parallax="-60">
-													<a class="btn btn-secondary  me-xl-3 me-2 btnhover20" href="shop-cart.html">ADD TO CART</a>
-													<a class="btn btn-outline-secondary btnhover20" href="product-default.html">VIEW DETAILS</a>
+													<a class="btn btn-secondary  me-xl-3 me-2 btnhover20" href="/shop">ADD TO CART</a>
+													<a class="btn btn-outline-secondary btnhover20" href="/shop">VIEW DETAILS</a>
 												</div>
 											</div>
 										</div>
@@ -725,13 +701,13 @@
 				<div class="banner-social-media">
 					<ul>
 						<li>
-							<a target="_blank" href="javascript:void(0);">Instagram</a>
+							<a target="_blank" href="/">Instagram</a>
 						</li>
 						<li>
-							<a target="_blank" href="javascript:void(0);">Facebook</a>
+							<a target="_blank" href="/">Facebook</a>
 						</li>
 						<li>
-							<a target="_blank" href="javascript:void(0);">twitter</a>
+							<a target="_blank" href="/">twitter</a>
 						</li>
 					</ul>
 					
@@ -754,7 +730,7 @@
 									<h2 class="product-name">Wooden <br> Water Bottles</h2>
 									<span class="offer">UP TO 60% OFF</span>
 								</div>
-								<a href="shop-standard.html" class="btn btn-outline-secondary">Shop Now</a>
+								<a href="/shop" class="btn btn-outline-secondary">Shop Now</a>
 							</div>
 						</div>
 					</div>
@@ -767,7 +743,7 @@
 											<h2 class="product-name">Bamboo toothbrushes</h2>
 											<span class="offer">UP TO 60% OFF</span>
 										</div>
-										<a href="shop-standard.html" class="btn btn-outline-secondary">Shop Now</a>
+										<a href="/shop" class="btn btn-outline-secondary">Shop Now</a>
 									</div>
 								</div>
 							</div>
@@ -778,7 +754,7 @@
 											<h2 class="product-name">Reusable <br> Eco friendly bags</h2>
 											<span class="offer">UP TO 25% OFF</span>
 										</div>
-										<a href="shop-standard.html" class="btn btn-outline-secondary">Shop Now</a>
+										<a href="/shop" class="btn btn-outline-secondary">Shop Now</a>
 									</div>
 								</div>
 							</div>
@@ -797,22 +773,22 @@
 						<ul class="filters" data-bs-toggle="buttons">
 							<li class="btn active">
 								<input type="radio">
-								<a href="javascript:void(0);">All Products <span>(20)</span></a> 
+								<a href="/">All Products <span>(20)</span></a> 
 							</li>
 							<li data-filter=".Bottle" class="btn">
 								<input type="radio">
-								<a href="javascript:void(0);">Bottle <span>(10)</span></a> 
+								<a href="/">Bottle <span>(10)</span></a> 
 							</li>
 							<li data-filter=".Begs" class="btn">
 								<input type="radio">
-								<a href="javascript:void(0);">Begs <span>(02)</span></a> 
+								<a href="/">Begs <span>(02)</span></a> 
 							</li>
 							<li data-filter=".Toothbrushes" class="btn">
 								<input type="radio">
-								<a href="javascript:void(0);">Toothbrushes <span>(08)</span></a> 
+								<a href="/">Toothbrushes <span>(08)</span></a> 
 							</li>
 						</ul>
-						<a href="shop-list.html" class="product-link text-secondary font-14 d-flex align-items-center gap-1 text-nowrap">See all products 
+						<a href="/shop" class="product-link text-secondary font-14 d-flex align-items-center gap-1 text-nowrap">See all products 
 							<i class="icon feather icon-chevron-right font-18"></i>
 						</a>			
 					</div>
@@ -827,17 +803,17 @@
 									<div class="dz-media">
 										<img src="<%= product.singleImage %>" alt="image">
 										<div class="shop-meta">
-											<a href="javascript:void(0);" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
+											<a href="/productpage/<%= product._id  %>" class="btn btn-secondary btn-icon" >
 												<i class="fa-solid fa-eye d-md-none d-block"></i>
-												<span class="d-md-block d-none">Quick View</span>
+												<span class="d-md-block d-none">Shop now</span>
 											</a>
-											<div class="btn btn-primary meta-icon dz-wishicon">
+											<div class="btn btn-primary meta-icon dz-wishicon"  onclick="addtowishlist(`<%= product._id %>`)">
 												<svg class="dz-heart-fill" width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
 													<path d="M13.6412 5.80113C13.0778 6.9649 12.0762 8.02624 11.1657 8.8827C10.5113 9.49731 9.19953 10.7322 7.77683 11.62C7.30164 11.9159 6.69842 11.9159 6.22323 11.62C4.80338 10.7322 3.4888 9.49731 2.83435 8.8827C1.92382 8.02624 0.92224 6.96205 0.358849 5.80113C-0.551681 3.91747 0.344622 1.44196 2.21121 0.557041C3.98674 -0.282354 5.54034 0.292418 7.00003 1.44765C8.45972 0.292418 10.0133 -0.282354 11.786 0.557041C13.6554 1.44196 14.5517 3.91747 13.6412 5.80113Z" fill="white"/>
 												</svg>
 												<svg class="dz-heart feather feather-heart" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
 											</div>
-											<div class="btn btn-primary meta-icon dz-carticon">
+											<div class="btn btn-primary meta-icon dz-carticon" onclick="addtocart(`<%= product._id %>`)">
 												<svg class="dz-cart-check" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 												<path d="M11.9144 3.73438L5.49772 10.151L2.58105 7.23438" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 												</svg>
@@ -879,13 +855,21 @@
 											</li>
 										</ul>
 										<h6 class="price">
-											<!-- <del>$45.00</del> -->
+											<% if(product.discount) {%>
+											
+												<%}%>
+												<del>$<%= product.oldprice %></del>
+
+											
 											$<%= product.price %>
 										</h6>
 									</div>
-									<div class="product-tag">
-										<span class="badge badge-secondary">Sale</span>
-									</div>
+									<% if(product.discount) {%>
+										<div class="product-tag">
+											<span class="badge badge-danger">	₹<%= product.discount %> Off</span>
+										</div>
+										<%}%>
+									
 								</div>
 							</li>
 							<%})%>
@@ -1039,9 +1023,9 @@
 										<div class="dz-media">
 											<img src="/home/images/shop/product/5.png" alt="image">
 											<div class="shop-meta">
-												<a href="javascript:void(0);" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
+												<a href="/shop" class="btn btn-secondary btn-icon" >
 													<i class="fa-solid fa-eye d-md-none d-block"></i>
-													<span class="d-md-block d-none">Quick View</span>
+													<span class="d-md-block d-none">Shop Now</span>
 												</a>
 												<div class="btn btn-primary meta-icon dz-wishicon">
 													<svg class="dz-heart-fill" width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1109,7 +1093,7 @@
 										<div class="dz-media">
 											<img src="/home/images/shop/product/6.png" alt="image">										
 											<div class="shop-meta">
-												<a href="javascript:void(0);" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
+												<a href="/" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
 													<i class="fa-solid fa-eye d-md-none d-block"></i>
 													<span class="d-md-block d-none">Quick View</span>
 												</a>
@@ -1181,7 +1165,7 @@
 										<div class="dz-media">
 											<img src="/home/images/shop/product/7.png" alt="image">	
 											<div class="shop-meta">
-												<a href="javascript:void(0);" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
+												<a href="/" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
 													<i class="fa-solid fa-eye d-md-none d-block"></i>
 													<span class="d-md-block d-none">Quick View</span>
 												</a>
@@ -1251,7 +1235,7 @@
 										<div class="dz-media">
 											<img src="/home/images/shop/product/8.png" alt="image">
 											<div class="shop-meta">
-												<a href="javascript:void(0);" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
+												<a href="/" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
 													<i class="fa-solid fa-eye d-md-none d-block"></i>
 													<span class="d-md-block d-none">Quick View</span>
 												</a>
@@ -1322,7 +1306,7 @@
 										<div class="dz-media">
 											<img src="/home/images/shop/product/8.png" alt="image">
 											<div class="shop-meta">
-												<a href="javascript:void(0);" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
+												<a href="/" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
 													<i class="fa-solid fa-eye d-md-none d-block"></i>
 													<span class="d-md-block d-none">Quick View</span>
 												</a>
@@ -1568,42 +1552,42 @@
 				<div class="row gx-0">
 					<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-4 wow fadeIn" data-wow-delay="0.1s">
 						<div class="insta-post dz-media dz-img-effect rotate">
-							<a href="javascript:void(0);">
+							<a href="/">
 								<img src="/home/images/feature/1.png" alt="">
 							</a>
 						</div>
 					</div>
 					<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-4 wow fadeIn" data-wow-delay="0.2s">
 						<div class="insta-post dz-media dz-img-effect rotate">
-							<a href="javascript:void(0);">
+							<a href="/">
 								<img src="/home/images/feature/2.png" alt="">
 							</a>	
 						</div>
 					</div>
 					<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-4 wow fadeIn" data-wow-delay="0.3s">
 						<div class="insta-post dz-media dz-img-effect rotate">
-							<a href="javascript:void(0);">
+							<a href="/">
 								<img src="/home/images/feature/3.png" alt="">
 							</a>
 						</div>
 					</div>
 					<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-4 wow fadeIn" data-wow-delay="0.4s">
 						<div class="insta-post dz-media dz-img-effect rotate">
-							<a href="javascript:void(0);">
+							<a href="/">
 								<img src="/home/images/feature/4.png" alt="">
 							</a>
 						</div>
 					</div>
 					<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-4 wow fadeIn" data-wow-delay="0.5s">
 						<div class="insta-post dz-media dz-img-effect rotate">
-							<a href="javascript:void(0);">
+							<a href="/">
 								<img src="/home/images/feature/5.png" alt="">
 							</a>
 						</div>
 					</div>
 					<div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-4 wow fadeIn" data-wow-delay="0.6s">
 						<div class="insta-post dz-media dz-img-effect rotate">
-							<a href="javascript:void(0);">	
+							<a href="/">	
 								<img src="/home/images/feature/6.png" alt="">
 							</a>	
 						</div>
@@ -1724,7 +1708,7 @@
 										<img src="/home/images/shop/product/small/1.png" alt="">
 									</div>
 									<div class="dz-content">
-										<h6 class="name"><a href="javascript:void(0);">Wooden Water Bottles</a></h6>
+										<h6 class="name"><a href="/">Wooden Water Bottles</a></h6>
 										<span class="time">July 23, 2023</span>
 									</div>
 								</li>
@@ -1733,7 +1717,7 @@
 										<img src="/home/images/shop/product/small/2.png" alt="">
 									</div>
 									<div class="dz-content">
-										<h6 class="name"><a href="javascript:void(0);">Eco friendly bags</a></h6>
+										<h6 class="name"><a href="/">Eco friendly bags</a></h6>
 										<span class="time">July 23, 2023</span>
 									</div>
 								</li>
@@ -1742,7 +1726,7 @@
 										<img src="/home/images/shop/product/small/3.png" alt="">
 									</div>
 									<div class="dz-content">
-										<h6 class="name"><a href="javascript:void(0);">Bamboo toothbrushes</a></h6>
+										<h6 class="name"><a href="/">Bamboo toothbrushes</a></h6>
 										<span class="time">July 23, 2023</span>
 									</div>
 								</li>
@@ -1753,12 +1737,12 @@
 						<div class="widget widget_services">
 							<h5 class="footer-title">Our Stores</h5>
 							<ul>
-								<li><a href="javascript:void(0);">New York</a></li>
-								<li><a href="javascript:void(0);">London SF</a></li>
-								<li><a href="javascript:void(0);">Edinburgh</a></li>
-								<li><a href="javascript:void(0);">Los Angeles</a></li>
-								<li><a href="javascript:void(0);">Chicago</a></li>
-								<li><a href="javascript:void(0);">Las Vegas</a></li>
+								<li><a href="/">New York</a></li>
+								<li><a href="/">London SF</a></li>
+								<li><a href="/">Edinburgh</a></li>
+								<li><a href="/">Los Angeles</a></li>
+								<li><a href="/">Chicago</a></li>
+								<li><a href="/">Las Vegas</a></li>
 							</ul>   
 						</div>
 					</div>
@@ -1766,12 +1750,12 @@
 						<div class="widget widget_services">
 							<h5 class="footer-title">Useful Links</h5>
 							<ul>
-								<li><a href="javascript:void(0);">Privacy Policy</a></li>
-								<li><a href="javascript:void(0);">Returns</a></li>
-								<li><a href="javascript:void(0);">Terms & Conditions</a></li>
-								<li><a href="javascript:void(0);">Contact Us</a></li>
-								<li><a href="javascript:void(0);">Latest News</a></li>
-								<li><a href="javascript:void(0);">Our Sitemap</a></li>
+								<li><a href="/">Privacy Policy</a></li>
+								<li><a href="/">Returns</a></li>
+								<li><a href="/">Terms & Conditions</a></li>
+								<li><a href="/">Contact Us</a></li>
+								<li><a href="/">Latest News</a></li>
+								<li><a href="/">Our Sitemap</a></li>
 							</ul>
 						</div>
 					</div>
@@ -1779,11 +1763,11 @@
 						<div class="widget widget_services">
 							<h5 class="footer-title">Footer Menu</h5>
 							<ul>
-								<li><a href="javascript:void(0);">Instagram profile</a></li>
-								<li><a href="javascript:void(0);">New Collection</a></li>
-								<li><a href="javascript:void(0);">Woman Dress</a></li>
-								<li><a href="javascript:void(0);">Contact Us</a></li>
-								<li><a href="javascript:void(0);">Latest News</a></li>
+								<li><a href="/">Instagram profile</a></li>
+								<li><a href="/">New Collection</a></li>
+								<li><a href="/">Woman Dress</a></li>
+								<li><a href="/">Contact Us</a></li>
+								<li><a href="/">Latest News</a></li>
 							</ul>
 						</div>
 					</div>
@@ -1919,7 +1903,7 @@
 														</li>	
 													</ul>
 													<span class="text-secondary me-2">4.7 Rating</span>
-													<a href="javascript:void(0);">(5 customer reviews)</a>
+													<a href="/">(5 customer reviews)</a>
 												</div>
 											</div>
 										</div>
@@ -2001,7 +1985,50 @@
 <script src="/home/vendor/lightgallery/dist/plugins/zoom/lg-zoom.min.js"></script>
 <script src="/home/js/dz.ajax.js"></script><!-- AJAX -->
 <script src="/home/js/custom.js"></script><!-- CUSTOM JS -->
+<script>
+	function addtowishlist(id){
+		// alert(id)
+	}
+	async function addtocart(productId){
+		// alert(productId)
+		const response = await fetch('/addcart', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId })
+				
+            });
+
+			const data = await response.json();
+
+			if (data && data.message === 'Product added to the cart') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Product added to the cart',
+                
+            });
+			setTimeout(() => {
+				location.reload()
+				
+			}, 1500);
+        }else{
+			 // Display SweetAlert for errors
+			 Swal.fire({
+                icon: 'error',
+                title: 'Coupon Error',
+                text: data.message || 'An error occurred while applying the coupon.',
+            });
+
+		}
+
+
+
+
+	}
+</script>
+
 </body>
 
-<!-- Mirrored from mooncart.dexignzone.com/xhtml/index-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 11 Dec 2023 12:09:59 GMT -->
+
 </html>

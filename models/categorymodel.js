@@ -12,8 +12,6 @@ const categeryschema = mongoose.Schema({
     },
     categeoryOffers:{
         type: Number,
-        min: 0,
-        max: 100,
         default: 0,
     },
     isActive: {
