@@ -167,6 +167,8 @@ router.get('/products/:productId',controller.modal)
 router.post('/addcart',controller.addtocartshort);
 // order return 
 router.post('/returnorder',controller.returnorder)
+// category waise product listing
+router.get('/category/:id',controller.categorywiseproducts)
 
 
 

@@ -43,6 +43,14 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com/">
 	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Roboto:wght@100;300;400;500;700;900&amp;display=swap" rel="stylesheet">
+	<style>
+		.product-image {
+    width: 100%; /* Set your preferred width */
+    height: auto; /* This maintains the aspect ratio of the images */
+    max-height: 300px; /* Set your preferred maximum height */
+    object-fit: cover; /* This ensures the image covers the entire container */
+}
+	</style>
 
 </head>	
 <body>
@@ -90,7 +98,7 @@
 									</a>
 								</li>
 								<li class="nav-item search-link">
-									<a class="nav-link"  href="/" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+									<a  class="nav-link"  href="/" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
 										<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<circle cx="10.0535" cy="10.55" r="7.49047" stroke="var(--white)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 											<path d="M15.2632 16.1487L18.1999 19.0778" stroke="var(--white)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -106,7 +114,7 @@
 									</a>
 								</li>
 								<li class="nav-item cart-link">
-									<a href="/" class="nav-link cart-btn"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+									<a href="/cartpage" class="nav-link cart-btn"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
 										<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
 											<path fill-rule="evenodd" clip-rule="evenodd" d="M1.08374 2.61947C1.08374 2.27429 1.36356 1.99447 1.70874 1.99447H3.29314C3.91727 1.99447 4.4722 2.39163 4.67352 2.98239L5.06379 4.1276H15.4584C17.6446 4.1276 19.4168 5.89981 19.4168 8.08593V11.5379C19.4168 13.7241 17.6446 15.4963 15.4584 15.4963H9.22182C7.30561 15.4963 5.66457 14.1237 5.32583 12.2377L4.00967 4.90953L3.49034 3.3856C3.46158 3.30121 3.3823 3.24447 3.29314 3.24447H1.70874C1.36356 3.24447 1.08374 2.96465 1.08374 2.61947ZM5.36374 5.3776L6.55614 12.0167C6.78791 13.3072 7.91073 14.2463 9.22182 14.2463H15.4584C16.9542 14.2463 18.1668 13.0337 18.1668 11.5379V8.08593C18.1668 6.59016 16.9542 5.3776 15.4584 5.3776H5.36374Z" fill="var(--white)"/>
 											<path fill-rule="evenodd" clip-rule="evenodd" d="M8.16479 17.8278C8.16479 17.1374 8.72444 16.5778 9.4148 16.5778H9.42313C10.1135 16.5778 10.6731 17.1374 10.6731 17.8278C10.6731 18.5182 10.1135 19.0778 9.42313 19.0778H9.4148C8.72444 19.0778 8.16479 18.5182 8.16479 17.8278Z" fill="var(--white)"/>
@@ -291,6 +299,8 @@
 									<li><a href="/faqs">Faqs</a></li>
 									<li><a href="/ourteam">Our Team</a></li>
 									<li><a href="/contactus">Contact Us</a></li>
+									<li><a href="/cartpage">My Cart</a></li>
+									<li><a href="/orders">My Orders</a></li>
 								</ul>
 							</li>
 							<li><a href="/contactus">Contact Us</a></li>
@@ -334,8 +344,8 @@
 							<option>Luxury Couch</option>
 							<option>Video Instructors</option>
 						</select>
-						<input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Search Product">
-						<button class="btn" type="button">
+						<input type="text" name="search" class="form-control" aria-label="Text input with dropdown button" placeholder="Search Product">
+						<button class="btn" type="submit">
 							<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<circle cx="10.0535" cy="10.5399" r="7.49047" stroke="#0D775E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 								<path d="M15.2632 16.1387L18.1999 19.0677" stroke="#0D775E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -343,106 +353,110 @@
 						</button>
 					</div>
 					<ul class="recent-tag">
-						<li class="pe-0"><span>Quick Search :</span></li>
-						<li><a href="shop-list.html">Wooden Products</a></li>
-						<li><a href="shop-list.html">Metal Products</a></li>
-						<li><a href="shop-list.html">Baby Products</a></li>
-						<li><a href="shop-list.html">Yoga Mats</a></li>
+						<!-- <li class="pe-0"><span>Quick Search :</span></li>
+						<li><a href="/home/shop-list.html">Wooden Products</a></li>
+						<li><a href="/home/shop-list.html">Metal Products</a></li>
+						<li><a href="/home/shop-list.html">Baby Products</a></li>
+						<li><a href="/home/shop-list.html">Yoga Mats</a></li> -->
 					</ul>
 				</form>
 				<div class="row">
 					<div class="col-xl-12">
-						<h5 class="mb-3">You May Also Like</h5>
+						<!-- <h5 class="mb-3">You May Also Like</h5> -->
 						<div class="swiper category-swiper2">
 							<div class="swiper-wrapper">
 								<div class="swiper-slide">
 									<div class="shop-card">
-										<div class="dz-media">
-											<!-- s -->
-										</div>
-										<div class="dz-content">
-											<h6 class="title"><a href="shop-list.html">Wooden Water Bottles</a></h6>
-											<h6 class="price">$40.00</h6>
+
+										<!-- seacrh add -->
+										<div class="clearfix">
+											<!-- start -->
+						
+											<ul id="masonry" class="row g-xl-4 g-3">
+												<% if(products.length) {%>
+													<% products.reverse().forEach((product, item) => { %>
+												<li class="card-container col-6 col-xl-3 col-lg-3 col-md-4 col-sm-6 Begs wow fadeInUp" data-wow-delay="0.1s">
+													<div class="shop-card">
+														<div class="dz-media">
+															<img src="<%= product.singleImage %>" alt="image" class="product-image">
+															<div class="shop-meta">
+																<a href="/productpage/<%= product._id  %>" class="btn btn-secondary btn-icon" >
+																	<i class="fa-solid fa-eye d-md-none d-block"></i>
+																	<span class="d-md-block d-none">Shop now</span>
+																</a>
+																<div class="btn btn-primary meta-icon dz-wishicon">
+																	<svg class="dz-heart-fill" width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+																		<path d="M13.6412 5.80113C13.0778 6.9649 12.0762 8.02624 11.1657 8.8827C10.5113 9.49731 9.19953 10.7322 7.77683 11.62C7.30164 11.9159 6.69842 11.9159 6.22323 11.62C4.80338 10.7322 3.4888 9.49731 2.83435 8.8827C1.92382 8.02624 0.92224 6.96205 0.358849 5.80113C-0.551681 3.91747 0.344622 1.44196 2.21121 0.557041C3.98674 -0.282354 5.54034 0.292418 7.00003 1.44765C8.45972 0.292418 10.0133 -0.282354 11.786 0.557041C13.6554 1.44196 14.5517 3.91747 13.6412 5.80113Z" fill="white"/>
+																	</svg>
+																	<svg class="dz-heart feather feather-heart" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+																</div>
+																<div class="btn btn-primary meta-icon dz-carticon" onclick="addtocart(`<%= product._id %>`)">
+																	<svg class="dz-cart-check" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<path d="M11.9144 3.73438L5.49772 10.151L2.58105 7.23438" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+																	</svg>
+																	<svg class="dz-cart-out" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+																		<path d="M10.6033 10.4092C9.70413 10.4083 8.97452 11.1365 8.97363 12.0357C8.97274 12.9348 9.70097 13.6644 10.6001 13.6653C11.4993 13.6662 12.2289 12.938 12.2298 12.0388C12.2298 12.0383 12.2298 12.0378 12.2298 12.0373C12.2289 11.1391 11.5014 10.4109 10.6033 10.4092Z" fill="white"/>
+																		<path d="M13.4912 2.6132C13.4523 2.60565 13.4127 2.60182 13.373 2.60176H3.46022L3.30322 1.55144C3.20541 0.853911 2.60876 0.334931 1.90439 0.334717H0.627988C0.281154 0.334717 0 0.61587 0 0.962705C0 1.30954 0.281154 1.59069 0.627988 1.59069H1.90595C1.9858 1.59011 2.05338 1.64957 2.06295 1.72886L3.03004 8.35727C3.16263 9.19953 3.88712 9.8209 4.73975 9.82363H11.2724C12.0933 9.8247 12.8015 9.24777 12.9664 8.44362L13.9884 3.34906C14.0543 3.00854 13.8317 2.67909 13.4912 2.6132Z" fill="white"/>
+																		<path d="M6.61539 11.9676C6.57716 11.0948 5.85687 10.4077 4.98324 10.4108C4.08483 10.4471 3.38595 11.2048 3.42225 12.1032C3.45708 12.9653 4.15833 13.6505 5.02092 13.6653H5.06017C5.95846 13.626 6.65474 12.8658 6.61539 11.9676Z" fill="white"/>
+																	</svg>
+																</div>
+															</div>	
+														</div>
+														<div class="dz-content">
+															<h5 class="title"><a href="/productpage/<%= product._id  %>"><%= product.name %></a></h5>
+															<ul class="star-rating">
+																<li>
+																	<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+																		<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"/>
+																	</svg>
+																</li>
+																<li>
+																	<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+																		<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"/>
+																	</svg>
+																</li>
+																<li>
+																	<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+																		<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"/>
+																	</svg>
+																</li>
+																<li>
+																	<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+																		<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#E4E5E8"/>
+																	</svg>
+																</li>
+																<li>
+																	<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+																		<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#E4E5E8"/>
+																	</svg>
+																</li>
+															</ul>
+															<h6 class="price">
+																<% if(product.discount) {%>
+																
+																	<%}%>
+																	<del>₹<%= product.oldprice + 1 %></del>
+					
+																
+																	₹<%= product.price %>
+															</h6>
+														</div>
+														<% if(product.discount) {%>
+															<div class="product-tag">
+																<span class="badge badge-danger">	₹<%= product.discount %> Off</span>
+															</div>
+															<%}%>
+													</div>
+												</li>
+												<%})%>
+												<% } else { %>
+													<div> No products </div>
+												  <% } %>
+												<!-- end -->
+											</ul>
 										</div>
 									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="/home/images/shop/product/3.png" alt="image">
-										</div>
-										<div class="dz-content">
-											<h6 class="title"><a href="shop-list.html">Bamboo toothbrushes</a></h6>
-											<h6 class="price">$30.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="/home/images/shop/product/4.png" alt="image">
-										</div>
-										<div class="dz-content">
-											<h6 class="title"><a href="shop-list.html">Eco friendly bags</a></h6>
-											<h6 class="price">$35.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="/home/images/shop/product/2.png" alt="image">
-										</div>
-										<div class="dz-content">
-											<h6 class="title"><a href="shop-list.html">Wooden Cup</a></h6>
-											<h6 class="price">$20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="/home/images/shop/product/5.png" alt="image">
-										</div>
-										<div class="dz-content">
-											<h6 class="title"><a href="shop-list.html">Bamboo toothbrushes</a></h6>
-											<h6 class="price">$70.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="/home/images/shop/product/6.png" alt="image">
-										</div>
-										<div class="dz-content">
-											<h6 class="title"><a href="shop-list.html">Eco friendly bags</a></h6>
-											<h6 class="price">$45.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="/home/images/shop/product/7.png" alt="image">	
-										</div>
-										<div class="dz-content">
-											<h6 class="title"><a href="shop-list.html">Wooden Bottles</a></h6>
-											<h6 class="price">$40.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="shop-card">
-										<div class="dz-media">
-											<img src="/home/images/shop/product/4.png" alt="image">	
-										</div>
-										<div class="dz-content">
-											<h6 class="title"><a href="shop-list.html">Paper Bags</a></h6>
-											<h6 class="price">$60.00</h6>
-										</div>
-									</div>
-								</div>
+									<!-- search end -->
 							</div>
 						</div>
 					</div>
@@ -461,10 +475,10 @@
 					<div class="dz-tabs">
 						<ul class="nav nav-tabs center" id="myTab" role="tablist">
 							<li class="nav-item" role="presentation">
-								<button class="nav-link active" id="shopping-cart" data-bs-toggle="tab" data-bs-target="#shopping-cart-pane" type="button" role="tab" aria-controls="shopping-cart-pane" aria-selected="true">Shopping Cart
+								<a href=""><button class="nav-link active" id="shopping-cart" data-bs-toggle="tab" data-bs-target="#shopping-cart-pane" type="button" role="tab" aria-controls="shopping-cart-pane" aria-selected="true">Shopping Cart
 									
 									<span class="badge badge-light"></span>
-								</button>
+								</button></a>
 							</li>
 							<li class="nav-item" role="presentation">
 								<button class="nav-link" id="wishlist" data-bs-toggle="tab" data-bs-target="#wishlist-pane" type="button" role="tab" aria-controls="wishlist-pane" aria-selected="false">Wishlist
@@ -473,44 +487,39 @@
 							</li>
 						</ul>
 						<div class="tab-content pt-4" id="dz-shopcart-sidebar">
-    <div class="tab-pane fade show active" id="shopping-cart-pane" role="tabpanel" aria-labelledby="shopping-cart" tabindex="0">
-        <div class="shop-sidebar-cart">
-			
-            <%
-                let total = 0;
-                if (users && users.products && users.products.length > 0) {
-            %>
-            <% users.products.forEach(cart => { %>
-                <ul class="sidebar-cart-list">
-                    <li>
-                        <div class="cart-widget">
-                            <div class="dz-media me-3">
-                                <img src="<%= cart.product.singleImage %>" alt="" class="fixed-size-image"  >
-                            </div>
-                            <div class="cart-content">
-                                <h6 class="title"><a href="product-thumbnail.html"><%= cart.product.name %></a></h6>
-                                <div class="d-flex align-items-center">
-                                    <div class="btn-quantity light quantity-sm me-3">
-                                        <input type="text" value="1" name="demo_vertical2">
-                                    </div>
-                                    <h6 class="dz-price text-primary mb-0">$<%= cart.product.price %></h6>
-                                </div>
-                            </div>
-                            <a href="/" class="dz-close">
-                                <i class="ti-close"></i>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            <% }); %>
-            <% } else { %>
-                <tr>
-                    <td colspan="4">No products</td>
-                </tr>
-            <% } %>
-        </div>
-    </div>
-</div>
+							<div class="tab-pane fade show active" id="shopping-cart-pane" role="tabpanel" aria-labelledby="shopping-cart" tabindex="0">
+								<div class="shop-sidebar-cart">
+									<% if (users && users.products && users.products.length > 0) { %>
+										<% users.products.forEach(cart => { %>
+											<ul class="sidebar-cart-list">
+												<li>
+													<div class="cart-widget">
+														<div class="dz-media me-3">
+															<img src="<%= cart.product.singleImage %>" alt="" class="fixed-size-image">
+														</div>
+														<div class="cart-content">
+															<h6 class="title"><a href="product-thumbnail.html"><%= cart.product.name %></a></h6>
+															<div class="d-flex align-items-center">
+																<div class="btn-quantity light quantity-sm me-3">
+																	<input type="text" value="1" name="demo_vertical2">
+																</div>
+																<h6 class="dz-price text-primary mb-0">₹<%= cart.product.price %></h6>
+															</div>
+														</div>
+														<a href="/" class="dz-close">
+															<i class="ti-close"></i>
+														</a>
+													</div>
+												</li>
+											</ul>
+										<% }); %>
+									<% } else { %>
+										<p>No products in the cart.</p>
+									<% } %>
+								</div>
+							</div>
+						</div>
+
 
 											
 									</ul>
@@ -540,32 +549,7 @@
 									</div>	
 								</div>	
 							</div>
-							<div class="tab-pane fade" id="wishlist-pane" role="tabpanel" aria-labelledby="wishlist" tabindex="0">
-								<div class="shop-sidebar-cart">
-									<ul class="sidebar-cart-list">
-										
-										<li>
-											<div class="cart-widget">
-												<div class="dz-media me-3">
-													<img src="/home/images/shop/shop-cart/pic3.jpg" alt="">
-												</div>
-												<div class="cart-content">
-													<h6 class="title"><a href="product-thumbnail.html">Bamboo toothbrushes</a></h6>
-													<div class="d-flex align-items-center">
-														<h6 class="dz-price text-primary mb-0">$65.00</h6>
-													</div>
-												</div>
-												<a href="/" class="dz-close">
-													<i class="ti-close"></i>
-												</a>
-											</div>
-										</li>	
-									</ul>
-									<div class="mt-auto">
-										<a href="shop-wishlist.html" class="btn btn-secondary btn-block">Check Your Favourite</a>
-									</div>	
-								</div>
-							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -595,7 +579,7 @@
 												<div class="swiper-meta-items" data-swiper-parallax="-50">
 													<div class="meta-content">
 														<span class="price-name">Price</span>
-														<span class="price-num">$125.75</span>
+														<span class="price-num">₹125.75</span>
 													</div>
 													<div class="meta-content">
 														<span class="color-name">Color</span>
@@ -647,7 +631,7 @@
 												<div class="swiper-meta-items" data-swiper-parallax="-50">
 													<div class="meta-content">
 														<span class="price-name">Price</span>
-														<span class="price-num">$120.80</span>
+														<span class="price-num">₹120.80</span>
 													</div>
 													<div class="meta-content">
 														<span class="color-name">Color</span>
@@ -768,25 +752,30 @@
 		<!--Recommend Section Start-->
 			<section class="content-inner-1 bg-light">
 				<div class="container">
-					<h3 class="title">Most popular products</h3>
+					<h3 class="title">Most Popular Category </h3>
 					<div class="site-filters clearfix d-flex align-items-center wow fadeInUp" data-wow-delay="0.1s">
 						<ul class="filters" data-bs-toggle="buttons">
-							<li class="btn active">
-								<input type="radio">
-								<a href="/">All Products <span>(20)</span></a> 
-							</li>
-							<li data-filter=".Bottle" class="btn">
-								<input type="radio">
-								<a href="/">Bottle <span>(10)</span></a> 
-							</li>
-							<li data-filter=".Begs" class="btn">
-								<input type="radio">
-								<a href="/">Begs <span>(02)</span></a> 
-							</li>
-							<li data-filter=".Toothbrushes" class="btn">
-								<input type="radio">
-								<a href="/">Toothbrushes <span>(08)</span></a> 
-							</li>
+							<% if (categorys && categorys.length > 0) { %>
+								<ul>
+									<% categorys.forEach(categoryData => { %>
+										<li class="btn active">
+											<input type="radio">
+											<a href="/category/<%= categoryData._id %>">
+												<%= categoryData.categoryname %> <span><% if (categoryData.categeoryOffers)   {%>
+													<%= categoryData.categeoryOffers %>
+												<%}%>
+												</span>
+												
+											</a>
+										</li>
+										
+									<% }) %>
+								</ul>
+							<% } else { %>
+								<p>No categories found.</p>
+							<% } %>
+							<hr>
+							
 						</ul>
 						<a href="/shop" class="product-link text-secondary font-14 d-flex align-items-center gap-1 text-nowrap">See all products 
 							<i class="icon feather icon-chevron-right font-18"></i>
@@ -801,7 +790,7 @@
 							<li class="card-container col-6 col-xl-3 col-lg-3 col-md-4 col-sm-6 Begs wow fadeInUp" data-wow-delay="0.1s">
 								<div class="shop-card">
 									<div class="dz-media">
-										<img src="<%= product.singleImage %>" alt="image">
+										<img src="<%= product.singleImage %>" alt="image" class="product-image">
 										<div class="shop-meta">
 											<a href="/productpage/<%= product._id  %>" class="btn btn-secondary btn-icon" >
 												<i class="fa-solid fa-eye d-md-none d-block"></i>
@@ -858,10 +847,10 @@
 											<% if(product.discount) {%>
 											
 												<%}%>
-												<del>$<%= product.oldprice %></del>
+												<del>₹<%= product.oldprice + 1 %></del>
 
 											
-											$<%= product.price %>
+												₹<%= product.price %>
 										</h6>
 									</div>
 									<% if(product.discount) {%>

@@ -20,6 +20,7 @@ const { Types } = mongoose;
 
 require('dotenv').config();
 const Razorpay = require('razorpay');
+const { log } = require('console');
 
 
 const razorpay = new Razorpay({
@@ -162,8 +163,24 @@ const homepageget = async (req, res) => {
     const user = req.session.user;
     const userId = req.session.iduser;
 
+    let search = '';
+    if(req.query.search){
+        search = req.query.search;
+    }
+
+    const limit = 16;
+
+    const categoryId = await categorymodel.findOne({ categoryname: 'WOODEN FURNITURE COLLECTION  ' });
+console.log(categoryId);
+
+const newproducts = await productsmodel.find();
+const products = newproducts.filter(product => product.category.toString() === categoryId._id.toString());
     
-    const products = await productsmodel.find({})
+    
+
+    
+
+
     req.session._id = user._id
     
     const userdetials = await User.findById(req.session._id);
@@ -171,25 +188,61 @@ const homepageget = async (req, res) => {
     
     
     // console.log(users);
+    const categorys = await cat.find({})
     
     if(userdetials){
-       return res.render('homepages/index-3', { products ,user , userdetials:userdetials,users:users})
+       return res.render('homepages/index-3', { products ,user ,categorys:categorys, userdetials:userdetials,users:users})
 
     }
    
-    res.render('homepages/index-3', { products ,user})
+    res.render('homepages/index-3', { products ,categorys:categorys,user,totalpages:Math.ceil(count/limit),currentpage:page})
 }
 
 
 const homeshop = async (req, res) => {
+    let search = '';
+    if(req.query.search){
+        search = req.query.search;
+    }
 
-    const products = await productsmodel.find({})
+    let page = 1;
+    if(req.query.page){
+        page = req.query.page
+    }
+
+    const limit = 16;
+    
+    const products = await productsmodel.find({
+        
+        $or:[
+            {name:{$regex:'.*'+search+'.*',$options:'i'}},
+            
+        ]
+        
+    }).limit(limit * 1)
+    .skip((page - 1) * limit)
+    .exec();
+
+    const count = await productsmodel.find({
+        
+        $or:[
+            {name:{$regex:'.*'+search+'.*',$options:'i'}},
+            
+        ]
+        
+    }).countDocuments();
+
+
+
+
+
     const categorys = await cat.find({})
 
     const users = await Cart.findOne({user:req.session.iduser}).populate('products.product');
+    console.log(users)
     
 
-    res.render('homepages/shop1', { products, categorys,users:users  });
+    res.render('homepages/shop1', { products, categorys,users:users,totalpages:Math.ceil(count/limit),currentpage:page  });
 }
 
 
@@ -233,10 +286,14 @@ const otploginpost = async (req, res) => {
            if (mongoose.Types.ObjectId.isValid(referrer)) {
             const user = await User.findById(referrer);
             if (user) {
-                user.Wallet += 250;
+                user.Wallet = (user.Wallet || 0) + 250;
                 await user.save();
             }
+
         }
+
+
+        
             await newUser.save();
             req.session.done = 'Verification Completed Please login'
             return res.redirect('/login');
@@ -265,7 +322,7 @@ const  productpageget = async (req, res) => {
     const users = await Cart.findOne({ user: userId }).populate('products.product');
 
     const products = await productsmodel.findById(product);
-    if (products && users) {
+    if (products ) {
         // console.log(products)
         res.render('homepages/productpage1', { products , users});
     } else {
@@ -1411,6 +1468,24 @@ const returnorder = async (req,res)=>{
         
     }
 }
+const categorywiseproducts = async (req, res) => {
+  try {
+    const categoryId = req.params.id;
+    const newproducts = await productsmodel.find();
+    const products = newproducts.filter(product => product.category.toString() === categoryId);
+
+    console.log(products);
+    console.log(categoryId);
+
+    if (!products) {
+      return res.status(400).send('Category not found');
+    }
+
+    res.render('homepages/categoryproducts', { products: products });
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 
 module.exports = {
@@ -1459,7 +1534,8 @@ module.exports = {
     removecopen,
     modal,
     addtocartshort,
-    returnorder
+    returnorder,
+    categorywiseproducts
     
 
 }

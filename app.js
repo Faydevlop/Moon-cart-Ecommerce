@@ -12,7 +12,7 @@ var adminRouter = require('./routes/admin');
 var usersRouter = require('./routes/users');
 
 
-
+require('dotenv').config()
 var app = express();
 
 app.use(session({
@@ -25,11 +25,11 @@ app.use(session({
 
 
 // console.log(process.env.MONGODB_URI);
-// let MONGODB_URI="mongodb+srv://fayfayis74:kblrYOKV6k37prh1@mooncart-db.hh6wpmo.mongodb.net/EcommerceDb"
 
+let MONGODB_URI="mongodb+srv://fayfayis74:kblrYOKV6k37prh1@mooncart-db.hh6wpmo.mongodb.net/EcommerceDb"  
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
-  // useUnifiedTopology: true,
+  useUnifiedTopology: true,
 });
 
 const db = mongoose.connection; 
