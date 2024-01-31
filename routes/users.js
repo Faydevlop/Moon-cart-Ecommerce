@@ -13,11 +13,11 @@ async function isBlocked(req,res,next){
         const {email} = req.session.user
         const loguser = await user.findOne({ email: email })
         if(loguser.isBlocked){
-          return  res.redirect('/login')
+          return  res.redirect('/signup')
         }
         return next()
     }
-   return res.redirect('/login')
+   return res.redirect('/signup')
 }
 
 /*users login */

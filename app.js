@@ -11,6 +11,7 @@ const session = require('express-session');
 var adminRouter = require('./routes/admin');
 var usersRouter = require('./routes/users');
 
+const port = 3001
 
 require('dotenv').config()
 var app = express();
@@ -18,7 +19,7 @@ var app = express();
 app.use(session({
   secret:'zencom',
   resave:false,
-  saveUninitialized:false,
+  saveUninitialized:false, 
 }))
 
 //mongo connection 
@@ -78,3 +79,7 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+
+app.listen(port, () => {
+  console.log(`Server is running on port http://localhost:${port}`);
+});
