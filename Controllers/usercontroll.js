@@ -103,7 +103,7 @@ const usersignup = (req, res) => {
 
 }
 
-const usersinuppost = async (req, res) => {
+const  usersinuppost = async (req, res) => {
     const newuser = await User.findOne({ email: req.body.email });
     if (newuser) {
         req.session.error = 'email already exist';
@@ -116,9 +116,15 @@ const usersinuppost = async (req, res) => {
     req.session.email = req.body.email;
     req.session.Mobile = req.body.Mobile;
     req.session.password = req.body.password;
+    
     if (req.body.referral) {
         referrer = await User.findOne({ referralCode:req.body.referral });
-        req.session.referral = referrer._id;
+        if(referrer){
+            req.session.referral = referrer._id;
+        }else{
+            referrer =''
+        }
+        
         console.log(referrer);
       }else{
         referrer =''
@@ -526,6 +532,8 @@ const cartpage = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+
 // post method for apllying coupens
 const postcart = async (req, res) => {
     try {

@@ -29,6 +29,4 @@ const transporter = nodemailer.createTransport({
 module.exports = {
     sendVerificationEmail,
     
-
-
 }

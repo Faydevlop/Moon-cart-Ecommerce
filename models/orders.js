@@ -56,7 +56,6 @@ country: {
   status: {
     type: String,
     enum: ['Pending', 'Shipped', 'Delivered', 'Cancelled', 'returned'],
-    // 'Out for Delivery', 'Confirmed'
     default: 'Pending',
   },
   createdAt: {

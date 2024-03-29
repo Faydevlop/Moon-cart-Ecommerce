@@ -23,7 +23,7 @@ const   productspage1get = async (req, res) => {
 
 const productspagepost = async (req, res) => {
     try {
-        console.log('//////////////////////////////////////////');
+        
         const product = await productmodel.findOne({ name: req.body.name });
 
         if (product) {
@@ -45,6 +45,8 @@ const productspagepost = async (req, res) => {
             ? req.files['singleimage'][0].path.replace(/\\/g, '/').replace('public/', '/')
             : null;
         console.log("single image" + singleImage);
+
+        
         // Process multiple images
         const multipleImages = req.files && req.files['multipleImages']
             ? req.files['multipleImages'].map(file => file.path.replace(/\\/g, '/').replace('public/', '/'))
