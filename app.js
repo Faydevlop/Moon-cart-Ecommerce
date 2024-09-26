@@ -27,8 +27,8 @@ app.use(session({
 
 // console.log(process.env.MONGODB_URI);
 
-let MONGODB_URI=  
-mongoose.connect(process.env.MONGODB_URIs, {
+
+mongoose.connect('mongodb+srv://fayfayis74:eCBsYoAE6hC9T9ea@mooncart-db.hh6wpmo.mongodb.net/EcommerceDb', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
