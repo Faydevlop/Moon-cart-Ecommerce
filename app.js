@@ -28,10 +28,12 @@ app.use(session({
 // console.log(process.env.MONGODB_URI);
 
 
-mongoose.connect('mongodb+srv://fayfayis74:eCBsYoAE6hC9T9ea@mooncart-db.hh6wpmo.mongodb.net/EcommerceDb', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+mongoose.connect(process.env.MONGODB_URI).then(() => {
+  console.log("connected to db");
+}).catch((err) => {
+  console.log("could not connect to db", err);
 });
+
 
 const db = mongoose.connection; 
 
