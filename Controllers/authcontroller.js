@@ -4,7 +4,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'zenwrists@gmail.com', // replace with your email
-    pass: 'ogqc asud vnge pgss'   // replace with your email password
+    pass: 'gzoq yixb vuql elws'   // replace with your email password
   }
 });
 
@@ -16,6 +16,8 @@ const transporter = nodemailer.createTransport({
       subject: 'Account Verification',
       text: `Your OTP for account verification is: ${otp}`
     };
+    console.log(otp);
+    
 
     try {
       await transporter.sendMail(mailOptions);

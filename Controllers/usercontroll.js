@@ -142,6 +142,8 @@ const  usersinuppost = async (req, res) => {
         const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
         req.session.otp = otp;
         await authcontroller.sendVerificationEmail(req.session.email, req.session.otp);
+        console.log(otp);
+        
 
         // Redirect to OTP verification page
         res.redirect('/verification');
