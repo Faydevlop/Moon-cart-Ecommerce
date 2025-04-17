@@ -11,7 +11,7 @@ const session = require('express-session');
 var adminRouter = require('./routes/admin');
 var usersRouter = require('./routes/users');
 
-const port = 5000
+const port = 1000
 
 require('dotenv').config()
 var app = express();
@@ -28,7 +28,10 @@ app.use(session({
 // console.log(process.env.MONGODB_URI);
 
 
-mongoose.connect(process.env.MONGODB_URI).then(() => {
+mongoose.connect(process.env.MONGODB_URI,{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => {
   console.log("connected to db");
 }).catch((err) => {
   console.log("could not connect to db", err);

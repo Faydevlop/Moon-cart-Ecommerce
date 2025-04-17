@@ -10,17 +10,17 @@ const Address = require('../models/address');
 const multer = require('multer')
 const path = require('path')
 const couponmodel = require('../models/coupen')
-
-
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
+
+
 const nodemailer =require('nodemailer');
 const Order = require('../models/orders');
 const shortid = require('shortid');;
-const { Types } = mongoose;
 
 require('dotenv').config();
 const Razorpay = require('razorpay');
-const { log } = require('console');
+
 
 
 const razorpay = new Razorpay({
@@ -32,6 +32,7 @@ const razorpay = new Razorpay({
 
 
 const userloginget = (req, res) => {
+
     if (req.session.done) {
         done = req.session.done;
         req.session.done = '';
@@ -48,48 +49,51 @@ const userloginget = (req, res) => {
 
 }
 
+
 const userloginpost = async (req, res) => {
+    console.log('signup req is here');
 
     const loguser = await User.findOne({ email: req.body.email });
-   
-    if (loguser) {
-        req.session.iduser = loguser._id
-        // console.log(req.session.iduser);
 
+    if (loguser) {
+        req.session.iduser = loguser._id;
 
         const passwordmatch = await bcrypt.compare(req.body.password, loguser.password);
 
         if (passwordmatch) {
-
-
-
             if (loguser.isBlocked) {
                 return res.status(403).render('dashboard/page-account-login', { error: 'You were blocked' });
             } else {
-                req.session.user = loguser
+                req.session.user = loguser;
                 req.session.orders = loguser._id;
-                
+
+                // ✅ Create JWT Token
+                const token = jwt.sign(
+                    { id: loguser._id, email: loguser.email },
+                    process.env.JWT_SECRET,
+                    { expiresIn: '1d' }
+                );
+
+                // ✅ Set token in cookie
+                res.cookie('token', token, {
+                    httpOnly: true,
+                    secure: false, // set to true in production with HTTPS
+                    sameSite: 'lax',
+                    maxAge: 24 * 60 * 60 * 1000, // 1 day
+                });
+
                 res.redirect('/');
             }
-
-
         } else {
-            // const password = req.body.password;
-            // if(password.length === 0){
-            //     req.session.error = 'Please Enter The Password';
-            //         res.redirect('/login')
-            //     }
             req.session.error = 'invalid password';
-            res.redirect('/login')
+            res.redirect('/login');
         }
     } else {
-
-        
         req.session.error = 'Email not found';
-        res.redirect('/login')
+        res.redirect('/login');
     }
+};
 
-}
 
 const usersignup = (req, res) => {
     if(req.session.error){

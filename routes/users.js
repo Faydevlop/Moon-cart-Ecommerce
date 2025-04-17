@@ -3,7 +3,8 @@ var router = express.Router();
 const user = require('../models/user');
 const controller = require('../Controllers/usercontroll')
 const ordercontroller = require('../Controllers/orders')
-const staticcontroller = require('../Controllers/staticcontroller')
+const staticcontroller = require('../Controllers/staticcontroller');
+const verifyUser = require('../middleware/verifyUser');
 // const cartcontroller = require('../Controllers/cartcontroller')
 
 
@@ -38,10 +39,10 @@ router.post('/resend-otp',controller.resendOtp)
 router.post('/resend-otp2',controller.resendOtp2)
 /*homepage*/ 
 
-router.get('/',isBlocked,controller.homepageget);
+router.get('/',verifyUser,isBlocked,controller.homepageget);
 
 /*homepage shop*/ 
-router.get('/shop',isBlocked,controller.homeshop);
+router.get('/shop',verifyUser,isBlocked,controller.homeshop);
 
 /*OTP page*/ 
 router.get('/verification',controller.otplogin)
@@ -173,7 +174,6 @@ router.get('/category/:id',controller.categorywiseproducts)
 
 
 
-/*logout*/
 
 
 
