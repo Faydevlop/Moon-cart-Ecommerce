@@ -11,7 +11,7 @@ const session = require('express-session');
 var adminRouter = require('./routes/admin');
 var usersRouter = require('./routes/users');
 
-const port = 1000
+const port = 3000
 
 require('dotenv').config()
 var app = express();
