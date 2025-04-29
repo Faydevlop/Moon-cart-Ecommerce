@@ -346,7 +346,8 @@
                                         <td>₹ <%= coupon.maxDiscountAmount %></td>
                                         <td>₹ <%= coupon.minAmount %></td>
                                         <td>₹ <%= coupon.maxAmount %></td>
-                                        <td><%= coupon.expiryDate %></td>
+                                        <td><%= new Date(coupon.expiryDate).toISOString().slice(0, 10) %></td>
+
                                         <td><%= coupon.Status  %></td>
                                         <% if(coupon.isListed) {%>
                                         <td><button class="btn btn-primary" onclick="listitem(`<%= coupon._id %>`)" >UnList</button></td>
