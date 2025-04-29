@@ -706,7 +706,7 @@
             <!-- Add more cells with coupon details -->
             <% if(coupon.isUsed) { %>
                 <td>
-                    <button class="btn btn-secondary" onclick="removeCoupon('<%= coupon.couponCode %>')">Applied</button>
+                    <button class="btn btn-danger" onclick="removeCoupon('<%= coupon.couponCode %>')">Remove</button>
                 </td>
             <% } else if(coupon.Status === 'Expared') { %>
                 <td>
