@@ -662,21 +662,8 @@
 
 						
 						<div class="row shop-form m-t30">
-							<div class="col-md-6">
-								<div class="form-group">
-									<div class="input-group mb-0">
-										<input name="dzEmail" required="required" type="text" class="form-control" placeholder="Coupon Code">
-										<div class="input-group-addon">
-											<button name="submit" value="Submit" type="submit" class="btn coupon">
-												Apply Coupon
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6 text-end">
-								<a href="/shop" class="btn btn-grey">UPDATE CART</a>
-							</div>
+							
+							<br>
 						</div>
 						<%if(coupons.length > 0){%>
 						<h2 class="text-center">Available Coupons</h2>
@@ -691,6 +678,7 @@
 												<th>Description</th>
 												<th>Discount Percentage</th>
 												<th>Price Limit</th>
+												<th>Max Dis Amount</th>
 												<!-- Add more columns as needed -->
 												<th>Action</th>
 											</tr>
@@ -703,6 +691,7 @@
             <td><%= coupon.discripetion %></td>
             <td>%<%= coupon.discountPercentage %> Off</td>
             <td>₹<%= coupon.minAmount %> to ₹<%= coupon.maxAmount %></td>
+            <td>₹<%= coupon.maxDiscountAmount %> Off</td>
             <!-- Add more cells with coupon details -->
             <% if(coupon.isUsed) { %>
                 <td>
@@ -733,7 +722,7 @@
 					<div class="col-lg-4">
 						<h4 class="title mb15">Cart Total</h4>
 						<div class="cart-detail">
-							<a href="/home/javascript:void(0);" class="btn btn-outline-primary w-100 m-b20">Bank Offer 5% Cashback</a>
+							
 							<div class="icon-bx-wraper style-4 m-b15">
 								<div class="icon-bx">
 									<i class="flaticon flaticon-ship"></i>
@@ -743,15 +732,7 @@
 									<h6 class="dz-title">Enjoy The Product</h6>
 								</div>
 							</div>
-							<div class="icon-bx-wraper style-4 m-b30">
-								<div class="icon-bx">
-									<img src="/home/images/shop/shop-cart/icon-box/pic2.png" alt="/">
-								</div>
-								<div class="icon-content">
-									<h6 class="dz-title">Enjoy The Product</h6>
-									<p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>
-								</div>
-							</div>
+							
 							<div class="save-text">
 								<!-- <i class="icon feather icon-check-circle"></i> -->
 								<!-- <span class="m-l10">You will save 7% off on  this order</span> -->

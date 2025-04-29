@@ -911,6 +911,8 @@ const forgetpass = (req,res)=>{
 const forgetpasspost = async (req, res) => {
     const { email } = req.body;
 
+    console.log(email);
+    
     const user = await User.findOne({ email: email });
 
     if (!user) {
@@ -925,14 +927,14 @@ const forgetpasspost = async (req, res) => {
     };
 
     const token = jwt.sign(payload, secret, { expiresIn: '15m' });
-    const link = `http://localhost:3001/restpass/${user._id}/${token}`;
+    const link = `${process.env.DOMAIN_NAME}/restpass/${user._id}/${token}`;
 
     // Nodemailer configuration
     const transporter = nodemailer.createTransport({
         service: 'gmail', // Use your email service (e.g., 'gmail')
         auth: {
             user: 'zenwrists@gmail.com', // Use your email
-            pass: 'ogqc asud vnge pgss' // Use your email password or app-specific password
+            pass: 'gzoq yixb vuql elws' // Use your email password or app-specific password
         }
     });
 
@@ -948,7 +950,7 @@ const forgetpasspost = async (req, res) => {
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.error(error);
-            req.session.error = 'Failed to send reset password email.';
+            req.session.error = `Failed to send reset password email. `;
             return res.redirect('/forgotpass');
         } else {
             req.session.done = 'Reset password link sent to your email.';
