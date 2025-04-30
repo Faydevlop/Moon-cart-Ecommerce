@@ -26,6 +26,16 @@ router.get('/login',controller.userloginget);
 
 router.post('/login',controller.userloginpost);
 
+/*homepage*/ 
+router.get('/',controller.homepageget);
+
+/*homepage shop*/ 
+router.get('/shop',controller.homeshop);
+// product page get
+router.get('/productpage/:productID',controller.productpageget);
+
+
+
 /*user signup*/ 
 
 router.get('/signup',controller.usersignup)
@@ -37,12 +47,7 @@ router.post('/resend-otp',controller.resendOtp)
 
 /*resend otp2*/ 
 router.post('/resend-otp2',controller.resendOtp2)
-/*homepage*/ 
 
-router.get('/',verifyUser,isBlocked,controller.homepageget);
-
-/*homepage shop*/ 
-router.get('/shop',verifyUser,isBlocked,controller.homeshop);
 
 /*OTP page*/ 
 router.get('/verification',controller.otplogin)
@@ -156,15 +161,15 @@ router.post('/removecop',controller.removecopen)
 
 // listing all static pages 
 
-router.get('/blog',isBlocked,staticcontroller.blogpage)
-router.get('/aboutus',isBlocked,staticcontroller.aboutuspage)
-router.get('/aboutme',isBlocked,staticcontroller.aboutmepage)
-router.get('/whatwedo',isBlocked,staticcontroller.whatwedopage)
-router.get('/faqs',isBlocked,staticcontroller.faqspage)
-router.get('/contactus',isBlocked,staticcontroller.contactuspage)
-router.get('/blog2',isBlocked,staticcontroller.blogpage2)
-router.get('/ourteam',isBlocked,staticcontroller.ourteampage)
-router.get('/pricetable',isBlocked,staticcontroller.pricingpage)
+router.get('/blog',staticcontroller.blogpage)
+router.get('/aboutus',staticcontroller.aboutuspage)
+router.get('/aboutme',staticcontroller.aboutmepage)
+router.get('/whatwedo',staticcontroller.whatwedopage)
+router.get('/faqs',staticcontroller.faqspage)
+router.get('/contactus',staticcontroller.contactuspage)
+router.get('/blog2',staticcontroller.blogpage2)
+router.get('/ourteam',staticcontroller.ourteampage)
+router.get('/pricetable',staticcontroller.pricingpage)
 
 // product modal method
 router.get('/products/:productId',controller.modal)

@@ -204,43 +204,43 @@ const resendOtp=async(req,res)=>{
 }
 
 const homepageget = async (req, res) => {
-    const user = req.session.user;
-    const userId = req.session.iduser;
+    const user = req.session.user;      // may be undefined
+    const userId = req.session.iduser;  // may be undefined
 
     let search = '';
-    if(req.query.search){
+    if (req.query.search) {
         search = req.query.search;
     }
 
     const limit = 16;
 
     const categoryId = await categorymodel.findOne({ categoryname: 'WOODEN FURNITURE COLLECTION  ' });
-console.log(categoryId);
+    const newproducts = await productsmodel.find();
+    const products = newproducts.filter(product => product.category.toString() === categoryId._id.toString());
 
-const newproducts = await productsmodel.find();
-const products = newproducts.filter(product => product.category.toString() === categoryId._id.toString());
-    
-    
+    let userdetials = null;
+    let users = null;
 
-    
-
-
-    req.session._id = user._id
-    
-    const userdetials = await User.findById(req.session._id);
-    const users = await Cart.findOne({user:userId}).populate('products.product');
-    
-    
-    // console.log(users);
-    const categorys = await cat.find({})
-    
-    if(userdetials){
-       return res.render('homepages/index-3', { products ,user ,categorys:categorys, userdetials:userdetials,users:users})
-
+    // ✅ Only run these if user is logged in
+    if (user) {
+        req.session._id = user._id;
+        userdetials = await User.findById(user._id);
+        users = await Cart.findOne({ user: userId }).populate('products.product');
     }
-   
-    res.render('homepages/index-3', { products ,categorys:categorys,user,totalpages:Math.ceil(count/limit),currentpage:page})
-}
+
+    const categorys = await cat.find({});
+
+    res.render('homepages/index-3', {
+        products,
+        categorys,
+        user,
+        userdetials,
+        users,
+        totalpages: 1,         // or calculate if pagination is used
+        currentpage: 1         // or get from req.query.page
+    });
+};
+
 
 
 const homeshop = async (req, res) => {
