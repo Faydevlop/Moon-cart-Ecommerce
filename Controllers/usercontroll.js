@@ -1298,11 +1298,7 @@ const orderconfirmed = async (req, res) => {
 
 
 const razorpayverify = async (req, res) => {
-    const crypto = require('crypto');
     try {
-
-        console.log(req.body)
-        // getting the details back from our front-end
         const {
             orderCreationId,
             razorpayPaymentId,
@@ -1310,30 +1306,71 @@ const razorpayverify = async (req, res) => {
             razorpaySignature,
         } = req.body.data;
 
-        console.log(orderCreationId, razorpayPaymentId, razorpayOrderId, razorpaySignature);
+        const generatedSignature = crypto
+            .createHmac("sha256", process.env.RAZORPAY_SECRET_KEY)
+            .update(orderCreationId + "|" + razorpayPaymentId)
+            .digest("hex");
 
-        // Ensure you replace 'YOUR_SECRET_KEY' with your actual Razorpay secret key
-        const shasum = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET_KEY);
+        if (generatedSignature !== razorpaySignature) {
+            return res.status(400).json({ msg: "fail", reason: "Signature mismatch" });
+        }
 
-        shasum.update(`${orderCreationId}|${razorpayPaymentId}`);
+        const userId = req.session.iduser;
+        const cart = await Cart.findOne({ user: userId }).populate('products.product');
 
-        const digest = shasum.digest("hex");
+        const saveaddress = await Address.findOne({ _id: req.session.selectedAddressId });
+        if (!saveaddress) {
+            return res.status(400).json({ msg: "fail", reason: "Address not found" });
+        }
 
-        // comparing our digest with the actual signature
-        if (digest !== razorpaySignature)
-            return res.status(400).json({ msg: "Transaction not legit!" });
+        const couponId = req.session.coponid;
+        const findCoupon = couponId ? await couponmodel.findOne({ _id: couponId }) : null;
 
-        // THE PAYMENT IS LEGIT & VERIFIED
-        // YOU CAN SAVE THE DETAILS IN YOUR DATABASE IF YOU WANT
+        const order = {
+            user: userId,
+            address: [{
+                name: saveaddress.name,
+                mobile: saveaddress.mobile,
+                city: saveaddress.city,
+                postalCode: saveaddress.postalCode,
+                country: saveaddress.country
+            }],
+            paymentmethod: 'upi',
+            products: cart.products.map(item => ({
+                product: item.product._id,
+                quantity: item.quantity,
+                price: item.product.price,
+                total: item.totalPrice
+            })),
+            grandTotal: cart.totalPrice
+        };
 
-        res.status(200).json({
-            msg: "success",
-            orderId: razorpayOrderId,
-            paymentId: razorpayPaymentId, 
-        });
+        await Order.insertMany(order);
+
+        // Update product stock
+        for (const item of cart.products) {
+            const product = item.product;
+            const updateQuantity = product.stock - item.quantity;
+            await productsmodel.findByIdAndUpdate(product._id, { stock: updateQuantity });
+        }
+
+        // Handle coupon deletion if applicable
+        if (findCoupon) {
+            await couponmodel.deleteOne({ _id: couponId });
+        }
+
+        // Clear the cart
+        await Cart.findOneAndUpdate(
+            { user: userId },
+            { $set: { products: [], totalPrice: 0 }, $unset: { appliedCoupon: '' } },
+            { new: true }
+        );
+
+        return res.status(200).json({ msg: "success" });
+
     } catch (error) {
-        console.log(error);
-        res.status(500).send(error);
+        console.error("Error verifying Razorpay:", error);
+        res.status(500).json({ msg: "fail", error: error.message });
     }
 };
 
