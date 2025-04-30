@@ -1310,6 +1310,8 @@ const razorpayverify = async (req, res) => {
 
         if (generatedSignature !== razorpaySignature) {
             return res.status(400).json({ msg: "fail", reason: "Signature mismatch" });
+            console.log(generatedSignature,razorpaySignature,'here is the erro');
+            
         }
 
         const userId = req.session.iduser;
