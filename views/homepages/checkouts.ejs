@@ -802,6 +802,9 @@
 							<hr>
 							<button class="btn btn-secondary w-100"  type="button" onclick="orderConfirm()">PLACE ORDER</button>
 							<hr>
+							<hr>
+<button class="btn btn-danger w-100" type="button" id="retryPaymentBtn" onclick="retryPayment()" style="display: none;">Retry Payment</button>
+<hr>
 
 							
 						</div>
@@ -1251,6 +1254,7 @@ function razorpayFunc(res){
 				const result = await verifyResponse.json();
 
 				if (result.msg==='success') {
+					
 					Swal.fire({
 						title: "Order placed !!",
 						text: "Your Order has been confirmed.",
@@ -1262,6 +1266,8 @@ function razorpayFunc(res){
 						window.location.href = "/success";
 					});
 				} else {
+					window.latestRazorpayRes = res;
+    document.getElementById('retryPaymentBtn').style.display = 'block';
 					Swal.fire({
         title: "Verification Failed",
         text: "Payment was made, but we couldn’t verify it. Please try again.",
@@ -1296,7 +1302,10 @@ function razorpayFunc(res){
 		const rzp = new Razorpay(options);
 
 		rzp.on('payment.failed', function (response) {
+			window.latestRazorpayRes = res; // save for retry
+    document.getElementById('retryPaymentBtn').style.display = 'block'; 
     console.error("Payment failed:", response);
+	
     Swal.fire({
         title: "Payment Failed",
         text: "Your payment was not completed. Please try again.",
@@ -1314,6 +1323,11 @@ function razorpayFunc(res){
     rzp.open();
 }
 
+function retryPayment() {
+    if (window.latestRazorpayRes) {
+        razorpayFunc(window.latestRazorpayRes);
+    }
+}
 
 
 
