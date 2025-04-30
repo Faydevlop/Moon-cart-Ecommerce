@@ -12,7 +12,7 @@ const path = require('path')
 const couponmodel = require('../models/coupen')
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const crypto = require('crypto')
+const crypto = require('crypto');
 
 const nodemailer =require('nodemailer');
 const Order = require('../models/orders');
@@ -1306,10 +1306,7 @@ const razorpayverify = async (req, res) => {
             razorpaySignature,
         } = req.body.data;
 
-        const generatedSignature = crypto
-            .createHmac("sha256", 'e9ZDrjVMpkc6URPlmWLQkzwd')
-            .update(orderCreationId + "|" + razorpayPaymentId)
-            .digest("hex");
+        const generatedSignature = crypto.createHmac("sha256", 'e9ZDrjVMpkc6URPlmWLQkzwd').update(orderCreationId + "|" + razorpayPaymentId).digest("hex");
 
         if (generatedSignature !== razorpaySignature) {
             return res.status(400).json({ msg: "fail", reason: "Signature mismatch" });
