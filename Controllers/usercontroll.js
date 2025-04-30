@@ -1307,7 +1307,7 @@ const razorpayverify = async (req, res) => {
         } = req.body.data;
 
         const generatedSignature = crypto
-            .createHmac("sha256", process.env.RAZORPAY_SECRET_KEY)
+            .createHmac("sha256", 'e9ZDrjVMpkc6URPlmWLQkzwd')
             .update(orderCreationId + "|" + razorpayPaymentId)
             .digest("hex");
 
