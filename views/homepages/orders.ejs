@@ -151,110 +151,122 @@
                                 <h3></h3>
                             </div>
                             <div class="table-responsive">
-                                <table class="table cart-table">
-                                    <thead>
-                                        <tr class="table-head">
-                                            <th scope="col">image</th>
-                                            <th scope="col">Order Id</th>
-                                            <th scope="col">Product Details</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">View</th>
-                                            <th scope="col">Action</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% if (orders.length > 0) { %>
-                                            <% console.log('s1'); %>
-                                            <% orders.reverse().forEach(item => { %>
-                                                <% console.log('s1'); %>
-                                                <% if (item.products && item.products.length > 0) { %>
-                                                    <% console.log('s1'); %>
-                                                    <% item.products.forEach(box => { %>
-                                                        <% console.log('s1'); %>
-                                                        <% let product = box.product; %>
-                                                        <% console.log('/////'+box); %>
-                                                        <tr>
-                                                            <td>
-                                                                <a href="product-left-sidebar.html">
-                                                                    <img src="<%= product.singleImage %>" class="blur-up lazyload" alt="">
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <p class="mt-0">#<%= item.order_id %></p>
-                                                            </td>
-                                                            <td>
-                                                                <p class="fs-6 m-0"><%= product.name %></p>
-                                                              
-
-                                                            </td>
-                                                            <td>
-                                                                <% if (item.status === 'Pending') { %>
-                                                                    <p class="success-button btn btn-sm">Pending</p>
-                                                                <% } else if (item.status === 'Shipped') { %>
-                                                                    <p class="success-button btn btn-sm">Shipped</p>
-                                                                <% } else if (item.status === 'Cancelled') { %>
-                                                                    <p class="danger-button btn btn-sm">Canceled</p>
-                                                                <% } else if (item.status === 'Delivered') { %>
-                                                                    <p class="success-button btn btn-sm">Delivered</p>
-                                                                <% } else if (item.status === 'returned') { %>
-                                                                <p class="danger-button btn btn-sm">returned</p>
-                                                                <% } else { %>
-                                                                    <p class="danger-button btn btn-sm">Status not available</p>
-                                                                <% } %> 
-
-                                                            </td>
-                                                            <td>
-                                                                <p class=" fs-6">₹<%= product.price %></p>
-                                                            </td>
-                                                            <td>
-                                                                <a href="/productorder/<%= product._id %>">
-                                                                    <i class="far fa-eye"></i>
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                <% if(item.status === 'Delivered' ) {%>
-                                                                <a href="javascript:void(0)">
-                                                                    <p class="danger-button btn btn-bg black-btn" onclick="getreturn('<%= item._id %>,<%= product._id %>')">Return</p>
-
-                                                                </a>
-                                                                <% } else if(item.status === 'returned') { %>
-                                                                    <a href="javascript:void(0)">
-                                                                        <p class="danger-button btn btn-bg black-btn" onclick="getreturn('<%= item._id %>,<%= product._id %>')">Returned</p>
-    
-                                                                    </a>
-                                                                </a>
-                                                                <% } else if(item.status === 'Cancelled') { %>
-                                                                    <a href="javascript:void(0)">
-                                                                    <p class="danger-button btn btn-bg" style="background-color: gray;">Canceled</p>
-                                                                    </a>
-                                                                    <%} else { %>
-
-                                                                <a href="javascript:void(0)">
-                                                                <p class="danger-button btn btn-bg" onclick="getid('<%= product._id %>')">Cancel</p>
-                                                                </a>
-
-                                                                <%}%>
-                                                            </td>
+                                <% if (orders.length > 0) { %>
+                                    <% orders.reverse().forEach(order => { %>
+                                        <div class="order-container mb-4">
+                                            <div class="order-header p-3 bg-light">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-4">
+                                                        <h5 class="mb-0">Order #<%= order.order_id %></h5>
+                                                    </div>
+                                                    <div class="col-md-4 text-md-center">
+                                                        <% if (order.status === 'Pending') { %>
+                                                            <span class="success-button btn btn-sm">Pending</span>
+                                                        <% } else if (order.status === 'Shipped') { %>
+                                                            <span class="success-button btn btn-sm">Shipped</span>
+                                                        <% } else if (order.status === 'Cancelled') { %>
+                                                            <span class="danger-button btn btn-sm">Canceled</span>
+                                                        <% } else if (order.status === 'Delivered') { %>
+                                                            <span class="success-button btn btn-sm">Delivered</span>
+                                                        <% } else if (order.status === 'returned') { %>
+                                                            <span class="danger-button btn btn-sm">Returned</span>
+                                                        <% } else { %>
+                                                            <span class="danger-button btn btn-sm">Status not available</span>
+                                                        <% } %>
+                                                    </div>
+                                                    <div class="col-md-4 text-md-end">
+                                                        <% if(order.status === 'Delivered') { %>
+                                                            <a href="javascript:void(0)" class="btn btn-sm danger-button">Return Order</a>
+                                                            <a href="/invoice/<%= order._id %>">
+                                                                <p class="danger-button btn btn-sm" >view invoice</p>
+                                                            </a>
+                                                        <% } else if(order.status === 'returned') { %>
+                                                            <span class="badge bg-secondary">Returned</span>
+                                                        <% } else if(order.status === 'Cancelled') { %>
+                                                            <span class="badge bg-secondary">Canceled</span>
+                                                        <% } else { %>
+                                                            <a href="javascript:void(0)" class="btn btn-sm danger-button" onclick="cancelAllOrder('<%= order._id %>')">
+                                                                Cancel Order
+                                                            </a>
+                                                            <a href="/invoice/<%= order._id %>">
+                                                                <p class="danger-button btn btn-sm" >view invoice</p>
+                                                            </a>
+                                                        <% } %>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <% if (order.products && order.products.length > 0) { %>
+                                                <table class="table cart-table">
+                                                    <thead>
+                                                        <tr class="table-head">
+                                                            <th scope="col">Image</th>
+                                                            <th scope="col">Product Details</th>
+                                                            <th scope="col">Price</th>
+                                                            <th scope="col">View</th>
+                                                            <th scope="col">Action</th>
                                                         </tr>
-                                                    <% }); %>
-                                                <% } else { %>
-                                                    <!-- Handle case where products array is empty or undefined -->
-                                                    <tr>
-                                                        <td colspan="6">No products for this order</td>
-                                                    </tr>
-                                                <% } %>
-                                            <% }); %>
-                                        <% } else { %>
-                                            <!-- Handle case where orders array is empty -->
-                                            <tr>
-                                                <td colspan="6">No orders available</td>
-                                            </tr>
-                                        <% } %>
-                                    </tbody>
-                                    
-                                </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% order.products.forEach(box => { %>
+                                                            <% let product = box.product; %>
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="/product/<%= product._id %>">
+                                                                        <img src="<%= product.singleImage %>" class="blur-up lazyload" alt="" width="80">
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fs-6 m-0"><%= product.name %></p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="fs-6">₹<%= product.price %></p>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="/productorder/<%= product._id %>">
+                                                                        <i class="far fa-eye"></i>
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <% if(order.status === 'Delivered') { %>
+                                                                        <a href="javascript:void(0)">
+                                                                            <p class="danger-button btn btn-sm" onclick="getreturn('<%= order._id %>,<%= product._id %>')">Return</p>
+                                                                        </a>
+                                                                    <% } else if(order.status === 'returned') { %>
+                                                                        <a href="javascript:void(0)">
+                                                                            <p class="danger-button btn btn-sm">Returned</p>
+                                                                        </a>
+                                                                    <% } else if(order.status === 'Cancelled') { %>
+                                                                        <a href="javascript:void(0)">
+                                                                            <p class="danger-button btn btn-sm" style="background-color: gray;">Canceled</p>
+                                                                        </a>
+                                                                    <% } else { %>
+                                                                        <a href="javascript:void(0)">
+                                                                            <p class="danger-button btn btn-sm" onclick="getid('<%= product._id %>')">Cancel</p>
+                                                                        </a>
+                                                                    <% } %>
+                                                                    
+                                                                </td>
+                                                            </tr>
+                                                        <% }); %>
+                                                    </tbody>
+                                                </table>
+                                            <% } else { %>
+                                                <div class="text-center py-3">
+                                                    <p>No products for this order</p>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                    <% }); %>
+                                <% } else { %>
+                                    <div class="empty-orders text-center py-5">
+                                        <i class="fas fa-shopping-bag fa-3x mb-3 text-muted"></i>
+                                        <h4>No Orders Available</h4>
+                                        <p class="text-muted">You haven't placed any orders yet.</p>
+                                        <a href="/shop" class="btn btn-primary mt-2">Continue Shopping</a>
+                                    </div>
+                                <% } %>
                             </div>
                         </div>
 
@@ -328,6 +340,73 @@ function getid(selectedProductId) {
     
     showconfirmation();
 }
+
+
+async function cancelAllOrder(orderId) {
+    try {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: false
+        });
+
+        const result = await swalWithBootstrapButtons.fire({
+            title: "Cancel Entire Order?",
+            text: "This will cancel all products in this order. You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, Cancel Order!",
+            cancelButtonText: "No, Keep Order",
+            reverseButtons: true
+        });
+
+        if (result.isConfirmed) {
+            // Send request to cancel all products in the order
+            const response = await fetch(`/cancelAllorder/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                Swal.fire({
+                    title: "Order Cancelled!",
+                    text: "Your order has been cancelled successfully.",
+                    icon: "success"
+                }).then(() => {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500);
+                });
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: data.message || "Unable to cancel the order.",
+                    icon: "error"
+                });
+            }
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+                title: "Cancelled",
+                text: "Your order is safe!",
+                icon: "info"
+            });
+        }
+    } catch (error) {
+        console.error("Error cancelling order:", error);
+        Swal.fire({
+            title: "Error",
+            text: "An unexpected error occurred while processing your request.",
+            icon: "error"
+        });
+    }
+}
+
 
 async function showconfirmation() {
     try {

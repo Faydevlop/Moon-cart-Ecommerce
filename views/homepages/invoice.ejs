@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    .invoice-box {
+      background: #fff;
+      padding: 30px;
+      border: 1px solid #eee;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    }
+    .invoice-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .invoice-details, .billing-details {
+      margin-bottom: 20px;
+    }
+    .details-table, .product-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .details-table td, .product-table th, .product-table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+    }
+    .product-table th {
+      background-color: #eee;
+    }
+    .text-right {
+      text-align: right;
+    }
+    .total-row {
+      font-weight: bold;
+    }
+    .download-button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .download-button:hover {
+      background-color: #45a049;
+    }
+
+    @media print {
+      .download-button {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="download-button" onclick="window.print()">Download Invoice</button>
+
+  <div class="invoice-box" id="invoice-content">
+    <h2>Invoice - <%= order.order_id %></h2>
+
+    <div class="invoice-details">
+      <table class="details-table">
+        <tr>
+          <td><strong>Customer Name:</strong> <%= order.user.Username %></td>
+          <td><strong>Email:</strong> <%= order.user.email %></td>
+        </tr>
+        <tr>
+          <td><strong>Order Date:</strong> <%= orderDate %></td>
+          <td><strong>Payment Method:</strong> <%= order.paymentmethod %></td>
+        </tr>
+        <tr>
+          <td><strong>Status:</strong> <%= order.status %></td>
+          <td><strong>Order ID:</strong> <%= order.order_id %></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="billing-details">
+      <h3>Shipping Address</h3>
+      <% if (order.address && order.address.length > 0) { %>
+        <% const addr = order.address[0]; %>
+        <p>
+          <%= addr.name %>, <%= addr.mobile %><br>
+          <%= addr.city %> - <%= addr.postalCode %>, <%= addr.country %>
+        </p>
+      <% } else { %>
+        <p>No address found</p>
+      <% } %>
+    </div>
+
+    <h3>Ordered Products</h3>
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Image</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% order.products.forEach(p => { %>
+          <tr>
+            <td><%= p.product.name %></td>
+            <td>
+                <% if (p.product.singleImage && p.product.singleImage.length > 0) { %>
+                  <!-- Image path: /uploads/<%= p.product.singleImage %> -->
+                  <img src="<%= p.product.singleImage %>" alt="product image" style="width: 50px;">
+                <% } else { %>
+                  <span>No image</span>
+                <% } %>
+              </td>
+              
+            <td><%= p.quantity %></td>
+            <td>₹<%= p.price.toFixed(2) %></td>
+            <td>₹<%= p.total ? p.total.toFixed(2) : (p.price * p.quantity).toFixed(2) %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+      <tfoot>
+        <% if (order.offer) { %>
+          <tr>
+            <td colspan="4" class="text-right">Offer Discount</td>
+            <td>₹<%= order.offer.toFixed(2) %></td>
+          </tr>
+        <% } %>
+        <tr class="total-row">
+          <td colspan="4" class="text-right">Grand Total</td>
+          <td>₹<%= order.grandTotal.toFixed(2) %></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</body>
+</html>

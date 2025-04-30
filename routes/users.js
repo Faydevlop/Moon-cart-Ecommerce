@@ -140,6 +140,11 @@ router.get('/orders',controller.orders);
 // cancel order
 router.post('/cancelorder',controller.cancelorder)
 
+router.post('/cancelAllorder/:id',controller.cancelAllorder)
+
+// invoice Route
+
+router.get('/invoice/:id',controller.invoice)
 
 // ordered product page 
 
