@@ -1160,6 +1160,9 @@ const orderconfirmed = async (req, res) => {
         const addressId = req.body.addressId;
         const paymentMethod = req.body.PaymentMethod;
 
+        req.session.selectedAddressId = addressId;
+        req.session.paymentMethod = paymentMethod;
+
         console.log(`Payment method: ${paymentMethod}, Address ID: ${addressId}, User ID: ${userId}`);
 
         const cart = await Cart.findOne({ user: userId }).populate('products.product');
@@ -1326,6 +1329,7 @@ const razorpayverify = async (req, res) => {
         const cart = await Cart.findOne({ user: userId }).populate('products.product');
 
         const saveaddress = await Address.findOne({ _id: req.session.selectedAddressId });
+        
         if (!saveaddress) {
             console.log(4,'address');
             return res.status(400).json({ msg: "fail", reason: "Address not found" });
