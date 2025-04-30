@@ -1305,21 +1305,29 @@ const razorpayverify = async (req, res) => {
             razorpayOrderId,
             razorpaySignature,
         } = req.body.data;
+        console.log(1);
+        
 
         const generatedSignature = crypto.createHmac("sha256", 'e9ZDrjVMpkc6URPlmWLQkzwd').update(orderCreationId + "|" + razorpayPaymentId).digest("hex");
 
+        console.log(2,generatedSignature);
+
         if (generatedSignature !== razorpaySignature) {
+            console.log(3,'hello');
             console.log(generatedSignature,razorpaySignature,'here is the erro');
             return res.status(400).json({ msg: "fail", reason: "Signature mismatch" });
 
             
         }
 
+
+        console.log(4,'hello');
         const userId = req.session.iduser;
         const cart = await Cart.findOne({ user: userId }).populate('products.product');
 
         const saveaddress = await Address.findOne({ _id: req.session.selectedAddressId });
         if (!saveaddress) {
+            console.log(4,'address');
             return res.status(400).json({ msg: "fail", reason: "Address not found" });
         }
 
