@@ -1309,8 +1309,9 @@ const razorpayverify = async (req, res) => {
         const generatedSignature = crypto.createHmac("sha256", 'e9ZDrjVMpkc6URPlmWLQkzwd').update(orderCreationId + "|" + razorpayPaymentId).digest("hex");
 
         if (generatedSignature !== razorpaySignature) {
-            return res.status(400).json({ msg: "fail", reason: "Signature mismatch" });
             console.log(generatedSignature,razorpaySignature,'here is the erro');
+            return res.status(400).json({ msg: "fail", reason: "Signature mismatch" });
+
             
         }
 
