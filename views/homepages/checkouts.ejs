@@ -1262,18 +1262,7 @@ function razorpayFunc(res){
 						window.location.href = "/success";
 					});
 				} else {
-					Swal.fire({
-        title: "Verification Failed",
-        text: "Payment was made, but we couldn’t verify it. Please try again.",
-        icon: "error",
-        showCancelButton: true,
-        confirmButtonText: "Retry",
-        cancelButtonText: "Cancel"
-    }).then(result => {
-        if (result.isConfirmed) {
-            razorpayFunc(res); // Retry again
-        }
-    });
+					alert("Some verification issue caused. Please try again after some time.");
 				}
 			} catch (error) {
 				console.error("Error during verification:", error);
@@ -1294,23 +1283,6 @@ function razorpayFunc(res){
         };
 
 		const rzp = new Razorpay(options);
-
-		rzp.on('payment.failed', function (response) {
-    console.error("Payment failed:", response);
-    Swal.fire({
-        title: "Payment Failed",
-        text: "Your payment was not completed. Please try again.",
-        icon: "error",
-        showCancelButton: true,
-        confirmButtonText: "Retry",
-        cancelButtonText: "Cancel"
-    }).then(result => {
-        if (result.isConfirmed) {
-            razorpayFunc(res); // retry Razorpay payment
-        }
-    });
-});
-
     rzp.open();
 }
 
