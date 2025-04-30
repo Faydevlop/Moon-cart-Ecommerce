@@ -29,7 +29,21 @@ const razorpay = new Razorpay({
   });
 
 
+  const userLogout = (req, res) => {
+    // Destroy the session
+    req.session.destroy(err => {
+        if (err) {
+            console.log('Logout error:', err);
+            return res.status(500).send('Logout failed');
+        }
 
+        // Clear the token cookie if you set one
+        res.clearCookie('token');
+
+        // Redirect to homepage or login
+        res.redirect('/');
+    });
+};
 
 const userloginget = (req, res) => {
 
@@ -1677,7 +1691,7 @@ module.exports = {
     returnorder,
     categorywiseproducts,
     cancelAllorder,
-    invoice
-    
+    invoice,
+    userLogout
 
 }

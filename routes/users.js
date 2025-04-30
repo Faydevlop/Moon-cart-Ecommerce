@@ -26,6 +26,10 @@ router.get('/login',controller.userloginget);
 
 router.post('/login',controller.userloginpost);
 
+// logout
+router.get('/logout', controller.userLogout);
+
+
 /*homepage*/ 
 router.get('/',controller.homepageget);
 
