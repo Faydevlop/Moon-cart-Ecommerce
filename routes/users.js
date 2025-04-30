@@ -18,7 +18,7 @@ async function isBlocked(req,res,next){
         }
         return next()
     }
-   return res.redirect('/signup')
+   return res.redirect('/login')
 }
 
 /*users login */

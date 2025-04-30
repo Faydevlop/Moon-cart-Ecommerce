@@ -755,6 +755,9 @@ const addtocart = async (req, res) => {
         const userId = req.session.iduser;
         const product = await productsmodel.findById(productId);
 
+        if(!userId){
+            return res.status(400).json({message:'Please Login To Add Products To cart'})
+          }
 
               // Check if the user has a cart
       let userCart = await Cart.findOne({ user: userId });
@@ -767,6 +770,8 @@ const addtocart = async (req, res) => {
           totalPrice: 0,
         });
       }
+
+      
 
       // Check if the product is already in the user's cart
       const existingCartItemIndex = userCart.products.findIndex(p => p.product.equals(productId));
@@ -800,7 +805,7 @@ const addtocart = async (req, res) => {
         
     } catch (error) {
         console.error(error);
-        return res.status(400).json({message:'Product Cant add to the cart'})
+        return res.status(400).json({message:'Please Login To Add Products To cart'})
         
     }
 

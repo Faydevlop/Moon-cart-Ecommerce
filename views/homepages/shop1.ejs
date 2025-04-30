@@ -1024,15 +1024,28 @@
 				location.reload()
 				
 			}, 1500);
-        }else{
-			 // Display SweetAlert for errors
-			 Swal.fire({
-                icon: 'error',
-                title: 'Coupon Error',
-                text: data.message || 'An error occurred while applying the coupon.',
-            });
-
-		}
+        }else if (data && data.message === 'Please Login To Add Products To cart') {
+        // 👉 Show login prompt with redirect button
+        Swal.fire({
+            icon: 'warning',
+            title: 'Login Required',
+            text: 'Please login to add products to your cart.',
+            confirmButtonText: 'Login',
+            showCancelButton: true,
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/login';
+            }
+        });
+    } else {
+        // 🔴 Generic error handler
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: data.message || 'An error occurred while adding the product.',
+        });
+    }
 
 
 
