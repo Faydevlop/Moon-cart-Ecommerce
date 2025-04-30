@@ -562,7 +562,7 @@ const resendOtp2 =async(req,res)=>{
 const cartpage = async (req, res) => {
     try {
         const userId = req.session.iduser;
-        const coupons = await couponmodel.find()
+        const coupons = await couponmodel.find({isListed:true})
        
         
 

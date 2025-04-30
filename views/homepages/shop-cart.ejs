@@ -678,7 +678,7 @@
 												<th>Description</th>
 												<th>Discount Percentage</th>
 												<th>Price Limit</th>
-												<th>Max Dis Amount</th>
+												<th>Max redemable Amount</th>
 												<!-- Add more columns as needed -->
 												<th>Action</th>
 											</tr>
@@ -691,7 +691,7 @@
             <td><%= coupon.discripetion %></td>
             <td>%<%= coupon.discountPercentage %> Off</td>
             <td>₹<%= coupon.minAmount %> to ₹<%= coupon.maxAmount %></td>
-            <td>₹<%= coupon.maxDiscountAmount %> Off</td>
+            <td>₹<%= coupon.maxDiscountAmount %> </td>
             <!-- Add more cells with coupon details -->
             <% if(coupon.isUsed) { %>
                 <td>
