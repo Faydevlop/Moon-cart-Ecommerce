@@ -1194,9 +1194,9 @@ async function orderConfirm() {
                         icon: "success"
                     }).then(() => {
                         setTimeout(() => {
-                            location.reload();
+                            window.location.reload();
+							window.location.href = "/success";
                         }, 500);
-                        window.location.href = "/success";
                     });
                 } else if (PaymentMethod === 'upi') {
                     const res = await response.json();
@@ -1262,8 +1262,9 @@ function razorpayFunc(res){
 					}).then(() => {
 						setTimeout(() => {
 							location.reload();
+							window.location.href = "/success";
 						}, 500);
-						window.location.href = "/success";
+						
 					});
 				} else {
 					window.latestRazorpayRes = res;
