@@ -23,7 +23,7 @@ function validateAndSubmit() {
   if (passwordValue === '') {
       passwordError.innerHTML = 'Password is required.';
       return; // Stop further processing
-  } else if (passwordValue.length <= 8 ) {
+  } else if (passwordValue.length <= 4 ) {
       passwordError.innerHTML = 'invalid Password';
       return; // Stop further processing
   }

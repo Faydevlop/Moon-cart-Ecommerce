@@ -19,6 +19,7 @@
 	
 	<!-- PAGE TITLE HERE -->
 	<title>MoonCart Shop & eCommerce HTML Template</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 	
 	<!-- MOBILE SPECIFIC -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -445,15 +446,20 @@
 									<input name="Mobile" id="Mobile"  class="form-control" placeholder="Phone" type="number">
 									<span style="color: red;"  id="MobileError" class="error-message"></span>
 								</div>
-								<div class="m-b40">
+								<div class="m-b40" style="position: relative;">
 									<label class="label-title">Create Password</label>
-									<input name="password" id="password"  class="form-control" placeholder="Password" type="password">
-									<span style="color: red;"  id="passwordError" class="error-message"></span>
+									<input name="password" id="password" class="form-control" placeholder="Password" type="password">
+									<span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password" 
+										  style="position: absolute; right: 15px; top: 45px; cursor: pointer;"></span>
+									<span style="color: red;" id="passwordError" class="error-message"></span>
 								</div>
-								<div class="m-b40">
+								
+								<div class="m-b40" style="position: relative;">
 									<label class="label-title">Confirm Password</label>
-									<input name="cpassword" id="cpassword"  class="form-control" placeholder="Password" type="password">
-									<span style="color: red;"  id="cpasswordError" class="error-message"></span>
+									<input name="cpassword" id="cpassword" class="form-control" placeholder="Password" type="password">
+									<span toggle="#cpassword" class="fa fa-fw fa-eye field-icon toggle-password" 
+										  style="position: absolute; right: 15px; top: 45px; cursor: pointer;"></span>
+									<span style="color: red;" id="cpasswordError" class="error-message"></span>
 								</div>
 								<hr>
 								<div class="m-b40">
@@ -677,6 +683,18 @@
 
 
 </div>
+<script>
+    document.querySelectorAll('.toggle-password').forEach(icon => {
+        icon.addEventListener('click', function () {
+            const input = document.querySelector(this.getAttribute('toggle'));
+            const isPassword = input.getAttribute('type') === 'password';
+            input.setAttribute('type', isPassword ? 'text' : 'password');
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    });
+</script>
+
 
 <!-- JAVASCRIPT FILES ========================================= -->
 <script src="/home/js/jquery.min.js"></script><!-- JQUERY MIN JS -->
