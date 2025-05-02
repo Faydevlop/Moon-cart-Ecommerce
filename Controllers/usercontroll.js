@@ -942,13 +942,7 @@ const forgetpass = (req,res)=>{
         res.render('homepages/forgotpass',{error:error});
 
     }
-    if(req.session.error){
-        const error = req.session.error;
-        req.session.error = ''
-
-        res.render('homepages/forgotpass',{error:error});
-
-    }
+  
     if(req.session.done){
         const done = req.session.done;
         req.session.done = ''
