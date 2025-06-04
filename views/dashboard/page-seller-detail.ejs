@@ -86,7 +86,7 @@
                         <span class="text">User Management</span>
                     </a>
                     <div class="submenu">
-                        <a href="/admin/page-list-users">List Users</a>
+                        <a href="/admin/page-seller-detail">List Users</a>
                        
                         <!-- <a href="page-sellers-list.html">Sellers list</a>
                         <a href="page-seller-detail.html" class="active">Seller profile</a> -->
@@ -229,6 +229,27 @@
 
         <div class="container">
             <h1>Users List</h1>
+            <form method="get" action="/admin/page-seller-detail" class="mb-4">
+  <input type="text" name="search" placeholder="Search by name/email/mobile" class="form-control mb-2">
+
+  <select name="status" class="form-select mb-2">
+    <option value="">All</option>
+    <option value="active">Active</option>
+    <option value="blocked">Blocked</option>
+  </select>
+
+  <div class="row mb-2">
+    <div class="col">
+      <input type="date" name="startDate" class="form-control">
+    </div>
+    <div class="col">
+      <input type="date" name="endDate" class="form-control">
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
             <table class="table">
               <thead>
                 <tr>
@@ -271,6 +292,15 @@
                 <% }); %>
               </tbody>
             </table>
+            <nav>
+  <ul class="pagination">
+    <% for(let i = 1; i <= totalPages; i++) { %>
+      <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+      </li>
+    <% } %>
+  </ul>
+</nav>
         </div>
     
         

@@ -36,7 +36,7 @@ router.post('/login',controller.adminloginpost);
 router.get('/dashboard',isadmin,controller.admindashboardget);
 
 /*admin user management  */ 
-router.get('/page-list-users',isadmin,usermanagementcontroll.usermanagement);
+router.get('/page-seller-detail',isadmin,usermanagementcontroll.usermanagement);
 
 
 /*admin products */ 

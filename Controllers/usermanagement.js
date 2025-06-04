@@ -1,16 +1,46 @@
 const User = require('../models/user')
 
-const usermanagement = async (req,res)=>{
-        try {
-            const user = await User.find();
-            res.render('dashboard/page-seller-detail',{ user })
-            
-        } catch (error) {
-            console.error(error);
-            
-        }
-        
-}
+const usermanagement = async (req, res) => {
+  try {
+    const { search = '', status, startDate, endDate, page = 1, limit = 10 } = req.query;
+
+    const query = {
+      $or: [
+        { Username: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+        { Mobile: { $regex: search, $options: 'i' } },
+      ]
+    };
+
+    if (status === 'blocked') query.isBlocked = true;
+    if (status === 'active') query.isBlocked = false;
+
+    if (startDate && endDate) {
+      query.createdAt = {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate)
+      };
+    }
+
+    const users = await User.find(query)
+      .skip((page - 1) * limit)
+      .limit(parseInt(limit));
+
+    const totalUsers = await User.countDocuments(query);
+    const totalPages = Math.ceil(totalUsers / limit);
+
+    res.render('dashboard/page-seller-detail', {
+      user: users,
+      totalPages,
+      currentPage: Number(page)
+    });
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+};
+
+
  const blockuserpost = async (req,res)=>{
     try {
         const userId = req.params.userId;

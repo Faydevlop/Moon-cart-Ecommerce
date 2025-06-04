@@ -18,7 +18,8 @@ const userSchema = mongoose.Schema({
   referralCode: String,
   referrer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   Wallet:{type:Number},
-});
+},{ timestamps: true }
+);
 
 
 
