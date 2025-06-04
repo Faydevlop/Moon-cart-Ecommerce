@@ -1095,7 +1095,16 @@ const updateQuantity = async (req, res) => {
       // Save the updated cart
       await cart.save();
   
-      res.status(201).json({ success:true, message: 'Quantity updated successfully', cart });
+     res.status(201).json({
+  success: true,
+  message: 'Quantity updated successfully',
+  cartTotal: cart.totalPrice,
+  updatedProduct: {
+    productId: productId,
+    quantity: newQuantity,
+    subtotal: cart.products[productIndex].quantity * cart.products[productIndex].product.price
+  }
+});
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal Server Error' });
