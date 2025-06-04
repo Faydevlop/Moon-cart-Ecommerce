@@ -421,25 +421,26 @@ function ValidateProduct() {
     if (singleImage) {
   const fileExtension = singleImage.name.split('.').pop().toLowerCase();
   if (!['jpeg', 'jpg', 'png'].includes(fileExtension)) {
-    showError('addproductimage', 'Please upload a valid JPEG or PNG image.');
+    showError('productSingleImage', 'Please upload a valid JPEG or PNG image.');
     return false;
   }
 } else {
-  showError('addproductimage', 'Please select a file for the single image.');
+  showError('productSingleImage', 'Please select a file for the single image.');
   return false;
 }
   
     // Validate the multipleImages field
-    if (multipleImages && multipleImages.length > 0) {
+    // For multiple images
+if (multipleImages && multipleImages.length > 0) {
   for (const image of multipleImages) {
     const fileExtension = image.name.split('.').pop().toLowerCase();
     if (!['jpeg', 'jpg', 'png'].includes(fileExtension)) {
-      showError('addproductimages', 'Please upload only valid JPEG or PNG images.');
+      showError('productMultipleImages', 'Please upload only valid JPEG or PNG images.');
       return false;
     }
   }
 } else {
-  showError('addproductimages', 'Please select at least one file for multiple images.');
+  showError('productMultipleImages', 'Please select at least one file for multiple images.');
   return false;
 }
   
