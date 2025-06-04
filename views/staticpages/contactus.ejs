@@ -571,30 +571,33 @@
 						</div>
 						<div class="col-lg-6">
 							<div class="contact-area1 style-1 m-r20 m-md-r0 wow fadeInUp" data-wow-delay="0.5s">
-								<form class="dz-form dzForm" method="POST" action="https://mooncart.dexignzone.com/xhtml/script/contact_smtp.php">
-									<input type="hidden" class="form-control" name="dzToDo" value="Contact">
-									<input type="hidden" class="form-control" name="reCaptchaEnable" value="0">
-									<div class="dzFormMsg"></div>
-									<label class="form-label">Your Name</label>
-									<div class="input-group">
-										<input required type="text" class="form-control" name="dzName">
-									</div>
-									<label class="form-label">Email Address</label>
-									<div class="input-group">
-										<input required type="text" class="form-control" name="dzEmail">
-									</div>
-									<label class="form-label">Phone Number</label>
-									<div class="input-group">
-										<input required type="text" class="form-control" name="dzPhoneNumber">
-									</div>
-									<label class="form-label">Massage</label>
-									<div class="input-group m-b30">
-										<textarea name="dzMessage" rows="4" required class="form-control m-b10"></textarea>
-									</div>
-									<div>
-										<button name="submit" type="submit" value="submit" class="btn w-100 btn-secondary btnhover">SUBMIT</button>
-									</div>
-								</form>
+								<form class="dz-form dzForm" method="POST" action="https://api.web3forms.com/submit" id="contactForm" novalidate>
+  <input type="hidden" name="access_key" value="920f46c7-f571-4f85-87ff-bd9fb6b1027f" />
+
+  <div class="dzFormMsg" id="formStatus"></div>
+
+  <label class="form-label">Your Name</label>
+  <div class="input-group">
+    <input type="text" class="form-control" name="name" id="name" required>
+  </div>
+  <div class="text-danger mt-1" id="nameError"></div>
+
+  <label class="form-label">Email Address</label>
+  <div class="input-group">
+    <input type="email" class="form-control" name="email" id="email" required>
+  </div>
+  <div class="text-danger mt-1" id="emailError"></div>
+
+  <label class="form-label">Message</label>
+  <div class="input-group m-b30">
+    <textarea name="message" rows="4" class="form-control m-b10" id="message" required></textarea>
+  </div>
+  <div class="text-danger mt-1" id="messageError"></div>
+
+  <div>
+    <button name="submit" type="submit" value="submit" class="btn w-100 btn-secondary btnhover">SUBMIT</button>
+  </div>
+</form>
 							</div>
 						</div>
 					</div>
@@ -631,6 +634,43 @@
 <script src="js/dz.carousel.js"></script><!-- DZ CAROUSEL JS -->
 <script src="js/dz.ajax.js"></script><!-- AJAX -->
 <script src="js/custom.js"></script><!-- CUSTOM JS -->
+
+<script>
+  const form = document.getElementById("contactForm");
+
+  form.addEventListener("submit", function (e) {
+    let valid = true;
+
+    // Clear all errors
+    document.getElementById("nameError").textContent = "";
+    document.getElementById("emailError").textContent = "";
+    document.getElementById("messageError").textContent = "";
+
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const message = form.message.value.trim();
+
+    if (!name) {
+      document.getElementById("nameError").textContent = "Name is required.";
+      valid = false;
+    }
+
+    if (!email) {
+      document.getElementById("emailError").textContent = "Email is required.";
+      valid = false;
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      document.getElementById("emailError").textContent = "Enter a valid email.";
+      valid = false;
+    }
+
+    if (!message) {
+      document.getElementById("messageError").textContent = "Message is required.";
+      valid = false;
+    }
+
+    if (!valid) e.preventDefault();
+  });
+</script>
 
 </body>
 
