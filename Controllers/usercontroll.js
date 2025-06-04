@@ -20,6 +20,7 @@ const shortid = require('shortid');;
 
 require('dotenv').config();
 const Razorpay = require('razorpay');
+const { sendPaymentSuccessEmail } = require('../UTILS/orderMailer');
 
 
 
@@ -1246,6 +1247,14 @@ const orderconfirmed = async (req, res) => {
                 { new: true }
             );
 
+            const user = await User.findById(userId);
+if (user && user.email) {
+     console.log('email fun call 1');
+    await sendPaymentSuccessEmail(user.email, cart.products);
+    console.log('email fun call 2');
+    
+}
+
             return res.status(201).json({ success: true, message: "Order placed successfully" });
         } 
         else if (paymentMethod === 'upi') {
@@ -1399,6 +1408,11 @@ const razorpayverify = async (req, res) => {
             { $set: { products: [], totalPrice: 0 }, $unset: { appliedCoupon: '' } },
             { new: true }
         );
+
+        const user = await User.findById(userId);
+if (user && user.email) {
+    await sendPaymentSuccessEmail(user.email, cart.products);
+}
 
         return res.status(200).json({ msg: "success" });
 
