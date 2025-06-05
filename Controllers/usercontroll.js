@@ -25,9 +25,9 @@ const { sendPaymentSuccessEmail } = require('../UTILS/orderMailer');
 
 
 const razorpay = new Razorpay({
-    key_id: 'rzp_test_3QZGfdP9jI4TUT',
-    key_secret: 'e9ZDrjVMpkc6URPlmWLQkzwd', 
-  });
+  key_id: process.env.RAZORPAY_ID_KEY,
+  key_secret: process.env.RAZORPAY_SECRET_KEY,
+});
 
 
   const userLogout = (req, res) => {
@@ -977,12 +977,12 @@ const forgetpasspost = async (req, res) => {
 
     // Nodemailer configuration
     const transporter = nodemailer.createTransport({
-        service: 'gmail', // Use your email service (e.g., 'gmail')
-        auth: {
-            user: 'zenwrists@gmail.com', // Use your email
-            pass: 'gzoq yixb vuql elws' // Use your email password or app-specific password
-        }
-    });
+    service: process.env.EMAIL_SERVICE,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
 
     // Email options
     const mailOptions = {
