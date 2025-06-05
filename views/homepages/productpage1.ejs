@@ -723,7 +723,9 @@
 										<P>"Temporarily out of stock, but stay tuned for its triumphant return. Your patience is about to be rewarded!"</P>
 										<%} else {%>
 											<a href="/cart/<%= products._id  %>" class="btn btn-secondary text-uppercase">Add To Cart</a>
-										
+										<form action="/wishlist/add/<%= products._id %>" method="POST">
+  <button type="submit" class="btn btn-primary text-uppercase" > Add to Wishlist</button>
+</form>
 
 											<%}%>
 									

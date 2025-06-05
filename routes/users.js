@@ -5,6 +5,7 @@ const controller = require('../Controllers/usercontroll')
 const ordercontroller = require('../Controllers/orders')
 const staticcontroller = require('../Controllers/staticcontroller');
 const verifyUser = require('../middleware/verifyUser');
+const { createWishLIst, removeWishlist, getWishList } = require('../Controllers/wishlistController');
 // const cartcontroller = require('../Controllers/cartcontroller')
 
 
@@ -161,6 +162,16 @@ router.get('/productorder/:productId',ordercontroller.orderedproductpage);
 
 // remove copon
 router.post('/removecop',controller.removecopen)
+
+// wishlist - add
+router.post('/wishlist/add/:productId',isBlocked,createWishLIst)
+
+// wishlist - remove
+router.post('/wishlist/remove/:productId',isBlocked,removeWishlist)
+
+// wishlist Show - get
+router.get('/wishlist',isBlocked,getWishList)
+
 
 
 // listing all static pages 

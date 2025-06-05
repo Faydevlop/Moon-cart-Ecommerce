@@ -18,6 +18,10 @@ const userSchema = mongoose.Schema({
   referralCode: String,
   referrer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   Wallet:{type:Number},
+  wishlist: [{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'Product',
+}]
 },{ timestamps: true }
 );
 

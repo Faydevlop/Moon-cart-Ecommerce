@@ -1,4 +1,4 @@
-const { model, default: mongoose } = require('mongoose');
+    const { model, default: mongoose } = require('mongoose');
 const Categeory = require('../models/categorymodel');
 
 
