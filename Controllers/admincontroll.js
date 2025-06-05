@@ -47,13 +47,24 @@ const adminloginget = (req,res)=>{
     };
     
 
-
- const admindashboardget =(req,res)=>{
-      
-           return res.render('dashboard/admindashboard');
+const admindashboardget = (req, res) => {
+    if (!req.session.adminhere) {
+        return res.redirect('/admin/login');
     }
+    res.render('dashboard/admindashboard');
+};
+
     
       
+const adminlogoutget = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Logout Error:', err);
+            return res.status(500).send('Logout failed');
+        }
+        res.redirect('/admin/login');
+    });
+};
 
     
    
@@ -68,8 +79,5 @@ module.exports = {
     adminloginget,
     adminloginpost,
     admindashboardget,
-
-
-
-
+    adminlogoutget,
 }

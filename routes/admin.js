@@ -131,4 +131,7 @@ router.post('/iscat',offercontroll.iscat)
 router.post('/catdelet',offercontroll.deletcat);
 router.post('/productdelet',offercontroll.deletproduct);
 
+// admin logout
+router.get('/logout', controller.adminlogoutget);
+
 module.exports = router;
