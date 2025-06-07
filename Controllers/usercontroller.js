@@ -30,8 +30,7 @@ const razorpay = new Razorpay({
 });
 
 
-  const userLogout = (req, res) => {
-    // Destroy the session
+const userLogout = (req, res) => {
     req.session.destroy(err => {
         if (err) {
             console.log('Logout error:', err);
@@ -40,6 +39,11 @@ const razorpay = new Razorpay({
 
         // Clear the token cookie if you set one
         res.clearCookie('token');
+
+        // *** IMPORTANT: Add Cache-Control Headers to prevent caching ***
+        res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+        res.header('Expires', '-1');
+        res.header('Pragma', 'no-cache');
 
         // Redirect to homepage or login
         res.redirect('/');

@@ -77,9 +77,35 @@
           <td><strong>Email:</strong> <%= order.user.email %></td>
         </tr>
         <tr>
-          <td><strong>Order Date:</strong> <%= orderDate %></td>
-          <td><strong>Payment Method:</strong> <%= order.paymentmethod %></td>
-        </tr>
+    <tr>
+    <td>
+        <strong>Order Date:</strong> 
+        <% 
+            // Assuming 'orderDate' is a Date object, or can be converted to one
+            // If 'orderDate' is part of an 'order' object (e.g., order.createdAt), use that
+            const orderDateTime = new Date(order.createdAt); // Use order.createdAt or similar
+        %>
+        <%= orderDateTime.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+        <%= orderDateTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) %>
+    </td>
+    <td>
+        <strong>Payment Method:</strong> 
+        <% if (order.paymentmethod === 'cashondelivery') { %>
+            COD
+        <% } else { %>
+            Razorpay
+        <% } %>
+    </td>
+</tr>
+    <td>
+        <strong>Payment Method:</strong> 
+        <% if (order.paymentmethod === 'cashondelivery') { %>
+            COD
+        <% } else { %>
+            Razorpay
+        <% } %>
+    </td>
+</tr>
         <tr>
           <td><strong>Status:</strong> <%= order.status %></td>
           <td><strong>Order ID:</strong> <%= order.order_id %></td>

@@ -4,178 +4,118 @@ const user = require('../models/user');
 const controller = require('../Controllers/usercontroller')
 const ordercontroller = require('../Controllers/orders')
 const staticcontroller = require('../Controllers/staticcontroller');
-const verifyUser = require('../middleware/verifyUser');
+const verifyUser = require('../middleware/verifyUser'); // Is this used for token verification?
 const { createWishLIst, removeWishlist, getWishList } = require('../Controllers/wishlistController');
-// const cartcontroller = require('../Controllers/cartcontroller')
 
 
+// Your isBlocked middleware (moved for clarity, but can stay where it is if you prefer)
 async function isBlocked(req,res,next){
-
-    if(req.session.user){
-        const {email} = req.session.user
-        const loguser = await user.findOne({ email: email })
-        if(loguser.isBlocked){
-          return  res.redirect('/signup')
-        }
-        return next()
-    }
-   return res.redirect('/login')
+    if(req.session.user){ // This is the core check for logged-in status
+        const {email} = req.session.user
+        const loguser = await user.findOne({ email: email })
+        if(loguser.isBlocked){
+          // If blocked, destroy session and redirect
+          req.session.destroy(err => { 
+                if (err) console.error("Session destroy error on block:", err); 
+            });
+          res.clearCookie('token'); // Clear token if you use JWT
+          res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+          res.header('Expires', '-1');
+          res.header('Pragma', 'no-cache');
+          return res.redirect('/signup') // Or '/login' with an error message
+        }
+        // If logged in and not blocked, apply cache control and proceed
+        res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+        res.header('Expires', '-1');
+        res.header('Pragma', 'no-cache');
+        return next()
+    }
+   // If not logged in, apply cache control and redirect to login
+   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+   res.header('Expires', '-1');
+   res.header('Pragma', 'no-cache');
+   return res.redirect('/login')
 }
 
-/*users login */
+
+/* --- Public Routes (No authentication needed) --- */
 router.get('/login',controller.userloginget);
-
 router.post('/login',controller.userloginpost);
+router.get('/signup',controller.usersignup)
+router.post('/signup',controller.usersinuppost)
+router.post('/resend-otp',controller.resendOtp)
+router.post('/resend-otp2',controller.resendOtp2)
+router.get('/verification',controller.otplogin)
+router.get('/verification2',controller.otplogin2)
+router.post('/postVerification2',controller.otploginpost2)
+router.post('/postVerification',controller.otploginpost)
+router.get('/forgotpass',controller.forgetpass);
+router.post('/forgotpass',controller.forgetpasspost);
+router.get('/restpass/:userId/:token',controller.resetpass);
+router.post('/restpass/:userId/:token',controller.resetpasspost);
+router.get('/error',controller.errorpage);
+router.get('/',controller.homepageget); // Homepage is usually public
+router.get('/shop',controller.homeshop); // Shop page might be public to browse products
+router.get('/productpage/:productID',controller.productpageget); // Viewing a single product might be public
+router.post('/productpage/:productID',controller.productpagepost); // If this is for adding to cart (unauth cart), keep public; otherwise, protect.
 
-// logout
+// Logout route (doesn't need isBlocked, as it ends the session)
 router.get('/logout', controller.userLogout);
 
 
-/*homepage*/ 
-router.get('/',controller.homepageget);
+/* --- Protected Routes (Applying isBlocked middleware) --- */
 
-/*homepage shop*/ 
-router.get('/shop',controller.homeshop);
-// product page get
-router.get('/productpage/:productID',controller.productpageget);
+// If product page actions require login (like adding to cart)
+// Note: If you have a public product page, and a separate route for adding to cart,
+// only protect the add-to-cart action.
+router.post('/productpage/:productID', isBlocked, controller.productpagepost); // If post action needs login
 
-
-
-/*user signup*/ 
-
-router.get('/signup',controller.usersignup)
-
-router.post('/signup',controller.usersinuppost)
-
-/*resend otp*/ 
-router.post('/resend-otp',controller.resendOtp)
-
-/*resend otp2*/ 
-router.post('/resend-otp2',controller.resendOtp2)
-
-
-/*OTP page*/ 
-router.get('/verification',controller.otplogin)
-
-/* OTP page 2*/
-router.get('/verification2',controller.otplogin2) 
-router.post('/postVerification2',controller.otploginpost2)
-
-// 
-
-router.post('/postVerification',controller.otploginpost)
-
-/* product page*/ 
-
-router.get('/productpage/:productID',isBlocked,controller.productpageget);
-
-router.post('/productpage/:productID',controller.productpagepost);
-
-/*user account*/ 
 router.get('/accounts',isBlocked,controller.useraccount);
-
-
-
-/* update user*/ 
 router.get('/editac/:userId',isBlocked,controller.updateuserget);
+router.post('/userupdate',isBlocked,controller.updatedetials) // Protected update
 
-
-
-/* chekout */ 
 router.get('/checkout',isBlocked,controller.checkout);
+router.post('/orderConfirmation',isBlocked,controller.orderconfirmed);
+router.get('/success',isBlocked,controller.successpage); // MUST BE PROTECTED if showing order details
+router.post('/rzrpay-verify',isBlocked,controller.razorpayverify)
 
-/* update user id */
-router.post('/userupdate',controller.updatedetials) 
-
-
-
-/*add to cart*/
+// Cart related
 router.get('/cart/:productId',isBlocked,controller.addtocart)
-
-router.post('/cart/:productId',controller.addtocartppost)
-
-/* adding address */ 
-router.post('/address/:userId',controller.address)
-
-/* delteing the address */ 
-router.post('/delete-address/:addressId',controller.delteaddress);
-
-/* forget pass */
-router.get('/forgotpass',controller.forgetpass);
-
-router.post('/forgotpass',controller.forgetpasspost);
-
-
-
-/* resetpass */ 
-
-router.get('/restpass/:userId/:token',controller.resetpass);
-
-router.post('/restpass/:userId/:token',controller.resetpasspost);
-
-/* cartpage */ 
+router.post('/cart/:productId',isBlocked,controller.addtocartppost) // Assuming this is adding to cart
 router.get('/cartpage',isBlocked,controller.cartpage)
+router.post('/postcart',isBlocked,controller.postcart)
+router.post('/updateQuantity',isBlocked,controller.updateQuantity) 
+router.post('/removeitem/:productId',isBlocked,controller.removeitemcart);
+router.post('/addcart',isBlocked,controller.addtocartshort); // Protected short add to cart
 
-router.post('/postcart',controller.postcart)
+// Address related
+router.post('/address/:userId',isBlocked,controller.address)
+router.post('/delete-address/:addressId',isBlocked,controller.delteaddress);
+router.post('/toggleaddress/:addressId', isBlocked, controller.toggleAddress);
+router.get('/editaddress/:id',isBlocked,controller.editaddress)
+router.post('/editaddress/:id',isBlocked,controller.editaddresspost);
 
-/* quantity increaing  */
-router.post('/updateQuantity',controller.updateQuantity) 
+// Order related
+router.get('/orders',isBlocked,controller.orders); // MUST BE PROTECTED
+router.post('/cancelorder',isBlocked,controller.cancelorder)
+router.post('/cancelAllorder/:id',isBlocked,controller.cancelAllorder)
+router.get('/invoice/:id',isBlocked,controller.invoice) // MUST BE PROTECTED
+router.get('/productorder/:productId',isBlocked,ordercontroller.orderedproductpage); // MUST BE PROTECTED
+router.post('/returnorder',isBlocked,controller.returnorder)
 
-//to remove an item from cart
+// Coupon related
+router.post('/removecop',isBlocked,controller.removecopen)
 
-router.post('/removeitem/:productId',controller.removeitemcart);
-
-// error page
-router.get('/error',controller.errorpage);
-
-// select address
-router.post('/toggleaddress/:addressId', controller.toggleAddress);
-
-// editing address page
-router.get('/editaddress/:id',controller.editaddress)
-
-router.post('/editaddress/:id',controller.editaddresspost);
-
-router.post('/orderConfirmation',controller.orderconfirmed);
-
-// order success page
-router.get('/success',controller.successpage);
-
-router.post('/rzrpay-verify',controller.razorpayverify)
-
-// oreder page
-
-router.get('/orders',controller.orders);
-
-// cancel order
-router.post('/cancelorder',controller.cancelorder)
-
-router.post('/cancelAllorder/:id',controller.cancelAllorder)
-
-// invoice Route
-
-router.get('/invoice/:id',controller.invoice)
-
-// ordered product page 
-
-router.get('/productorder/:productId',ordercontroller.orderedproductpage);
-
-// remove copon
-router.post('/removecop',controller.removecopen)
-
-// wishlist - add
+// Wishlist related
 router.post('/wishlist/add/:productId',isBlocked,createWishLIst)
-
-// wishlist - remove
 router.post('/wishlist/remove/:productId',isBlocked,removeWishlist)
-
-// wishlist Show - get
 router.get('/wishlist',isBlocked,getWishList)
 
+// Other protected routes
+router.get('/category/:id',controller.categorywiseproducts) // Depends: if category view is public, don't protect. If it shows user-specific categories, protect.
+router.get('/products/:productId',controller.modal) // Depends: if modal is public for viewing, don't protect. If it shows user-specific data, protect.
 
-
-// listing all static pages 
-
+// Listing all static pages (usually public)
 router.get('/blog',staticcontroller.blogpage)
 router.get('/aboutus',staticcontroller.aboutuspage)
 router.get('/aboutme',staticcontroller.aboutmepage)
@@ -186,22 +126,5 @@ router.get('/blog2',staticcontroller.blogpage2)
 router.get('/ourteam',staticcontroller.ourteampage)
 router.get('/pricetable',staticcontroller.pricingpage)
 
-// product modal method
-router.get('/products/:productId',controller.modal)
-
-// add to cart short method 
-router.post('/addcart',controller.addtocartshort);
-// order return 
-router.post('/returnorder',controller.returnorder)
-// category waise product listing
-router.get('/category/:id',controller.categorywiseproducts)
-
-
-
-
-
-
-
 
 module.exports = router;
- 
