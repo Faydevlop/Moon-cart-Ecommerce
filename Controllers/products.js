@@ -90,12 +90,36 @@ const productspagepost = async (req, res) => {
 
 
 const listproductget = async (req, res) => {
+    try {
+        const perPage = 10; // Number of products per page
+        const page = parseInt(req.query.page) || 1; // Current page, default to 1
+        const searchQuery = req.query.search || ''; // Search query from the URL
 
-    const products = await productmodel.find({});
-    
+        let query = {};
+        if (searchQuery) {
+            // Case-insensitive search on the product name
+            query.name = { $regex: new RegExp(searchQuery, 'i') };
+        }
 
-    res.render('dashboard/page-products-grid', { products })
-}
+        const totalProducts = await productmodel.countDocuments(query);
+        const totalPages = Math.ceil(totalProducts / perPage);
+
+        const products = await productmodel.find(query)
+            .skip((page - 1) * perPage)
+            .limit(perPage)
+            .sort({ createdAt: -1 }); // Sort by creation date, newest first
+
+        res.render('dashboard/page-products-grid', {
+            products,
+            currentPage: page,
+            totalPages: totalPages,
+            searchQuery: searchQuery
+        });
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
 
 
 const listproductpost = (req, res) => {

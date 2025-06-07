@@ -169,96 +169,74 @@
             </div>
         </header>
         <section class="content-main">
-            <div class="content-header">
-                <div>
-                    <h2 class="content-title card-title">Products </h2>
-                    <!-- <p>Lorem ipsum dolor sit amet.</p> -->
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Products </h2>
+        </div>
+        <div>
+            <a href="/admin/page-add-products" class="btn btn-primary btn-sm rounded">Add new Product</a>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row gx-3">
+                <div class="col-lg-4 col-md-6 me-auto">
+                    <form action="/admin/page-products-list" method="GET">
+                        <input type="text" placeholder="Search..." class="form-control" name="search" value="<%= searchQuery %>">
+                        <button type="submit" style="display: none;"></button> </form>
                 </div>
-                <div>
-                    <!-- <a href="#" class="btn btn-light rounded font-md">Export</a>
-                    <a href="#" class="btn btn-light rounded  font-md">Import</a> -->
-                    <a href="/admin/page-add-products" class="btn btn-primary btn-sm rounded">Add new Product</a>
-                </div>
+                
             </div>
-            <div class="card mb-4">
-                <header class="card-header">
-                    <div class="row gx-3">
-                        <div class="col-lg-4 col-md-6 me-auto">
-                            <input type="text" placeholder="Search..." class="form-control">
-                        </div>
-                        <div class="col-lg-2 col-6 col-md-3">
-                            <select class="form-select">
-                                <option>All category</option>
-                                <option>Electronics</option>
-                                <option>Clothings</option>
-                                <option>Something else</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-2 col-6 col-md-3">
-                            <select class="form-select">
-                                <option>Latest added</option>
-                                <option>Cheap first</option>
-                                <option>Most viewed</option>
-                            </select>
-                        </div>
-                    </div>
-                </header> <!-- card-header end// -->
-
-
-                <div class="card-body">
-                    <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
-                        <% if(products.length) { %>
-                            <% products.reverse().forEach((product, item) => { %>
-                                <div class="col">
-                                    <div class="card card-product-grid" style="height: 400px;"> <!-- Set a fixed height for the card -->
-                                        <a href="#" class="img-wrap" style="display: flex; align-items: center; justify-content: center; height: 80%;"> <!-- Center the image within the container -->
-                                            <img src="<%= product.singleImage %>" alt="Product" style=" max-height: 70%; object-fit: contain;"> <!-- Set max-width and max-height to maintain aspect ratio -->
+        </header> <div class="card-body">
+            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+                <% if(products.length) { %>
+                    <% products.forEach((product) => { %>
+                        <div class="col">
+                            <div class="card card-product-grid" style="height: 400px;">
+                                <a href="#" class="img-wrap" style="display: flex; align-items: center; justify-content: center; height: 80%;">
+                                    <img src="<%= product.singleImage %>" alt="Product" style=" max-height: 70%; object-fit: contain;">
+                                </a>
+                                <div class="info-wrap">
+                                    <a href="#" class="title text-truncate"><%= product.name %></a>
+                                    <div class="price mb-2">$<%= product.price %></div>
+                                    <div style="display: flex; gap: 1rem;">
+                                        <a href="/admin/editproducts/<%= product._id %>" class="btn btn-sm font-sm rounded btn-brand">
+                                            <i class="material-icons md-edit"></i> Edit
                                         </a>
-                                        <div class="info-wrap">
-                                            <a href="#" class="title text-truncate"><%= product.name %></a>
-                                            <div class="price mb-2">$<%= product.price %></div> <!-- price.// -->
-                                            <div style="display: flex; gap: 1rem;">
-                                            <a href="/admin/editproducts/<%= product._id %>" class="btn btn-sm font-sm rounded btn-brand">
-                                                <i class="material-icons md-edit"></i> Edit
-                                            </a>
-                                            <form action="/admin/deleteproductget/<%= product._id %>" method="post">
-                                                <button type="submit" class="btn btn-sm font-sm rounded btn-brand" style="color: red;">
-                                                    <i class="material-icons md-edit"></i> Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                        </div>
-                                    </div> <!-- card-product  end// -->
-                                </div> <!-- col.// -->
-                            <% }); %>
-                        <% } else { %>
-                            <div class="col">
-                                <div class="card card-product-grid" style="height: 400px;">
-                                    <div class="info-wrap">
-                                        <div> No products </div>
+                                        <form action="/admin/deleteproductget/<%= product._id %>" method="post">
+                                            <button type="submit" class="btn btn-sm font-sm rounded btn-brand" style="color: red;">
+                                                <i class="material-icons md-edit"></i> Delete
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
+                            </div> </div> <% }); %>
+                <% } else { %>
+                    <div class="col">
+                        <div class="card card-product-grid" style="height: 400px;">
+                            <div class="info-wrap">
+                                <div> No products found. </div>
                             </div>
-                        <% } %>
-                    </div> <!-- row.// -->
-                </div> <!-- card-body end// -->
-                </div> <!-- card end// -->
-                
-                
-                
-            <div class="pagination-area mt-30 mb-50">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-start">
-                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                        <li class="page-item"><a class="page-link" href="#">02</a></li>
-                        <li class="page-item"><a class="page-link" href="#">03</a></li>
-                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">16</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
-                    </ul>
-                </nav>
-            </div>
-        </section> <!-- content-main end// -->
+                        </div>
+                    </div>
+                <% } %>
+            </div> </div> </div> <div class="pagination-area mt-30 mb-50">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <% for(let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %><% if (searchQuery) { %>&search=<%= searchQuery %><% } %>"><%= i %></a>
+                    </li>
+                <% } %>
+                <% if (currentPage < totalPages) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage + 1 %><% if (searchQuery) { %>&search=<%= searchQuery %><% } %>"><i class="material-icons md-chevron_right"></i></a>
+                    </li>
+                <% } %>
+            </ul>
+        </nav>
+    </div>
+</section>
         <footer class="main-footer font-xs">
             <div class="row pb-30 pt-15">
                 <div class="col-sm-6">

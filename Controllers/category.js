@@ -49,33 +49,53 @@ const Categeory = require('../models/categorymodel');
 
     }
 
-    const listcategory = async (req,res) =>{
-        try {
-            const cat = await Categeory.find({});
+const listcategory = async (req, res) => {
+    try {
+        const perPage = 10; // Number of categories per page
+        const page = parseInt(req.query.page) || 1; // Current page, default to 1
+        const searchQuery = req.query.search || ''; // Search query from the URL
 
-            if(req.session.donee){
-                const donee = req.session.donee;
-                req.session.donee = '';
-                return res.render('dashboard/page-products-grid-2',{cat,donee});
-
-            }
-            if(req.session.error){
-                const errorr = req.session.errorr;
-                req.session.errorr = '';
-                return res.render('dashboard/page-products-grid-2',{cat,errorr});
-
-            }
-
-
-        res.render('dashboard/page-products-grid-2',{cat});
-            
-        } catch (error) {
-            console.log(error)
+        let query = {};
+        if (searchQuery) {
+            // Case-insensitive search on the category name
+            query.categoryname = { $regex: new RegExp(searchQuery, 'i') };
         }
 
-        
+        const totalCategories = await Categeory.countDocuments(query);
+        const totalPages = Math.ceil(totalCategories / perPage);
 
+        const categories = await Categeory.find(query)
+            .skip((page - 1) * perPage)
+            .limit(perPage)
+            .sort({ createdAt: -1 }); // Sort by creation date, newest first (adjust as needed)
+
+        let donee = '';
+        if (req.session.donee) {
+            donee = req.session.donee;
+            req.session.donee = ''; // Clear the session message
+        }
+
+        let errorr = ''; // Corrected variable name to match EJS
+        if (req.session.error) { // Assuming it's req.session.error, not errorr
+            errorr = req.session.error;
+            req.session.error = ''; // Clear the session message
+        }
+
+
+        res.render('dashboard/page-products-grid-2', {
+            cat: categories, // Renamed to 'categories' for clarity, but passed as 'cat' to match EJS
+            currentPage: page,
+            totalPages: totalPages,
+            searchQuery: searchQuery,
+            donee: donee, // Pass the messages to the EJS
+            errorr: errorr // Pass the messages to the EJS
+        });
+
+    } catch (error) {
+        console.error('Error fetching categories:', error); // Use console.error for errors
+        res.status(500).send('Internal Server Error');
     }
+};
 
 
 
