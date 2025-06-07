@@ -4,23 +4,198 @@ const categoryoffers = require('../models/categoryoffers ')
 const productOffer = require('../models/productoffers')
 
 
-const offerspage = async (req,res)=>{
-    const categories = await categorymodel.find();
-    const products = await prodectmodel.find();
-    const offers = await productOffer.find().populate('productName');
-    const cat = await categoryoffers.find().populate('categoryName');
-    if(!categories&&products){
-        res.send('somthing went wrong')
+const offerspage = async (req, res) => {
+    try {
+        // --- Common variables for both tables ---
+        const offersPerPage = 10; // You can make this configurable if needed
 
-    }
-    if(req.session.error){
-        const error = req.session.error;
-        req.session.error = ''
+        // --- Product Offer Parameters ---
+        const productSearch = req.query.productSearch || '';
+        const productStartDate = req.query.productStartDate;
+        const productEndDate = req.query.productEndDate;
+        const productSort = req.query.productSort || 'newest';
+        const productPage = parseInt(req.query.productPage) || 1;
+        const productSkip = (productPage - 1) * offersPerPage;
 
-        return   res.render('dashboard/offers',({categories:categories,products:products,offers:offers,cat:cat,error:error}));
+        // --- Category Offer Parameters ---
+        const categorySearch = req.query.categorySearch || '';
+        const categoryStartDate = req.query.categoryStartDate;
+        const categoryEndDate = req.query.categoryEndDate;
+        const categorySort = req.query.categorySort || 'newest';
+        const categoryPage = parseInt(req.query.categoryPage) || 1;
+        const categorySkip = (categoryPage - 1) * offersPerPage;
+
+        // --- Build Product Offer Query ---
+        let productOffersQuery = {};
+        let productSortOption = {};
+
+        // Product Offer Search
+        if (productSearch) {
+            const searchRegex = new RegExp(productSearch, 'i');
+            const productsMatchingSearch = await prodectmodel.find({ name: searchRegex }).select('_id');
+            const productIds = productsMatchingSearch.map(p => p._id);
+
+            productOffersQuery.$or = [
+                { offerName: searchRegex },
+            ];
+            if (productIds.length > 0) {
+                productOffersQuery.$or.push({ productName: { $in: productIds } });
+            }
+        }
+
+        // Product Offer Date Filter
+        if (productStartDate || productEndDate) {
+            productOffersQuery.$and = productOffersQuery.$and || [];
+            let start = productStartDate ? new Date(productStartDate) : new Date(0); // Epoch start if not provided
+            start.setHours(0, 0, 0, 0);
+
+            let end = productEndDate ? new Date(productEndDate) : new Date('2099-12-31'); // Far future if not provided
+            end.setHours(23, 59, 59, 999);
+
+            productOffersQuery.$and.push({
+                startDate: { $lte: end },
+                endDate: { $gte: start }
+            });
+        }
+
+        // Product Offer Sort
+        switch (productSort) {
+            case 'oldest':
+                productSortOption = { createdAt: 1 };
+                break;
+            case 'startDateAsc':
+                productSortOption = { startDate: 1 };
+                break;
+            case 'endDateAsc':
+                productSortOption = { endDate: 1 };
+                break;
+            case 'newest':
+            default:
+                productSortOption = { createdAt: -1 };
+                break;
+        }
+
+        // --- Fetch Product Offers ---
+        const totalProductOffers = await productOffer.countDocuments(productOffersQuery);
+        const productTotalPages = Math.ceil(totalProductOffers / offersPerPage);
+        const offers = await productOffer.find(productOffersQuery)
+                                         .populate('productName')
+                                         .sort(productSortOption)
+                                         .skip(productSkip)
+                                         .limit(offersPerPage);
+
+        // --- Build Category Offer Query ---
+        let categoryOffersQuery = {};
+        let categorySortOption = {};
+
+        // Category Offer Search
+        if (categorySearch) {
+            const searchRegex = new RegExp(categorySearch, 'i');
+            const categoriesMatchingSearch = await categorymodel.find({ categoryname: searchRegex }).select('_id');
+            const categoryIds = categoriesMatchingSearch.map(c => c._id);
+
+            categoryOffersQuery.$or = [
+                { offerName: searchRegex },
+            ];
+            if (categoryIds.length > 0) {
+                categoryOffersQuery.$or.push({ categoryName: { $in: categoryIds } });
+            }
+        }
+
+        // Category Offer Date Filter
+        if (categoryStartDate || categoryEndDate) {
+            categoryOffersQuery.$and = categoryOffersQuery.$and || [];
+            let start = categoryStartDate ? new Date(categoryStartDate) : new Date(0);
+            start.setHours(0, 0, 0, 0);
+
+            let end = categoryEndDate ? new Date(categoryEndDate) : new Date('2099-12-31');
+            end.setHours(23, 59, 59, 999);
+
+            categoryOffersQuery.$and.push({
+                startDate: { $lte: end },
+                endDate: { $gte: start }
+            });
+        }
+
+        // Category Offer Sort
+        switch (categorySort) {
+            case 'oldest':
+                categorySortOption = { createdAt: 1 };
+                break;
+            case 'startDateAsc':
+                categorySortOption = { startDate: 1 };
+                break;
+            case 'endDateAsc':
+                categorySortOption = { endDate: 1 };
+                break;
+            case 'newest':
+            default:
+                categorySortOption = { createdAt: -1 };
+                break;
+        }
+
+        // --- Fetch Category Offers ---
+        const totalCategoryOffers = await categoryoffers.countDocuments(categoryOffersQuery);
+        const categoryTotalPages = Math.ceil(totalCategoryOffers / offersPerPage);
+        const cat = await categoryoffers.find(categoryOffersQuery)
+                                        .populate('categoryName')
+                                        .sort(categorySortOption)
+                                        .skip(categorySkip)
+                                        .limit(offersPerPage);
+
+        // --- Prepare data for EJS ---
+        const categories = await categorymodel.find();
+        const products = await prodectmodel.find();
+
+        if (!categories || !products) {
+            return res.status(500).send('Something went wrong: Categories or products not found.');
+        }
+
+        let renderData = {
+            categories: categories,
+            products: products,
+            // Product Offer Data
+            offers: offers,
+            productSearch: productSearch,
+            productStartDate: productStartDate,
+            productEndDate: productEndDate,
+            productSort: productSort,
+            productCurrentPage: productPage,
+            productTotalPages: productTotalPages,
+            productQueryParams: {
+                productSearch: productSearch,
+                productStartDate: productStartDate,
+                productEndDate: productEndDate,
+                productSort: productSort,
+            },
+            // Category Offer Data
+            cat: cat,
+            categorySearch: categorySearch,
+            categoryStartDate: categoryStartDate,
+            categoryEndDate: categoryEndDate,
+            categorySort: categorySort,
+            categoryCurrentPage: categoryPage,
+            categoryTotalPages: categoryTotalPages,
+            categoryQueryParams: {
+                categorySearch: categorySearch,
+                categoryStartDate: categoryStartDate,
+                categoryEndDate: categoryEndDate,
+                categorySort: categorySort,
+            },
+        };
+
+        if (req.session.error) {
+            renderData.error = req.session.error;
+            req.session.error = '';
+        }
+
+        return res.render('dashboard/offers', renderData);
+
+    } catch (error) {
+        console.error('Error fetching offers:', error);
+        res.status(500).send('Internal Server Error');
     }
-    res.render('dashboard/offers',({categories:categories,products:products,offers:offers,cat:cat}));
-}
+};
 
 
 const offerpost = async (req,res)=>{

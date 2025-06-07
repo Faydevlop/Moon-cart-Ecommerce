@@ -345,13 +345,14 @@ function ValidateProduct() {
     const stock = document.getElementById('addproductcount').value.trim();
   
     // Validate the name field
-    if (!name) {
-      showError('addproductname', 'Please enter a product name.');
-      return false;
-    } else if (!/^[a-zA-Z\s]+$/.test(name)) {
-      showError('addproductname', 'Product name must contain only letters and spaces.');
-      return false;
-    }
+   if (!name) {
+  showError('addproductname', 'Please enter a product name.');
+  return false;
+} else if (!/^[a-zA-Z0-9\s]+$/.test(name)) {
+  showError('addproductname', 'Product name must contain only letters, numbers, and spaces.');
+  return false;
+}
+
   
     // Validate the brand field
     if (!brand) {

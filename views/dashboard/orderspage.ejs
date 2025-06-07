@@ -165,71 +165,108 @@
                 </ul>
             </div>
         </header>
-        <section class="content-main">
-            
-            <div class="card mb-4">
-                <header class="card-header">
-                    
-                </header> <!-- card-header end// -->
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
+      <section class="content-main">
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row gx-3">
+                <div class="col-lg-4 col-md-6 mb-lg-0 mb-1">
+                    <form action="/admin/orderspage" method="GET" id="filterForm">
+                        <div class="input-group">
+                            <input type="text" placeholder="Search by Order ID, User Name, Email" class="form-control" name="search" value="<%= typeof search !== 'undefined' ? search : '' %>">
+                            <button class="btn btn-light bg-primary text-white" type="submit">Search</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-lg-0 mb-1">
+                    <form action="/admin/orderspage" method="GET" id="dateFilterForm">
+                        <div class="input-group">
+                            <input type="date" class="form-control" name="startDate" value="<%= typeof startDate !== 'undefined' ? startDate : '' %>">
+                            <input type="date" class="form-control" name="endDate" value="<%= typeof endDate !== 'undefined' ? endDate : '' %>">
+                            <button class="btn btn-light bg-primary text-white" type="submit">Filter by Date</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-lg-0 mb-1">
+                    <form action="/admin/orderspage" method="GET" id="statusFilterForm">
+                        <select class="form-select" name="status" onchange="document.getElementById('statusFilterForm').submit()">
+                            <option value="">All Statuses</option>
+                            <option value="Pending" <%= typeof status !== 'undefined' && status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                            <option value="Shipped" <%= typeof status !== 'undefined' && status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                            <option value="Delivered" <%= typeof status !== 'undefined' && status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                            <option value="Cancelled" <%= typeof status !== 'undefined' && status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                            <option value="returned" <%= typeof status !== 'undefined' && status === 'returned' ? 'selected' : '' %>>Returned</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </header> <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#Order_ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date</th>
+                            <th scope="col" class="text-end"> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (orders && orders.length > 0) { %>
+                            <% orders.forEach(order => { %>
                                 <tr>
-                                    <th>#Order_ID</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Total</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col" class="text-end"> Action </th>
+                                    <td>#<%= order.order_id %></td>
+                                    <td><b><%= order.user ? order.user.Username : 'N/A' %></b></td>
+                                    <td><%= order.user ? order.user.email : 'N/A' %></td>
+                                    <td>$<%= order.grandTotal %></td>
+                                    <td>
+                                        <% if (order.status === 'Pending') { %>
+                                            <p class="badge rounded-pill alert-warning">Pending</p>
+                                        <% } else if (order.status === 'Shipped') { %>
+                                            <p class="badge rounded-pill alert-success">Shipped</p>
+                                        <% } else if (order.status === 'Cancelled') { %>
+                                            <p class="badge rounded-pill alert-danger">Canceled</p>
+                                        <% } else if (order.status === 'Delivered') { %>
+                                            <p class="badge rounded-pill alert-success">Delivered</p>
+                                        <% } else if (order.status === 'returned') { %>
+                                            <p class="badge rounded-pill alert-danger">Returned</p>
+                                        <% } else { %>
+                                            <p class="btn btn-sm btn-secondary">Status not available</p>
+                                        <% } %>
+                                    </td>
+                                    <td><%= order.createdAt.toISOString().split('T')[0] %></td>
+                                    <td class="text-end">
+                                        <a href="/admin/detial/<%= order._id %>" class="btn btn-md rounded font-sm">Detail</a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <% if (orders && orders.length > 0) { %>
-                                    <% orders.reverse().forEach(order => { %>
-                                        <tr>
-                                            <td>#<%= order.order_id %></td>
-                                            <td><b><%= order.user.Username %></b></td>
-                                            <!-- Other fields -->
-                                            <td><%= order.user.email %></td>
-                                            <td>$<%= order.grandTotal%></td>
-                                            <td>
-                                                <% if (order.status === 'Pending') { %>
-                                                    <p class="badge rounded-pill alert-warning">Pending</p>
-                                                <% } else if (order.status === 'Shipped') { %>
-                                                    <p class="badge rounded-pill alert-success">Shipped</p>
-                                                <% } else if (order.status === 'Cancelled') { %>
-                                                    <p class="badge rounded-pill alert-danger">Canceled</p>
-                                                <% } else if (order.status === 'Delivered') { %>
-                                                    <p class="badge rounded-pill alert-success">Delivered</p>
-                                                    <% } else if (order.status === 'returned') { %>
-                                                        <p class="badge rounded-pill alert-danger">returned</p>
-                                                    <% } else { %>
-                                                    <p class="btn btn-sm btn-secondary">Status not available</p>
-                                                <% } %>
-                                            </td>
-                                            <td><%= order.createdAt.toISOString().split('T')[0] %></td>
-                                            <td class="text-end">
-                                                <a href="/admin/detial/<%= order.id %>" class="btn btn-md rounded font-sm">Detail</a>
-                                              
-                                            </td>
-                                        </tr>
-                                    <% }); %>
-                                <% } else { %>
-                                    <tr>
-                                        <td colspan="7">No Orders</td>
-                                    </tr>
-                                <% } %>
-                               
-                                
-                            </tbody>
-                        </table>
-                    </div> <!-- table-responsive //end -->
-                </div> <!-- card-body end// -->
-            </div> <!-- card end// -->
-            
-        </section> <!-- content-main end// -->
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="7">No Orders Found matching your criteria.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div> </div> </div> <div class="pagination-area mt-30 mb-50">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                    <a class="page-link" href="?<%= new URLSearchParams({...queryParams, page: currentPage - 1}).toString() %>">Previous</a>
+                </li>
+                <% for(let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                        <a class="page-link" href="?<%= new URLSearchParams({...queryParams, page: i}).toString() %>"><%= i %></a>
+                    </li>
+                <% } %>
+                <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                    <a class="page-link" href="?<%= new URLSearchParams({...queryParams, page: currentPage + 1}).toString() %>">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</section>
         <footer class="main-footer font-xs">
             <div class="row pb-30 pt-15">
                 <div class="col-sm-6">
@@ -252,6 +289,47 @@
     <script src="/assets/js/vendors/jquery.fullscreen.min.js"></script>
     <!-- Main Script -->
     <script src="/assets/js/main.js" type="text/javascript"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('input[name="search"]');
+        const startDateInput = document.querySelector('input[name="startDate"]');
+        const endDateInput = document.querySelector('input[name="endDate"]');
+        const statusSelect = document.querySelector('select[name="status"]');
+
+        function buildQueryParams(excludePage = false) {
+            const newParams = new URLSearchParams();
+
+            if (searchInput.value) newParams.set('search', searchInput.value);
+            if (startDateInput.value) newParams.set('startDate', startDateInput.value);
+            if (endDateInput.value) newParams.set('endDate', endDateInput.value);
+            if (statusSelect.value) newParams.set('status', statusSelect.value);
+
+            // Add existing page parameter if not excluded
+            const existingParams = new URLSearchParams(window.location.search);
+            if (!excludePage && existingParams.has('page')) {
+                newParams.set('page', existingParams.get('page'));
+            }
+
+            return newParams.toString();
+        }
+
+        document.getElementById('filterForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            window.location.href = `/admin/orderspage?${buildQueryParams(true)}`; // Reset page to 1 on new search/filter
+        });
+
+        document.getElementById('dateFilterForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            window.location.href = `/admin/orderspage?${buildQueryParams(true)}`; // Reset page to 1 on new search/filter
+        });
+
+        // The status filter already uses onchange directly, it also needs to reset page
+        document.getElementById('statusFilterForm').addEventListener('change', function() {
+            window.location.href = `/admin/orderspage?${buildQueryParams(true)}`; // Reset page to 1 on new search/filter
+        });
+    });
+</script>
 </body>
 
 </html>

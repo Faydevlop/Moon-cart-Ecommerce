@@ -70,31 +70,50 @@ const salesdaily = async (req,res)=>{
         }
     }
     
-const salesyearly= async (req,res)=>{
+const salesyearly = async (req, res) => {
     try {
         const year = req.query.year || new Date().getFullYear();
-        console.log(year);
+        const page = parseInt(req.query.page) || 1;
+        const perPage = 10; // Number of orders per page
 
         const startDate = new Date(`${year}-01-01T00:00:00.000Z`);
-        const endDate = new Date(`${year + 1}-01-01T00:00:00.000Z`);
-        
-        console.log(startDate);
-        console.log(endDate);
+        const endDate = new Date(`${parseInt(year) + 1}-01-01T00:00:00.000Z`);
 
+        // Count total orders for this year
+        const totalOrdersCount = await Order.countDocuments({
+            createdAt: {
+                $gte: startDate,
+                $lt: endDate,
+            },
+        });
+
+        const totalPages = Math.ceil(totalOrdersCount / perPage);
+
+        // Fetch paginated orders
         const orders = await Order.find({
             createdAt: {
                 $gte: startDate,
                 $lt: endDate,
             },
-        }).populate('products.product'); // Populate the product details
-        
-        res.render('dashboard/salesreportyearly', { year, orders });
+        })
+            .populate('products.product')
+            .sort({ createdAt: -1 }) // latest first
+            .skip((page - 1) * perPage)
+            .limit(perPage);
+
+        res.render('dashboard/salesreportyearly', {
+            year,
+            orders,
+            currentPage: page,
+            totalPages: totalPages
+        });
 
     } catch (error) {
         console.error("Error in salesyearly:", error);
         res.status(500).send('Internal Server Error');
     }
-}
+};
+    
   
 
 

@@ -69,7 +69,7 @@
         <!-- Display year, total orders, and total sales -->
         <div class="mb-4">
             <p>Year: <%= year %></p>
-            <p>Total Orders: <%= orders.length %> </p>
+            <p> Orders: <%= orders.length %> </p>
         </div>
 
         <div class="table-responsive">
@@ -88,39 +88,78 @@
                 </thead>
                 <tbody>
                     <% if (orders.length > 0) { %>
-                        <% let totalSales = 0; %>
-                        <% orders.reverse().forEach(order => { %>
-                            <% if (order.status !== 'Cancelled') { %>
-                            <% order.products.forEach(product => { %>
-                                <tr>
-                                    <td><%= order.createdAt.toISOString().split('T')[0] %></td>
-                                    <td>#<%= order.order_id %></td>
-                                    <td><%= product.product.name %></td>
-                                    <td>₹<%=  product.product.oldprice %></td>
-                                    
-                                    <td>₹<%=  product.price %></td>
-                                    <td><%= product.quantity %></td>
-                                    <td><%= product.quantity * product.price %></td>
-                                    
-                                    <!-- Add more columns as needed -->
-                                </tr>
-                                <% totalSales += (product.price * product.quantity); %>
-                            <% }); %>
-                            <%}%>
-                        <% }); %>
-                        <tr>
-                            <td colspan="5"></td>
-                            <td>Total Sales:</td>
-                            <td>₹<%= totalSales.toFixed(2) %></td>
-                        </tr>
-                    <% } else { %>
-                        <tr>
-                            <td colspan="5">No orders</td>
-                        </tr>
-                    <% } %>
+    <% let totalSales = 0; %>
+    <% orders.reverse().forEach(order => { %>
+        <% if (order.status !== 'Cancelled') { %>
+            <% order.products.forEach(product => { %>
+                <tr>
+                    <td><%= order.createdAt.toISOString().split('T')[0] %></td>
+                    <td>#<%= order.order_id %></td>
+                    <td>
+                        <% if (product.product) { %>
+                            <%= product.product.name %>
+                        <% } else { %>
+                            [Product Not Found]
+                        <% } %>
+                    </td>
+                    <td>
+                        <% if (product.product) { %>
+                            ₹<%= product.product.oldprice %>
+                        <% } else { %>
+                            N/A
+                        <% } %>
+                    </td>
+                    <td>₹<%= product.price %></td>
+                    <td><%= product.quantity %></td>
+                    <td><%= product.quantity * product.price %></td>
+                    </tr>
+                <% totalSales += (product.price * product.quantity); %>
+            <% }); %>
+            <%}%>
+        <% }); %>
+    <tr>
+        <td colspan="5"></td>
+        <td>Total Sales:</td>
+        <td>₹<%= totalSales.toFixed(2) %></td>
+    </tr>
+<% } else { %>
+    <tr>
+        <td colspan="7">No orders</td> </tr>
+<% } %>
                 </tbody>
             </table>
         </div>
+        <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+
+        <% if (currentPage > 1) { %>
+            <li class="page-item">
+                <a class="page-link" href="?year=<%= year %>&page=<%= currentPage - 1 %>">Previous</a>
+            </li>
+        <% } else { %>
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Previous</a>
+            </li>
+        <% } %>
+
+        <% for (let i = 1; i <= totalPages; i++) { %>
+            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                <a class="page-link" href="?year=<%= year %>&page=<%= i %>"><%= i %></a>
+            </li>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+            <li class="page-item">
+                <a class="page-link" href="?year=<%= year %>&page=<%= currentPage + 1 %>">Next</a>
+            </li>
+        <% } else { %>
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        <% } %>
+
+    </ul>
+</nav>
 
         <script>
             function printInvoice(event) {

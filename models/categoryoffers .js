@@ -30,7 +30,11 @@ const OfferSchema = new mongoose.Schema({
         type: Boolean,
         default:false
     }
-});
+},{
+    timestamps: true // <--- Add this! This automatically adds `createdAt` and `updatedAt`
+    // OR manually add: createdAt: { type: Date, default: Date.now }
+}
+);
 
 const categoryOffer = mongoose.model('categoryOffer', OfferSchema);
 

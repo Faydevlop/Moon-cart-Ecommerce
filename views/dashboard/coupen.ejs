@@ -257,78 +257,126 @@
             
         
             <!-- Second Section - Coupon Table -->
-            <div class="card mb-4">
-                <header class="card-header">
-                    <div class="row gx-3">
-                        <div class="col-lg-4 col-md-6 me-auto">
-                            <input type="text" placeholder="Search..." class="form-control" />
+          <section class="content-main">
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row gx-3">
+                <div class="col-lg-4 col-md-6 mb-lg-0 mb-1">
+                    <form action="/admin/referalcode" method="GET" id="couponFilterForm">
+                        <div class="input-group">
+                            <input type="text" placeholder="Search by Coupon Code or Description" class="form-control" name="search" value="<%= typeof search !== 'undefined' ? search : '' %>">
+                            <button class="btn btn-light bg-primary text-white" type="submit">Search</button>
                         </div>
-                        <div class="col-lg-2 col-md-3 col-6">
-                            <select class="form-select">
-                                <option>Status</option>
-                                <option>Active</option>
-                                <option>Disabled</option>
-                                <option>Show all</option>
-                            </select>
+                    </form>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6 mb-lg-0 mb-1">
+                    <form action="/admin/referalcode" method="GET" id="statusFilterForm">
+                        <select class="form-select" name="status" onchange="document.getElementById('statusFilterForm').submit()">
+                            <option value="">All Statuses</option>
+                            <option value="Active" <%= typeof status !== 'undefined' && status === 'Active' ? 'selected' : '' %>>Active</option>
+                            <option value="Disabled" <%= typeof status !== 'undefined' && status === 'Disabled' ? 'selected' : '' %>>Disabled</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-lg-0 mb-1">
+                    <form action="/admin/referalcode" method="GET" id="dateFilterForm">
+                        <div class="input-group">
+                            <input type="date" class="form-control" name="startDate" value="<%= typeof startDate !== 'undefined' ? startDate : '' %>">
+                            <input type="date" class="form-control" name="endDate" value="<%= typeof endDate !== 'undefined' ? endDate : '' %>">
+                            <button class="btn btn-light bg-primary text-white" type="submit">Filter by Expiry Date</button>
                         </div>
-                        <div class="col-lg-2 col-md-3 col-6">
-                            <select class="form-select">
-                                <option>Show 20</option>
-                                <option>Show 30</option>
-                                <option>Show 40</option>
-                            </select>
-                        </div>
-                    </div>
-                </header>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    
-                                    
-                                    <th>Coupon</th>
-                                    <th>Description</th>
-                                    <th>Discount Percentage</th>
-                                    <th>Max Discount Amount</th>
-                                    <th>Min Amount</th>
-                                    <th>Max Amount</th>
-                                    <th>Expiry Date</th>
-                                    <th>Status</th>
-                                    <th>View</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                          
-                                
-                            <tbody>
-                                <% data.forEach(coupon => { %>
-                                    <tr>
-                                        <td><%= coupon.couponCode %></td>
-                                        <td><%= coupon.discripetion %></td>
-                                        <td>%<%= coupon.discountPercentage %></td>
-                                        <td>₹ <%= coupon.maxDiscountAmount %></td>
-                                        <td>₹ <%= coupon.minAmount %></td>
-                                        <td>₹ <%= coupon.maxAmount %></td>
-                                        <td><%= new Date(coupon.expiryDate).toISOString().slice(0, 10) %></td>
-
-                                        <td><%= coupon.Status  %></td>
-                                        <% if(coupon.isListed) {%>
-                                        <td><button class="btn btn-primary" onclick="listitem(`<%= coupon._id %>`)" >UnList</button></td>
-                                        <%} else {%>
-                                            <td><button class="btn btn-primary" onclick="listitem(`<%= coupon._id %>`)" >List</button></td>
-                                            <%}%>
-                                        <td>
-                                            <a href="/admin/editcop/<%= coupon._id %>"><button class="btn btn-primary" id="editButton">Edit</button></a>
-                                        </td>
-                                        <!-- Add more columns as needed -->
-                                    </tr>
-                                <% }); %>
-                            </tbody>
-                        </table>
-                    </div> <!-- table-responsive//end -->
+                    </form>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6">
+                    <form action="/admin/referalcode" method="GET" id="paginationSortForm">
+                        <select class="form-select" name="limit" onchange="document.getElementById('paginationSortForm').submit()">
+                            <option value="10" <%= typeof limit !== 'undefined' && limit == 10 ? 'selected' : '' %>>Show 10</option>
+                            <option value="20" <%= typeof limit !== 'undefined' && limit == 20 ? 'selected' : '' %>>Show 20</option>
+                            <option value="30" <%= typeof limit !== 'undefined' && limit == 30 ? 'selected' : '' %>>Show 30</option>
+                            <option value="40" <%= typeof limit !== 'undefined' && limit == 40 ? 'selected' : '' %>>Show 40</option>
+                        </select>
+                        <select class="form-select mt-2" name="sort" onchange="document.getElementById('paginationSortForm').submit()">
+                            <option value="newest" <%= typeof sort !== 'undefined' && sort === 'newest' ? 'selected' : '' %>>Newest First</option>
+                            <option value="oldest" <%= typeof sort !== 'undefined' && sort === 'oldest' ? 'selected' : '' %>>Oldest First</option>
+                            <option value="expiryAsc" <%= typeof sort !== 'undefined' && sort === 'expiryAsc' ? 'selected' : '' %>>Expiry Soonest</option>
+                            <option value="expiryDesc" <%= typeof sort !== 'undefined' && sort === 'expiryDesc' ? 'selected' : '' %>>Expiry Latest</option>
+                        </select>
+                    </form>
                 </div>
             </div>
+        </header>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Coupon</th>
+                            <th>Description</th>
+                            <th>Discount Percentage</th>
+                            <th>Max Discount Amount</th>
+                            <th>Min Amount</th>
+                            <th>Max Amount</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (data && data.length > 0) { %>
+                            <% data.forEach(coupon => { %>
+                                <tr>
+                                    <td><%= coupon.couponCode %></td>
+                                    <td><%= coupon.discripetion %></td>
+                                    <td>%<%= coupon.discountPercentage %></td>
+                                    <td>₹ <%= coupon.maxDiscountAmount %></td>
+                                    <td>₹ <%= coupon.minAmount %></td>
+                                    <td>₹ <%= coupon.maxAmount %></td>
+                                    <td><%= new Date(coupon.expiryDate).toISOString().slice(0, 10) %></td>
+                                    <td>
+                                        <% if (coupon.Status === 'Active') { %>
+                                            <span class="badge rounded-pill alert-success">Active</span>
+                                        
+                                        <% } else { %>
+                                            <span class="badge rounded-pill alert-secondary">expired</span>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <% if(coupon.isListed) {%>
+                                            <button class="btn btn-primary btn-sm" onclick="listitem(`<%= coupon._id %>`)" >Unlist</button>
+                                        <%} else {%>
+                                            <button class="btn btn-primary btn-sm" onclick="listitem(`<%= coupon._id %>`)" >List</button>
+                                        <%}%>
+                                        <a href="/admin/editcop/<%= coupon._id %>" class="btn btn-secondary btn-sm" id="editButton">Edit</a>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="9">No coupons found matching your criteria.</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div> </div> </div>
+
+    <div class="pagination-area mt-30 mb-50">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                    <a class="page-link" href="?<%= new URLSearchParams({...queryParams, page: currentPage - 1}).toString() %>">P</a>
+                </li>
+                <% for(let i = 1; i <= totalPages; i++) { %>
+                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                        <a class="page-link" href="?<%= new URLSearchParams({...queryParams, page: i}).toString() %>"><%= i %></a>
+                    </li>
+                <% } %>
+                <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                    <a class="page-link" href="?<%= new URLSearchParams({...queryParams, page: currentPage + 1}).toString() %>">N</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</section>
             <!-- The Modal -->
 <div class="modal" id="editModal">
     <div class="modal-content">
@@ -538,6 +586,62 @@
 
     
     </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all filter elements
+        const searchInput = document.querySelector('input[name="search"]');
+        const statusSelect = document.querySelector('select[name="status"]');
+        const startDateInput = document.querySelector('input[name="startDate"]');
+        const endDateInput = document.querySelector('input[name="endDate"]');
+        const limitSelect = document.querySelector('select[name="limit"]');
+        const sortSelect = document.querySelector('select[name="sort"]');
+
+        // Function to build query parameters from all active filters
+        function buildQueryParams(resetPage = false) {
+            const newParams = new URLSearchParams();
+
+            if (searchInput.value) newParams.set('search', searchInput.value);
+            if (statusSelect.value) newParams.set('status', statusSelect.value);
+            if (startDateInput.value) newParams.set('startDate', startDateInput.value);
+            if (endDateInput.value) newParams.set('endDate', endDateInput.value);
+            if (limitSelect.value) newParams.set('limit', limitSelect.value);
+            if (sortSelect.value) newParams.set('sort', sortSelect.value);
+
+            // Preserve current page unless resetPage is true
+            const existingParams = new URLSearchParams(window.location.search);
+            if (!resetPage && existingParams.has('page')) {
+                newParams.set('page', existingParams.get('page'));
+            }
+
+            return newParams.toString();
+        }
+
+        // Event listeners for form submissions
+        document.getElementById('couponFilterForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            window.location.href = `/admin/referalcode?${buildQueryParams(true)}`; // Reset page on new search
+        });
+
+        document.getElementById('dateFilterForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            window.location.href = `/admin/referalcode?${buildQueryParams(true)}`; // Reset page on new date filter
+        });
+        
+        // Use onchange for select elements for simplicity, ensure they trigger combined query
+        statusSelect.addEventListener('change', function() {
+            window.location.href = `/admin/referalcode?${buildQueryParams(true)}`; // Reset page on new status filter
+        });
+
+        limitSelect.addEventListener('change', function() {
+            window.location.href = `/admin/referalcode?${buildQueryParams(true)}`; // Reset page on limit change
+        });
+
+        sortSelect.addEventListener('change', function() {
+            window.location.href = `/admin/referalcode?${buildQueryParams(true)}`; // Reset page on sort change
+        });
+    });
+</script>
 </body>
 
 </html>

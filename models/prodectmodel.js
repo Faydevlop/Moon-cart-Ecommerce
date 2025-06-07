@@ -48,7 +48,10 @@
     default:0
     }
     // You might want to include additional fields like 'color', 'size', etc., based on your needs.
-  });
+  },{
+    timestamps: true // <--- Add this! This automatically adds `createdAt` and `updatedAt`
+    // OR manually add: createdAt: { type: Date, default: Date.now }
+});
 
   const Product = mongoose.model('Product', productSchema);
 

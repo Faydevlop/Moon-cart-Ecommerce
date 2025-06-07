@@ -3,21 +3,109 @@ const coupenmodel = require('../models/coupen');
 
 
 
-const coupen = async(req,res)=>{
-    const data = await coupenmodel.find();
-    console.log('data'+data)
-    
+const coupen = async (req, res) => {
+    try {
+        const { search, startDate, endDate, status, limit, sort, page } = req.query;
 
-    if(req.session.done){
-        const done = req.session.done;
-        req.session.done =''
+        let query = {}; // Base query for MongoDB
+        let sortOption = { createdAt: -1 }; // Default sort: Newest first
+        const itemsPerPage = parseInt(limit) || 10; // Default items per page
+        const currentPage = parseInt(page) || 1; // Default current page
+        const skip = (currentPage - 1) * itemsPerPage; // Calculate skip for pagination
 
-       return res.render('dashboard/coupen',{done:done,data:data})
+        // 1. Search Filter
+        if (search) {
+            const searchRegex = new RegExp(search, 'i'); // Case-insensitive search
+            query.$or = [
+                { couponCode: searchRegex },
+                { discripetion: searchRegex }
+            ];
+        }
 
+        // 2. Status Filter
+        if (status && status !== '') {
+            query.Status = status; // Assuming 'Status' field on your coupon model stores 'Active' or 'Disabled'
+        }
+
+        // 3. Date Filter (Expiry Date)
+        if (startDate || endDate) {
+            query.expiryDate = {}; // Initialize expiryDate filter
+            if (startDate) {
+                // Coupons expiring on or after this date (start of day)
+                query.expiryDate.$gte = new Date(startDate);
+                query.expiryDate.$gte.setHours(0, 0, 0, 0);
+            }
+            if (endDate) {
+                // Coupons expiring on or before this date (end of day)
+                query.expiryDate.$lte = new Date(endDate);
+                query.expiryDate.$lte.setHours(23, 59, 59, 999);
+            }
+        }
+
+        // 4. Sorting
+        switch (sort) {
+            case 'oldest':
+                sortOption = { createdAt: 1 };
+                break;
+            case 'expiryAsc':
+                sortOption = { expiryDate: 1 }; // Soonest expiry first
+                break;
+            case 'expiryDesc':
+                sortOption = { expiryDate: -1 }; // Latest expiry first
+                break;
+            case 'newest': // Default
+            default:
+                sortOption = { createdAt: -1 };
+                break;
+        }
+
+        // Get total count of coupons matching the filters (for pagination)
+        const totalCoupons = await coupenmodel.countDocuments(query);
+        const totalPages = Math.ceil(totalCoupons / itemsPerPage);
+
+        // Fetch coupons for the current page with applied filters and sort
+        const data = await coupenmodel.find(query)
+                                    .sort(sortOption)
+                                    .skip(skip)
+                                    .limit(itemsPerPage);
+
+        // Prepare query parameters to be passed to EJS for pagination links and input values
+        const queryParams = {
+            search: search || '',
+            startDate: startDate || '',
+            endDate: endDate || '',
+            status: status || '',
+            limit: itemsPerPage.toString(), // Ensure it's a string for URLSearchParams
+            sort: sort || 'newest'
+        };
+
+        let renderData = {
+            data: data,
+            search: search || '',
+            startDate: startDate || '',
+            endDate: endDate || '',
+            status: status || '',
+            limit: itemsPerPage,
+            sort: sort || 'newest',
+            currentPage: currentPage,
+            totalPages: totalPages,
+            queryParams: queryParams // For constructing pagination links
+        };
+
+        // Check if there's a success message to pass
+        if (req.session.done) {
+            renderData.done = req.session.done;
+            req.session.done = ''; // Clear the session message
+        }
+
+        return res.render('dashboard/coupen', renderData);
+
+    } catch (error) {
+        console.error('Error fetching coupons:', error);
+        res.status(500).send('Internal Server Error');
     }
-   
-   return res.render('dashboard/coupen',{data:data})
-}
+};
+
 
 const coupenpost = async (req, res) => {
     try {

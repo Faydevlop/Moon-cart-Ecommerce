@@ -94,11 +94,30 @@ const listproductget = async (req, res) => {
         const perPage = 10; // Number of products per page
         const page = parseInt(req.query.page) || 1; // Current page, default to 1
         const searchQuery = req.query.search || ''; // Search query from the URL
+        const startDate = req.query.startDate; // Start date filter
+        const endDate = req.query.endDate; // End date filter
 
         let query = {};
+
+        // 1. Search Query
         if (searchQuery) {
-            // Case-insensitive search on the product name
             query.name = { $regex: new RegExp(searchQuery, 'i') };
+        }
+
+        // 2. Date Filters (assuming products have a 'createdAt' field or similar for date range)
+        if (startDate || endDate) {
+            query.createdAt = query.createdAt || {};
+
+            if (startDate) {
+                let start = new Date(startDate);
+                start.setHours(0, 0, 0, 0);
+                query.createdAt.$gte = start;
+            }
+            if (endDate) {
+                let end = new Date(endDate);
+                end.setHours(23, 59, 59, 999);
+                query.createdAt.$lte = end;
+            }
         }
 
         const totalProducts = await productmodel.countDocuments(query);
@@ -107,20 +126,35 @@ const listproductget = async (req, res) => {
         const products = await productmodel.find(query)
             .skip((page - 1) * perPage)
             .limit(perPage)
-            .sort({ createdAt: -1 }); // Sort by creation date, newest first
+            .sort({ _id: -1 }); // Or .sort({ createdAt: -1 }) if you have that field and prefer date-based sorting
+
+        // --- MODIFICATION HERE: Construct queryParams dynamically ---
+        const currentQueryParams = {};
+        if (searchQuery) {
+            currentQueryParams.search = searchQuery;
+        }
+        if (startDate) {
+            currentQueryParams.startDate = startDate;
+        }
+        if (endDate) {
+            currentQueryParams.endDate = endDate;
+        }
+        // --- END MODIFICATION ---
 
         res.render('dashboard/page-products-grid', {
             products,
             currentPage: page,
             totalPages: totalPages,
-            searchQuery: searchQuery
+            searchQuery: searchQuery,
+            startDate: startDate,
+            endDate: endDate,
+            queryParams: currentQueryParams // Pass the dynamically constructed object
         });
     } catch (error) {
         console.error('Error fetching products:', error);
         res.status(500).send('Internal Server Error');
     }
 };
-
 
 const listproductpost = (req, res) => {
     try {
