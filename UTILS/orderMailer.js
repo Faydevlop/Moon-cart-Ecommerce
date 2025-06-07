@@ -21,7 +21,7 @@ const sendPaymentSuccessEmail = async (toEmail, products) => {
     const mailOptions = {
         from: 'zenwrists@gmail.com',
         to: toEmail,
-        subject: 'Payment Successful - Order Confirmation',
+        subject: 'Mooncart - Payment Successful - Order Confirmation',
         html: `
             <div style="font-family: Arial, sans-serif; line-height: 1.5;">
                 <h2 style="color: #4CAF50;">✅ Order Successful</h2>

@@ -4,20 +4,18 @@ const multer = require('multer');
 
 
 
-const controller = require('../Controllers/admincontroll')
+const controller = require('../Controllers/admincontroller')
 const usermanagementcontroll = require('../Controllers/usermanagement')
 const productscontroll = require('../Controllers/products')
 const orderscontroll = require('../Controllers/orders')
 const salesreportcontroll = require('../Controllers/salesreport')
-const usercontroll = require('../Controllers/usercontroll')
+const usercontroll = require('../Controllers/usercontroller')
 const brandscontroll = require('../Controllers/brands')
 const categorycontroll = require('../Controllers/category');
-const admincontroll = require('../Controllers/admincontroll')
 const  {storage , upload} = require('../UTILS/multer')
 const referalcontroller = require('../Controllers/refaralcontroller')
 const offercontroll = require('../Controllers/offers')
-const { get } = require('mongoose');
-const { route } = require('./users');
+
 
 function isadmin(req, res, next) {
     if (!req.session.adminhere) {

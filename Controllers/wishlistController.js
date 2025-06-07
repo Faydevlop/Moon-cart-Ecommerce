@@ -1,3 +1,4 @@
+const Cart = require("../models/addtocartmodel");
 const User = require("../models/user");
 
 
@@ -21,10 +22,17 @@ const removeWishlist = async(req, res) => {
 
 // wishlist page - get
 const getWishList = async(req,res)=>{
+  
     const user = await User.findById(req.session.user._id)
     .populate('wishlist');
+  let users
+    if (user) {
+            
+            userdetials = await User.findById(req.session.user._id);
+            users = await Cart.findOne({ user: req.session.user._id }).populate('products.product');
+        }
 
-  res.render('homepages/wishlist', { products : user.wishlist });
+  res.render('homepages/wishlist', { products : user.wishlist ,users});
 
 }
 

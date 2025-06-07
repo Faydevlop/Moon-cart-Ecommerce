@@ -134,7 +134,7 @@
 							<a href="index.html"><img src="/home/images/logo.svg" alt=""></a>
 						</div>
 						<ul class="nav navbar-nav dark-nav">
-							<li class="has-mega-menu sub-menu-down">
+							<li class="has-mega-menu ">
 								<a href="/"><span>Home</span></a>
 								<!-- <div class="mega-menu demo-menu">
 									<div class="row">  -->
@@ -145,7 +145,7 @@
 									<!-- </div>
 								</div> -->
 							</li>
-							<li class="has-mega-menu sub-menu-down">
+							<li class="has-mega-menu ">
 								<a href="/shop"><span>Shop</span></a>
 								<!-- <div class="mega-menu shop-menu">
 									<div class="row"> 
@@ -291,19 +291,7 @@
 									</div>
 								</div> -->
 							</li>
-							<li class="sub-menu sub-menu-down"><a href="#"><span>Pages</span></a>
-								<ul class="sub-menu">
-									<li><a href="/aboutus">About Us</a></li>
-									<li><a href="/aboutme">About Me</a></li>
-									<li><a href="/pricetable">Pricing Table</a></li>
-									<li><a href="/whatwedo">What We Do</a></li>
-									<li><a href="/faqs">Faqs</a></li>
-									<li><a href="/ourteam">Our Team</a></li>
-									<li><a href="/contactus">Contact Us</a></li>
-									<li><a href="/cartpage">My Cart</a></li>
-									<li><a href="/orders">My Orders</a></li>
-								</ul>
-							</li>
+							
 							<li><a href="/contactus">Contact Us</a></li>
 						</ul>
 						
@@ -330,21 +318,10 @@
 			<div class="container">
 				<form class="header-item-search">
 					<div class="input-group search-input">
-						<select class="default-select">
-							<option>All Categories</option>
-							<option>Wooden Bottles </option>
-							<option>Wooden Furniture</option>
-							<option>Metal Utensils</option>
-							<option>Wooden Utensils</option>
-							<option>Baby Products</option>
-							<option>Yoga Mats</option>
-							<option>Eco-Friendly</option>
-							<option>Childern's Strollers</option>
-							<option>Bamboo products</option>
-							<option>Healthy Products</option>
-							<option>Luxury Couch</option>
-							<option>Video Instructors</option>
-						</select>
+						
+							
+							
+					
 						<input type="text" name="search" class="form-control" aria-label="Text input with dropdown button" placeholder="Search Product">
 						<button class="btn" type="submit">
 							<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -367,88 +344,81 @@
 		<!-- SearchBar -->
 		
 		<!-- Sidebar cart -->
-		<div class="offcanvas dz-offcanvas offcanvas offcanvas-end " tabindex="-1" id="offcanvasRight">
-			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close">
-				&times;
-			</button>
-			<div class="offcanvas-body">
-				<div class="product-description">
-					<div class="dz-tabs">
-						<ul class="nav nav-tabs center" id="myTab" role="tablist">
-							<li class="nav-item" role="presentation">
-								<a href=""><button class="nav-link active" id="shopping-cart" data-bs-toggle="tab" data-bs-target="#shopping-cart-pane" type="button" role="tab" aria-controls="shopping-cart-pane" aria-selected="true">Shopping Cart
-									
-									<span class="badge badge-light"></span>
-								</button></a>
-							</li>
-							
-						</ul>
-						<div class="tab-content pt-4" id="dz-shopcart-sidebar">
-							<div class="tab-pane fade show active" id="shopping-cart-pane" role="tabpanel" aria-labelledby="shopping-cart" tabindex="0">
-								<div class="shop-sidebar-cart">
-									<% if (users && users.products && users.products.length > 0) { %>
-										<% users.products.forEach(cart => { %>
-											<ul class="sidebar-cart-list">
-												<li>
-													<div class="cart-widget">
-														<div class="dz-media me-3">
-															<img src="<%= cart.product.singleImage %>" alt="" class="fixed-size-image">
-														</div>
-														<div class="cart-content">
-															<h6 class="title"><a href="product-thumbnail.html"><%= cart.product.name %></a></h6>
-															<div class="d-flex align-items-center">
-																<div class="btn-quantity light quantity-sm me-3">
-																	<input type="text" value="1" name="demo_vertical2">
-																</div>
-																<h6 class="dz-price text-primary mb-0">₹<%= cart.product.price %></h6>
-															</div>
-														</div>
-														<a href="/" class="dz-close">
-															<i class="ti-close"></i>
-														</a>
-													</div>
-												</li>
-											</ul>
-										<% }); %>
-									<% } else { %>
-										<p>No products in the cart.</p>
-									<% } %>
-								</div>
-							</div>
-						</div>
+		<div class="offcanvas dz-offcanvas offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close">
+        &times;
+    </button>
+    <div class="offcanvas-body d-flex flex-column">
+        <div class="product-description flex-grow-1 d-flex flex-column">
+            <div class="dz-tabs">
+                <ul class="nav nav-tabs center" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a href="">
+                            <button class="nav-link active" id="shopping-cart" data-bs-toggle="tab" data-bs-target="#shopping-cart-pane" type="button" role="tab" aria-controls="shopping-cart-pane" aria-selected="true">Shopping Cart
+                                <span class="badge badge-light"></span>
+                            </button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content pt-4 flex-grow-1 d-flex flex-column" id="dz-shopcart-sidebar">
+                <div class="tab-pane fade show active flex-grow-1 d-flex flex-column" id="shopping-cart-pane" role="tabpanel" aria-labelledby="shopping-cart" tabindex="0">
+                    <div class="shop-sidebar-cart overflow-auto flex-grow-1">
+                        <% if (users && users.products && users.products.length > 0) { %>
+                            <% users.products.slice().reverse().forEach(cart => { %>
+                                <ul class="sidebar-cart-list">
+                                    <li>
+                                        <div class="cart-widget d-flex align-items-center"> <div class="dz-media me-3">
+                                                <img src="<%= cart.product.singleImage %>" alt="" class="fixed-size-image">
+                                            </div>
+                                            <div class="cart-content flex-grow-1"> <h6 class="title mb-0"><a href="product-thumbnail.html"><%= cart.product.name %></a></h6>
+                                                <h6 class="dz-price text-primary mb-0">₹<%= cart.product.price %></h6>
+                                            </div>
+                                            </div>
+                                    </li>
+                                </ul>
+                            <% }); %>
+							 <div class="p-3 border-top">
+                        <div class="shipping-time mb-3">
+                           
+                        </div>
+                        <a href="/checkout" class="btn btn-light btn-block m-b20">Checkout</a>
+                        <a href="/cartpage" class="btn btn-secondary btn-block">View Cart</a>
+                        <% if(locals.users) {%>
+                        <a href="/orders" class="btn btn-secondary btn-block mt-3">My Orders</a>
+                        <%}%>
+                    </div>
+                        <% } else { %>
+                            <p>No products in the cart.</p>
+							 <div class="p-3 border-top">
+                        <div class="shipping-time mb-3">
+                            <div class="dz-icon">
+                                <i class="flaticon flaticon-ship"></i>
+                            </div>
+                            <div class="shipping-content">
+                                <h6 class="title pe-4">Congratulations, you've got free shipping!</h6>
+                                <div class="progress">
+                                    <div class="progress-bar progress-animated border-0" style="width: 75%;" role="progressbar">
+                                        <span class="sr-only">75% Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/checkout" class="btn btn-light btn-block m-b20">Checkout</a>
+                        <a href="/cartpage" class="btn btn-secondary btn-block">View Cart</a>
+                        <% if(locals.users) {%>
+                        <a href="/orders" class="btn btn-secondary btn-block mt-3">My Orders</a>
+                        <%}%>
+                    </div>
+                        <% } %>
 
-
-											
-									</ul>
-									<div class="cart-total">
-										<!-- <h5 class="mb-0">Subtotal:</h5>
-										<h5 class="mb-0">300.00$</h5> -->
-									</div>
-									<div class="mt-auto">
-										<div class="shipping-time">													
-											<div class="dz-icon">
-												<i class="flaticon flaticon-ship"></i>
-											</div>
-											<div class="shipping-content">
-												<h6 class="title pe-4">Congratulations , you've got free shipping!</h6>
-												<div class="progress">
-													<div class="progress-bar progress-animated border-0" style="width: 75%;" role="progressbar">
-														<span class="sr-only">75% Complete</span>
-													</div>
-												</div>
-											</div>
-										</div>
-										<a href="/checkout" class="btn btn-light btn-block m-b20">Checkout</a>	
-										<a href="/cartpage" class="btn btn-secondary btn-block">View Cart</a>
-										<% if(locals.users) {%>
-										<a href="/orders" class="btn btn-secondary btn-block mt-3">My Orders</a>
-										<%}%>		
-									</div>	
-								</div>	
-							</div>
-							
-						</div>
-					</div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 				</div>
 			</div>
 		</div>
@@ -473,33 +443,12 @@
 												<h1 class="title mb-2" data-swiper-parallax="-20">Natural Wooden Products</h1>
 												<p class="text mb-0" data-swiper-parallax="-40">Sell globally in minutes with localized currencies, languages, and experiences in every market.</p>
 												
-												<div class="swiper-meta-items" data-swiper-parallax="-50">
-													<div class="meta-content">
-														<span class="price-name">Price</span>
-														<span class="price-num">₹125.75</span>
-													</div>
-													<div class="meta-content">
-														<span class="color-name">Color</span>
-														<div class="d-flex align-items-center color-filter">
-															<div class="form-check">
-																<input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel1" value="#24262B" aria-label="..." checked>
-																<span></span>
-															</div>
-															<div class="form-check">
-																<input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel2" value="#0D775E" aria-label="...">
-																<span></span>
-															</div>
-															<div class="form-check">
-																<input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel3" value="#C7D1CF" aria-label="...">
-																<span></span>
-															</div>
-														</div>
-													</div>
-												</div>
+												
 												
 												<div class="content-btn" data-swiper-parallax="-60">
-													<a class="btn btn-secondary  me-xl-3 me-2 btnhover20" href="/shop">ADD TO CART</a>
-													<a class="btn btn-outline-secondary btnhover20" href="/shop">VIEW DETAILS</a>
+													<br>
+													<a class="btn btn-secondary  me-xl-3 me-2 btnhover20" href="/shop">VIEW MORE</a>
+		
 												</div>
 											</div>
 										</div>
@@ -571,26 +520,9 @@
 				<div class="swiper-pagination-wrapper">
 					<div class="swiper-pagination-five"></div>
 				</div>
-				<div class="pagination-align style-1">
-					<div class="swiper-button-prev">
-						<i class="flaticon flaticon-left-chevron-1"></i>
-					</div>
-					<div class="swiper-button-next">
-						<i class="flaticon flaticon-right-arrow"></i>
-					</div>
-				</div>
+				
 				<div class="banner-social-media">
-					<ul>
-						<li>
-							<a target="_blank" href="/">Instagram</a>
-						</li>
-						<li>
-							<a target="_blank" href="/">Facebook</a>
-						</li>
-						<li>
-							<a target="_blank" href="/">twitter</a>
-						</li>
-					</ul>
+					
 					
 				</div>
 				<div class="left-text-bar justify-content-center">
@@ -744,241 +676,13 @@
 		</section>
 		<!-- icon-box1 End-->
 		
-		<!-- Newsletter -->
-		<section class="newsletter-wrapper style-1">
-			<div class="container">
-				<div class="subscride-inner">
-					<div class="row style-1 justify-content-xl-between justify-content-lg-center align-items-center text-xl-start text-center">
-						<div class="col-xl-6 col-lg-12 wow fadeInUp" data-wow-delay="0.1s">
-							<div class="d-flex align-items-center justify-content-center justify-content-xl-start mb-3 mb-xl-0 flex-column flex-xl-row">
-								<img class="me-4" src="/home/images/svg/chat.svg" alt="">
-								<div class="section-head mb-0">
-									<h3 class="title text-white">SUBSCRIBE TO OUR NEWSLETTER</h3>
-									<p class="sub-title text-white">Get latest news, offers and discounts.</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-6 col-lg-12 wow fadeInUp" data-wow-delay="0.2s">
-							<form class="dzSubscribe" action="https://mooncart.dexignzone.com/xhtml/script/mailchamp.php" method="post">
-								<div class="dzSubscribeMsg"></div>
-								<div class="form-group">
-									<div class="input-group mb-0">
-										<input name="dzEmail" required="required" type="email" class="form-control" placeholder="Your Email Address">
-										<div class="input-group-addon">
-											<button name="submit" value="Submit" type="submit" class="btn">
-												<svg width="21" height="21" viewBox="0 0 21 21" fill="none">
-													<path d="M4.20972 10.7344H15.8717" stroke="#0D775E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-													<path d="M10.0408 4.90112L15.8718 10.7345L10.0408 16.5678" stroke="#0D775E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												</svg>
-											</button>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Newsletter End -->
 		
-		<!-- Feature Product -->
-		<section class="content-inner-2 adv-area">
-			<div class="container-fluid px-0">
-				<div class="row product-style2 g-0">
-					<div class="col-lg-6 col-md-6 p-b30 wow fadeInUp" data-wow-delay="0.1s">
-						<div class="product-box style-4" style="background-image: url('/home/images/shop/large/product1.png');">
-							<div class="product-content">
-								<div class="main-content">
-									<div class="badge style-1 mb-3">From $29.05</div>
-									<h2 class="product-name">Organic Skincare for Glowing Complexion.</h2>
-									<p class="para-text">
-										Lorem Ipsum is simply dummy text of It’s easy to get lost in the world of lovely valley vapour around and the meridian sun strikes the upper surface.
-									</p>
-								</div>
-								<a href="shop-list.html" class="btn btn-outline-secondary">Shop Now</a>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-6 p-t30 wow fadeInUp" data-wow-delay="0.2s">
-						<div class="product-box style-4" style="background-image: url('images/shop/large/product2.png');">
-							<div class="product-content">
-								<div class="main-content">
-									<div class="badge style-1 mb-3">free shipping on all orders over $59</div>
-									<h2 class="product-name">Shop & shipment acrossthe whole North America.</h2>
-									<p class="para-text">
-										Lorem Ipsum is simply dummy text of It’s easy to get lost in the world of lovely valley vapour around and the meridian sun strikes the upper surface.
-									</p>
-								</div>
-								<a href="shop-list.html" class="btn btn-outline-secondary">Shop Now</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Feature Product End -->
 		
 	
 		
-		<!-- About Start-->
-		<section class="content-inner overlay-white-dark overflow-hidden" style="background-image: url('images/background/bg1.jpg'); background-repeat: no-repeat; background-size: cover;">
-			<div class="container">
-				<div class="row about-style1 align-items-center">
-					<div class="col-lg-6 m-b30">
-						<div class="position-relative">
-							<div class="about-thumb wow fadeInUp" data-wow-delay="0.1s">
-								<img src="/home/images/girl.png" alt="">
-							</div>
-							<div class="our-customer wow fadeInUp" data-wow-delay="0.2s">
-								<h6>Our Satisfied User</h6>
-								<ul>
-									<li class="customer-image">
-										<img src="/home/images/testimonial/pic1.png" alt="">
-									</li>
-									<li class="customer-image">
-										<img src="/home/images/testimonial/pic2.png" alt="">
-									</li>
-									<li class="total-customer">
-										<span class="font-14">+12K</span>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-6 m-b30 wow fadeInUp" data-wow-delay="0.3s">
-						<div class="px-lg-4">
-							<div class="section-head">
-								<h2 class="title">What our clients say <br> about us</h2>
-							</div>
-							<div class="swiper swiper-five">
-								<div class="swiper-wrapper">
-									<div class="swiper-slide">
-										<div class="about-content">
-											<p class="para-text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-											<div class="about-bx-detail">
-												<div class="about-bx-pic radius">
-													<img src="/home/images/testimonial/testimonial4.jpg" alt="">
-												</div>
-												<div>
-													<h6 class="name">Kenneth Fong</h6> 
-													<span class="position">Postgraduate Student</span> 
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="swiper-slide">
-										<div class="about-content">
-											<p class="para-text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-											<div class="about-bx-detail">
-												<div class="about-bx-pic radius">
-													<img src="/home/images/testimonial/testimonial4.jpg" alt="">
-												</div>
-												<div>
-													<h6 class="name">Joe Do</h6> 
-													<span class="position">Undergraduate Student</span> 
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="pagination-align">
-									<div class="about-button-prev btn-prev">
-										<i class="flaticon flaticon-left-chevron"></i>
-									</div>
-									<div class="about-button-next btn-next">
-										<i class="flaticon flaticon-chevron"></i>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- About End -->
+	
 		
-		<!-- Blog Start -->
-		<section class="content-inner overlay-white-middle">
-			<div class="container">
-				<div class="section-head style-2 wow fadeInUp" data-wow-delay="0.1s">
-					<div class="left-content">
-						<h2 class="title">Blog Post</h2>
-						<p>Discover the most trending post.</p>
-					</div>
-					<a href="blog-dark-2-column-sidebar.html" class="text-secondary font-14 d-flex align-items-center gap-1 text-nowrap">See all Post 
-						<i class="icon feather icon-chevron-right font-18"></i>
-					</a>					
-				</div>
-				<div class="row justify-content-center">
-					<div class="col-xl-6 col-lg-6 order-lg-1 order-2 wow fadeInUp" data-wow-delay="0.2s">
-						<div class="dz-card style-1 d-lg-block d-md-flex d-sm-flex d-block">
-							<div class="dz-media w-100">
-								<img src="/home/images/blog/blog1.png" alt="">
-							</div>
-							<div class="dz-info">
-								<div class="dz-meta">
-									<ul>
-										<li class="post-date">10 Mar 2023</li>
-									</ul>
-								</div>
-								<h3 class="dz-title mb-md-3 mb-sm-5 m-b10">
-									<a href="blog-dark-2-column.html">Uncovering The Benefits of Wooden Based Furniture</a>
-								</h3>
-								<a href="blog-dark-2-column.html" class="font-14 mt-auto read-btn">Read More 
-									<i class="icon feather icon-chevron-right"></i>
-								</a>
-							</div>
-						</div>
-					</div>
-					<div class="col-xl-6 col-lg-6 order-lg-2 order-1">
-						<div class="row">
-							<div class="col-xl-12 col-lg-12 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-								<div class="dz-card blog-half style-5 m-b30">
-									<div class="dz-media">
-										<img src="/home/images/blog/blog2.png" alt="">
-									</div>
-									<div class="dz-info">
-										<div class="dz-meta">
-											<ul>
-												<li class="post-date">17 April 2023</li>
-											</ul>
-										</div>
-										<h4 class="dz-title">
-											<a href="blog-dark-half-image.html">Explore The Benefits of Wooden Utensils In DailyLife</a>
-										</h4>
-										<a href="blog-dark-half-image.html" class="font-14 read-btn">Read More 
-											<i class="icon feather icon-chevron-right"></i>
-										</a>
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-12 col-lg-12 col-sm-6 wow fadeInUp" data-wow-delay="0.4s">
-								<div class="dz-card blog-half style-5 m-b30">
-									<div class="dz-media">
-										<img src="/home/images/blog/blog3.png" alt="">
-									</div>
-									<div class="dz-info">
-										<div class="dz-meta">
-											<ul>
-												<li class="post-date">20 Jan 2023</li>
-											</ul>
-										</div>
-										<h4 class="dz-title">
-											<a href="blog-dark-half-image.html">With Wooden Comb Makes Your Hairs More Beautiful and Clean</a>
-										</h4>
-										<a href="blog-dark-half-image.html" class="font-14 read-btn">Read More 
-											<i class="icon feather icon-chevron-right"></i>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Blog End -->
+	
 		
 		<!-- Feature Box -->
 		<div class="content-inner py-0 overlay-white-middle">
@@ -1141,12 +845,7 @@
     </div>
   </div>
   <!-- Footer Bottom -->
-  <div class="footer-bottom py-3 bg-light">
-    <div class="container d-flex justify-content-between align-items-center">
-      <p class="mb-0">© 2025 HugeBinary. All Rights Reserved.</p>
-      <img src="/home/images/footer-img.png" alt="Payment Methods" height="24">
-    </div>
-  </div>
+
 </footer>
 
 	<!-- Footer End -->

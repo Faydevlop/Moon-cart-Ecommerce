@@ -988,7 +988,7 @@ const forgetpasspost = async (req, res) => {
     const mailOptions = {
         from: 'zenwrists@gmail.com',
         to: user.email,
-        subject: 'Password Reset Link',
+        subject: 'Mooncart - Password Reset Link',
         html: `<p>Click on the following link to reset your password: <a href=${link}>Click here</a></p>`
     };
 

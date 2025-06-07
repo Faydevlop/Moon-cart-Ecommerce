@@ -281,29 +281,12 @@
 									</div>
 								</div> -->
 							</li>
-							<li class="sub-menu sub-menu-down"><a href="#"><span>Pages</span></a>
-								<ul class="sub-menu">
-									<li><a href="/aboutus">About Us</a></li>
-									<li><a href="/aboutme">About Me</a></li>
-									<li><a href="/pricetable">Pricing Table</a></li>
-									<li><a href="/whatwedo">What We Do</a></li>
-									<li><a href="/faqs">Faqs</a></li>
-									<li><a href="/ourteam">Our Team</a></li>
-									<li><a href="/contactus">Contact Us</a></li>
-									<li><a href="/cartpage">My Cart</a></li>
-									<li><a href="/orders">My Orders</a></li>
-								</ul>
-							</li>
+							
 							<li><a href="/contactus">Contact Us</a></li>
 						</ul>
 						
 						<div class="dz-social-icon">
-							<ul>
-								<li><a class="fab fa-facebook-f" target="_blank" href="/"></a></li>
-								<li><a class="fab fa-twitter" target="_blank" href="/"></a></li>
-								<li><a class="fab fa-linkedin-in" target="_blank" href="https://www.linkedin.com/showcase/3686700/admin/"></a></li>
-								<li><a class="fab fa-instagram" target="_blank" href="/"></a></li>
-							</ul>
+							
 						</div>
 					</div>
 				</div>
@@ -734,655 +717,86 @@
 								</div>
 								<div class="dz-info">
 									<ul>
-										<li>
-											<strong>SKU:</strong>
-											<span>PRT584E63A</span>
-										</li>
+									
 										<li>
 											<strong>Brand:</strong>
 											<span><%= products.brand %></span>
 										</li>
-										<li>
-											<strong>Category:</strong>
-											<span>Bottles,</span>
-											<span>Accessories,</span>
-											<span>Mats,</span>
-											<span>Bottles,</span>
-											<span>Trackers</span>
-										</li>
-										<li>
-											<strong>Tags:</strong>
-											<span>Trackers,</span>
-											<span>Bags,</span>
-											<span>Cup,</span>
-											<span>Toothbrushes</span>
-										</li>
-										<li>
-											<strong>Share:</strong>
-											<span>											
-												<a href="/home/javascript:void(0);" target="_blank">
-													<i class="fa-brands fa-facebook-f"></i>
-												</a>
-											</span>
-											<span>											
-												<a href="/home/https://www.linkedin.com/showcase/3686700/admin/" target="_blank">
-													<i class="fa-brands fa-linkedin-in"></i>
-												</a>
-											</span>
-											<span>											
-												<a href="/home/javascript:void(0);" target="_blank">
-													<i class="fa-brands fa-instagram"></i>
-												</a>
-											</span>
-											<span>											
-												<a href="/home/javascript:void(0);" target="_blank">
-													<i class="fa-brands fa-twitter"></i>
-												</a>
-											</span>
-										</li>
+										
 									</ul>
 								</div>
-								<ul class="d-md-flex d-none align-items-center">
-									<li class="icon-bx-wraper style-3 me-xl-4 me-2">
-										<div class="icon-bx">
-											<i class="flaticon flaticon-ship"></i>
-										</div>
-										<div class="info-content">
-											<span>FREE</span>
-											<h6 class="dz-title mb-0">Shipping</h6>
-										</div>
-									</li>
-									<li class="icon-bx-wraper style-3">
-										<div class="icon-bx">
-											<img src="/images/svg/icon-bx/box.svg" alt="/">
-										</div>
-										<div class="info-content">
-											<span>Easy Returns</span>
-											<h6 class="dz-title mb-0">30 Days</h6>
-										</div>
-									</li>
-								</ul>
+								
 							</div>
-							<div class="banner-social-media">
-								<ul>
-									<li>
-										<a href="/home/javascript:void(0);">Instagram</a>
-									</li>
-									<li>
-										<a href="/home/javascript:void(0);">Facebook</a>
-									</li>
-									<li>
-										<a href="/home/javascript:void(0);">twitter</a>
-									</li>
-								</ul>
-							</div>
+							
 						</div>
 					</div>
 				</div>
 			</div>
 			
 		</section>
+		<section class="content-inner-3 pb-0">
+    <div class="container">
+        <div class="product-description">
+            <div class="dz-tabs">
+                <ul class="nav nav-tabs center" id="myTab1" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Description</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                        <div class="row">
+                            <div class="col-lg-6 m-lg-b0 m-md-b30">
+                                <div class="section-head style-2 d-block">
+                                    <h2 class="title"><%= products.name %></h2>
+                                    <p><%= products.description %></p>
+                                </div>
+                                
+                                <div class="product-media row g-xl-4 g-2 m-b40">
+                                   
+                                    <% if (products.multipleImages && products.multipleImages.length > 0) { %>
+                                        <% products.multipleImages.forEach((image, index) => { %>
+                                            <div class="col-md-3 col-3 col-sm-3 product-media-inner">
+                                                <a href="#" class="dz-media">
+                                                    <img src="<%= image %>" alt="<%= products.name %> image <%= index + 1 %>">
+                                                </a>
+                                            </div>
+                                        <% }); %>
+                                    <% } %>
+                                </div>
+                               
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <% if (products.highlightedFeatures && products.highlightedFeatures.length > 0) { %>
+                                        <% products.highlightedFeatures.forEach(feature => { %>
+                                            <div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
+                                                <a href="#" class="about-product-wrapper">
+                                                    <div class="product-content bg-light">
+                                                        <h4 class="product-title"><%= feature.title %></h4>
+                                                        <p class="product-text"><%= feature.text %></p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        <% }); %>
+                                    <% } else { %>
+                                        
+                                    <% } %>
+                                </div>
+                                <div class="dz-product-media dz-media"><img src="<%= products.singleImage %>" alt="<%= products.name %> main image"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 		
-		<section class="content-inner-3 pb-0"> 
-			<div class="container">
-				<div class="product-description">
-					<div class="dz-tabs">					
-						<ul class="nav nav-tabs center" id="myTab1" role="tablist">
-							<li class="nav-item" role="presentation">
-								<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Description</button>
-							</li>
-							<li class="nav-item" role="presentation">
-								<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Reviews (12)</button>
-							</li>
-						</ul>
-						<div class="tab-content" id="myTabContent">
-							<div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-								<div class="row">
-									<div class="col-lg-6 m-lg-b0 m-md-b30">
-										<div class="section-head style-2 d-block">
-											<h2 class="title"><%= products.name %></h2>
-											<p>Designed for superior child comfort, OneFit™ provides extra rear-facing legroom and multiple recline options in every mode of use. With the widest range of height adjustments, the easy-adjust headrest system adjusts with the harness to grow with your child. OneFit™ accommodates tiny passengers from the very start with a removable head and body support insert for newborns weighing 5-11 lbs.		</p>
-										</div>
-										<div class="product-specification">
-											<h4 class="specification-title">Specifications</h4>
-											<ul>
-												<li>Assembled Dimensions (L x W x H): <span>21.5" x 19" x 27"</span></li>
-												<li>Assembled Product Weight: <span>25 lbs.</span></li>
-											</ul>
-										</div>
-										<ul class="specification-list m-b40">
-											<li class="list-info">Harness Mode - Rear-Facing<span>5-40 lbs</span></li>
-											<li class="list-info">Harness Mode - Forward-Facing<span>25-65 lbs</span></li>
-											<li class="list-info">Booster Mode - Harness + Booster<span>40-100 lbs</span></li>
-											<li class="list-info">Booster Mode - Backless<span>n/a</span></li>
-											<li class="list-info">Rear-Facing Child Max Height Capacity<span>43 in</span></li>
-											<li class="list-info">Forward-Facing Child Max Height Capacity<span>54 in</span></li>
-											<li class="list-info">Booster Child Height Capacity<span>38-57 in</span></li>
-										</ul>
-										<div class="product-media row g-xl-4 g-2 m-b40">
-											<div class="col-md-3 col-3 col-sm-3 product-media-inner">
-												<a href="/home/shop-list.html" class="dz-media">
-													<img src="<%= products.singleImage %>" alt="/">
-												</a>
-											</div>
-											<div class="col-md-3 col-3 col-sm-3 product-media-inner">
-												<a href="/home/shop-list.html" class="dz-media">
-													<img src="<%= products.multipleImages[0] %>" alt="/">
-												</a>
-											</div>
-											<div class="col-md-3 col-3 col-sm-3 product-media-inner">
-												<a href="/home/shop-list.html" class="dz-media">
-													<img src="<%= products.multipleImages[1] %>" alt="/">
-												</a>
-											</div>
-											<div class="col-md-3 col-3 col-sm-3 product-media-inner">
-												<a href="/home/shop-list.html" class="dz-media">
-													<img src="<%= products.multipleImages[2] %>" alt="/">
-												</a>
-											</div>
-										</div>
-										<div class="product-info">
-											<div class="product-info-inner">
-												<h4 class="info-title">Fabric Content</h4>
-												<ul class="d-lg-flex d-block align-items-center">
-													<li><h6>Seatpad: <span>100% Polyester</span></h6></li>
-													<li><h6>Insert: <span>100% Polyester</span></h6></li>
-												</ul>
-											</div>
-											<div class="product-info-inner">
-												<h4 class="info-title">Chemical Statement</h4>
-												<p class="info-text">The OneFit ClearTex All-In-One Car Seat is produced without the use of intentionally added fire retardant chemical treatments, PFAS, BPA and phthalates.	</p>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="row">
-											<div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
-												<a href="/home/product-default.html" class="about-product-wrapper">
-													<div class="producṭ-content bg-light">
-														<h4 class="product-title">All-in-One Car Seat</h4>
-														<p class="product-text">One car seat that fits your child, vehicle and life from birth through booster</p>
-													</div>
-												</a>
-											</div>
-											<div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
-												<a href="/home/product-default.html" class="about-product-wrapper">
-													<div class="producṭ-content bg-light">
-														<h4 class="product-title">Space-Saving Design</h4>
-														<p class="product-text">Slim, space-saving design takes up less space in vehicle without compromising comfort</p>
-													</div>
-												</a>
-											</div>
-											<div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
-												<a href="/home/product-default.html" class="about-product-wrapper">
-													<div class="producṭ-content bg-light">
-														<h4 class="product-title">Easiest to Install Correctly</h4>
-														<p class="product-text">Chicco patented SuperCinch force-multiplying LATCH tightener ensures a tight and secure fit every time</p>
-													</div>
-												</a>
-											</div>
-											<div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
-												<a href="/home/product-default.html" class="about-product-wrapper">
-													<div class="producṭ-content bg-light">
-														<h4 class="product-title">No Added Chemicals</h4>
-														<p class="product-text">ClearTex  products meet federal flammability standards without added chemicals</p>
-													</div>
-												</a>
-											</div>
-										</div>
-										<div class="dz-product-media dz-media"><img src="<%= products.singleImage %>" alt="/"></div>
-									</div>
-								</div>
-							</div>
-							<div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-								<div class="clear" id="comment-list">
-									<div class="post-comments comments-area style-1 clearfix">
-										<h4 class="comments-title mb-2">Comments (02)</h4>
-										<p class="dz-title-text">There are many variations of passages of Lorem Ipsum available.</p>
-										<div id="comment">
-											<ol class="comment-list">
-												<li class="comment even thread-even depth-1 comment" id="comment-2">
-													<div class="comment-body">
-													  <div class="comment-author vcard">
-															<img src="/home/images/profile4.jpg" alt="/" class="avatar">
-															<cite class="fn">Michel Poe</cite> 
-													  </div>
-												  <div class="comment-content dz-page-text">
-													 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-												  </div>
-												  <div class="reply">
-													 <a rel="nofollow" class="comment-reply-link" href="/home/javascript:void(0);">Reply</a>
-												  </div>
-											   </div>
-											   <ol class="children">
-												  <li class="comment byuser comment-author-w3itexpertsuser bypostauthor odd alt depth-2 comment" id="comment-3">
-													 <div class="comment-body" id="div-comment-3">
-														<div class="comment-author vcard">
-														   <img src="/home/images/profile3.jpg" alt="/" class="avatar">
-														   <cite class="fn">Celesto Anderson</cite>
-														</div>
-														<div class="comment-content dz-page-text">
-														   <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-														</div>
-														<div class="reply">
-														   <a class="comment-reply-link" href="/home/javascript:void(0);"> Reply</a>
-														</div>
-													 </div>
-												  </li>
-											   </ol>
-											</li>
-											<li class="comment even thread-odd thread-alt depth-1 comment" id="comment-4">
-												<div class="comment-body" id="div-comment-4">
-													<div class="comment-author vcard">
-														<img src="/home/images/profile2.jpg" alt="/" class="avatar">
-														<cite class="fn">Monsur Rahman Lito</cite>
-													</div>
-													<div class="comment-content dz-page-text">
-														<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-													</div>
-													<div class="reply">
-														<a class="comment-reply-link" href="/home/javascript:void(0);"> Reply</a>
-													</div>
-												</div>
-											</li>
-										 </ol>
-									  </div>
-									<div class="default-form comment-respond style-1" id="respond">
-										<h4 class="comment-reply-title mb-2" id="reply-title">Good Comments</h4>
-										<p class="dz-title-text">There are many variations of passages of Lorem Ipsum available.</p>
-										<div class="clearfix">
-											<form method="post" id="comments_form" class="comment-form" novalidate>
-											   <p class="comment-form-author"><input id="name" placeholder="Author" name="author" type="text" value=""></p>
-											   <p class="comment-form-email"><input id="email" required="required" placeholder="Email" name="email" type="email" value=""></p>
-											   <p class="comment-form-comment"><textarea id="comments" placeholder="Type Comment Here" class="form-control4" name="comment" cols="45" rows="3" required="required"></textarea></p>
-											   <p class="col-md-12 col-sm-12 col-xs-12 form-submit">
-												  <button id="submit" type="submit" class="submit btn btn-secondary btnhover3 filled">
-												  Submit Now
-												  </button>
-											   </p>
-											</form>
-										</div>
-									  </div>
-								   </div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+		
 		<%}%>
-		<!-- <section class="content-inner-1 overlay-white-middle overflow-hidden">
-			<div class="container">
-				<div class="section-head style-2">
-					<div class="left-content">
-						<h2 class="title mb-0">Related products</h2>
-					</div>
-					<a href="/home/shop-list.html" class="text-secondary font-14 d-flex align-items-center gap-1">See all products
-						<i class="icon feather icon-chevron-right font-18"></i>
-					</a>			
-				</div>
-				<div class="swiper-btn-center-lr">
-					<div class="swiper swiper-four">
-						<div class="swiper-wrapper">
-							<div class="swiper-slide">
-								<div class="shop-card">
-									<div class="dz-media">
-										<img src="/home//home/images/shop/product/5.png" alt="image">
-										<div class="shop-meta">
-											<a href="/home/javascript:void(0);" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-												<i class="fa-solid fa-eye d-md-none d-block"></i>
-												<span class="d-md-block d-none">Quick View</span>
-											</a>
-											<div class="btn btn-primary meta-icon dz-wishicon" >
-												<svg class="dz-heart-fill" width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M13.6412 5.80113C13.0778 6.9649 12.0762 8.02624 11.1657 8.8827C10.5113 9.49731 9.19953 10.7322 7.77683 11.62C7.30164 11.9159 6.69842 11.9159 6.22323 11.62C4.80338 10.7322 3.4888 9.49731 2.83435 8.8827C1.92382 8.02624 0.92224 6.96205 0.358849 5.80113C-0.551681 3.91747 0.344622 1.44196 2.21121 0.557041C3.98674 -0.282354 5.54034 0.292418 7.00003 1.44765C8.45972 0.292418 10.0133 -0.282354 11.786 0.557041C13.6554 1.44196 14.5517 3.91747 13.6412 5.80113Z" fill="white"/>
-												</svg>
-												<svg class="dz-heart feather feather-heart" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-												
-											</div>
-											<div class="btn btn-primary meta-icon dz-carticon" >
-												<svg class="dz-cart-check" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M11.9144 3.73438L5.49772 10.151L2.58105 7.23438" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												</svg>
-												<svg class="dz-cart-out" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M10.6033 10.4092C9.70413 10.4083 8.97452 11.1365 8.97363 12.0357C8.97274 12.9348 9.70097 13.6644 10.6001 13.6653C11.4993 13.6662 12.2289 12.938 12.2298 12.0388C12.2298 12.0383 12.2298 12.0378 12.2298 12.0373C12.2289 11.1391 11.5014 10.4109 10.6033 10.4092Z" fill="white"/>
-													<path d="M13.4912 2.6132C13.4523 2.60565 13.4127 2.60182 13.373 2.60176H3.46022L3.30322 1.55144C3.20541 0.853911 2.60876 0.334931 1.90439 0.334717H0.627988C0.281154 0.334717 0 0.61587 0 0.962705C0 1.30954 0.281154 1.59069 0.627988 1.59069H1.90595C1.9858 1.59011 2.05338 1.64957 2.06295 1.72886L3.03004 8.35727C3.16263 9.19953 3.88712 9.8209 4.73975 9.82363H11.2724C12.0933 9.8247 12.8015 9.24777 12.9664 8.44362L13.9884 3.34906C14.0543 3.00854 13.8317 2.67909 13.4912 2.6132Z" fill="white"/>
-													<path d="M6.61539 11.9676C6.57716 11.0948 5.85687 10.4077 4.98324 10.4108C4.08483 10.4471 3.38595 11.2048 3.42225 12.1032C3.45708 12.9653 4.15833 13.6505 5.02092 13.6653H5.06017C5.95846 13.626 6.65474 12.8658 6.61539 11.9676Z" fill="white"/>
-												</svg>
-											</div>
-										</div>
-									</div>
-									<div class="dz-content">
-										<h5 class="title"><a href="/home/shop-list.html">Wooden Toothbrushes</a></h5>
-										<ul class="star-rating">
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#E4E5E8"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#E4E5E8"></path>
-												</svg>
-											</li>
-										</ul>
-										<h6 class="price">
-											<del>$45.00</del>
-											$40.00
-										</h6>
-									</div>
-									<div class="product-tag">
-										<span class="badge badge-secondary">-30%</span>
-									</div>
-								</div>
-							</div>
-							<div class="swiper-slide">
-								<div class="shop-card">
-									<div class="dz-media">
-										<img src="/home//home/images/shop/product/6.png" alt="image">										
-										<div class="shop-meta">
-											<a href="/home/javascript:void(0);" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-												<i class="fa-solid fa-eye d-md-none d-block"></i>
-												<span class="d-md-block d-none">Quick View</span>
-											</a>
-											<div class="btn btn-primary meta-icon dz-wishicon">
-												<svg class="dz-heart-fill" width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M13.6412 5.80113C13.0778 6.9649 12.0762 8.02624 11.1657 8.8827C10.5113 9.49731 9.19953 10.7322 7.77683 11.62C7.30164 11.9159 6.69842 11.9159 6.22323 11.62C4.80338 10.7322 3.4888 9.49731 2.83435 8.8827C1.92382 8.02624 0.92224 6.96205 0.358849 5.80113C-0.551681 3.91747 0.344622 1.44196 2.21121 0.557041C3.98674 -0.282354 5.54034 0.292418 7.00003 1.44765C8.45972 0.292418 10.0133 -0.282354 11.786 0.557041C13.6554 1.44196 14.5517 3.91747 13.6412 5.80113Z" fill="white"/>
-												</svg>
-												<svg class="dz-heart feather feather-heart" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-											</div>
-											<div class="btn btn-primary meta-icon dz-carticon">
-												<svg class="dz-cart-check" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M11.9144 3.73438L5.49772 10.151L2.58105 7.23438" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												</svg>
-												<svg class="dz-cart-out" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M10.6033 10.4092C9.70413 10.4083 8.97452 11.1365 8.97363 12.0357C8.97274 12.9348 9.70097 13.6644 10.6001 13.6653C11.4993 13.6662 12.2289 12.938 12.2298 12.0388C12.2298 12.0383 12.2298 12.0378 12.2298 12.0373C12.2289 11.1391 11.5014 10.4109 10.6033 10.4092Z" fill="white"/>
-													<path d="M13.4912 2.6132C13.4523 2.60565 13.4127 2.60182 13.373 2.60176H3.46022L3.30322 1.55144C3.20541 0.853911 2.60876 0.334931 1.90439 0.334717H0.627988C0.281154 0.334717 0 0.61587 0 0.962705C0 1.30954 0.281154 1.59069 0.627988 1.59069H1.90595C1.9858 1.59011 2.05338 1.64957 2.06295 1.72886L3.03004 8.35727C3.16263 9.19953 3.88712 9.8209 4.73975 9.82363H11.2724C12.0933 9.8247 12.8015 9.24777 12.9664 8.44362L13.9884 3.34906C14.0543 3.00854 13.8317 2.67909 13.4912 2.6132Z" fill="white"/>
-													<path d="M6.61539 11.9676C6.57716 11.0948 5.85687 10.4077 4.98324 10.4108C4.08483 10.4471 3.38595 11.2048 3.42225 12.1032C3.45708 12.9653 4.15833 13.6505 5.02092 13.6653H5.06017C5.95846 13.626 6.65474 12.8658 6.61539 11.9676Z" fill="white"/>
-												</svg>
-											</div>
-										</div>
-									</div>
-									<div class="dz-content">
-										<h5 class="title"><a href="/home/shop-list.html">Eco friendly bags</a></h5>
-										<ul class="star-rating">
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#E4E5E8"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#E4E5E8"></path>
-												</svg>
-											</li>
-										</ul>
-										<h6 class="price">
-											<del>$35.00</del>
-											$10.00
-										</h6>
-									</div>
-									<div class="product-tag">
-										<span class="badge badge-secondary">-80%</span>
-										<span class="badge badge-primary">Featured</span>
-									</div>
-								</div>
-							</div>
-							<div class="swiper-slide">
-								<div class="shop-card">
-									<div class="dz-media">
-										<img src="/home//home/images/shop/product/7.png" alt="image">	
-										<div class="shop-meta">
-											<a href="/home/javascript:void(0);" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-												<i class="fa-solid fa-eye d-md-none d-block"></i>
-												<span class="d-md-block d-none">Quick View</span>
-											</a>
-											<div class="btn btn-primary meta-icon dz-wishicon" >
-												<svg class="dz-heart-fill" width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M13.6412 5.80113C13.0778 6.9649 12.0762 8.02624 11.1657 8.8827C10.5113 9.49731 9.19953 10.7322 7.77683 11.62C7.30164 11.9159 6.69842 11.9159 6.22323 11.62C4.80338 10.7322 3.4888 9.49731 2.83435 8.8827C1.92382 8.02624 0.92224 6.96205 0.358849 5.80113C-0.551681 3.91747 0.344622 1.44196 2.21121 0.557041C3.98674 -0.282354 5.54034 0.292418 7.00003 1.44765C8.45972 0.292418 10.0133 -0.282354 11.786 0.557041C13.6554 1.44196 14.5517 3.91747 13.6412 5.80113Z" fill="white"/>
-												</svg>
-												<svg class="dz-heart feather feather-heart" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-												
-											</div>
-											<div class="btn btn-primary meta-icon dz-carticon" >
-												<svg class="dz-cart-check" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M11.9144 3.73438L5.49772 10.151L2.58105 7.23438" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												</svg>
-												<svg class="dz-cart-out" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M10.6033 10.4092C9.70413 10.4083 8.97452 11.1365 8.97363 12.0357C8.97274 12.9348 9.70097 13.6644 10.6001 13.6653C11.4993 13.6662 12.2289 12.938 12.2298 12.0388C12.2298 12.0383 12.2298 12.0378 12.2298 12.0373C12.2289 11.1391 11.5014 10.4109 10.6033 10.4092Z" fill="white"/>
-													<path d="M13.4912 2.6132C13.4523 2.60565 13.4127 2.60182 13.373 2.60176H3.46022L3.30322 1.55144C3.20541 0.853911 2.60876 0.334931 1.90439 0.334717H0.627988C0.281154 0.334717 0 0.61587 0 0.962705C0 1.30954 0.281154 1.59069 0.627988 1.59069H1.90595C1.9858 1.59011 2.05338 1.64957 2.06295 1.72886L3.03004 8.35727C3.16263 9.19953 3.88712 9.8209 4.73975 9.82363H11.2724C12.0933 9.8247 12.8015 9.24777 12.9664 8.44362L13.9884 3.34906C14.0543 3.00854 13.8317 2.67909 13.4912 2.6132Z" fill="white"/>
-													<path d="M6.61539 11.9676C6.57716 11.0948 5.85687 10.4077 4.98324 10.4108C4.08483 10.4471 3.38595 11.2048 3.42225 12.1032C3.45708 12.9653 4.15833 13.6505 5.02092 13.6653H5.06017C5.95846 13.626 6.65474 12.8658 6.61539 11.9676Z" fill="white"/>
-													<clipPath id="clip0_502_306">
-														<rect width="14" height="14" fill="white"/>
-													</clipPath>
-												</svg>
-											</div>
-										</div>
-									</div>
-									<div class="dz-content">
-										<h5 class="title"><a href="/home/shop-list.html">Wooden Water Bottles</a></h5>
-										<ul class="star-rating">
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#E4E5E8"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#E4E5E8"></path>
-												</svg>
-											</li>
-										</ul>
-										<h6 class="price">
-											<del>$85.00</del>
-											$40.00
-										</h6>
-									</div>
-									<div class="product-tag">
-										<span class="badge badge-secondary">Sale</span>
-									</div>
-								</div>
-							</div>
-							<div class="swiper-slide" style="maxwidth: 100px;">
-								<div class="shop-card" style="width: 100px;">
-									<div class="dz-media " style="width: 100px;">
-										<img src="/home//home/images/shop/product/8.png"  alt="image">
-										<div class="shop-meta">
-											<a href="/home/javascript:void(0);" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-												<i class="fa-solid fa-eye d-md-none d-block"></i>
-												<span class="d-md-block d-none">Quick View</span>
-											</a>
-											<div class="btn btn-primary meta-icon dz-wishicon" >
-												<svg class="dz-heart-fill" width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M13.6412 5.80113C13.0778 6.9649 12.0762 8.02624 11.1657 8.8827C10.5113 9.49731 9.19953 10.7322 7.77683 11.62C7.30164 11.9159 6.69842 11.9159 6.22323 11.62C4.80338 10.7322 3.4888 9.49731 2.83435 8.8827C1.92382 8.02624 0.92224 6.96205 0.358849 5.80113C-0.551681 3.91747 0.344622 1.44196 2.21121 0.557041C3.98674 -0.282354 5.54034 0.292418 7.00003 1.44765C8.45972 0.292418 10.0133 -0.282354 11.786 0.557041C13.6554 1.44196 14.5517 3.91747 13.6412 5.80113Z" fill="white"/>
-												</svg>
-												<svg class="dz-heart feather feather-heart" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-												
-											</div>
-											<div class="btn btn-primary meta-icon dz-carticon" >
-												<svg class="dz-cart-check" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M11.9144 3.73438L5.49772 10.151L2.58105 7.23438" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												</svg>
-												<svg class="dz-cart-out" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M10.6033 10.4092C9.70413 10.4083 8.97452 11.1365 8.97363 12.0357C8.97274 12.9348 9.70097 13.6644 10.6001 13.6653C11.4993 13.6662 12.2289 12.938 12.2298 12.0388C12.2298 12.0383 12.2298 12.0378 12.2298 12.0373C12.2289 11.1391 11.5014 10.4109 10.6033 10.4092Z" fill="white"/>
-													<path d="M13.4912 2.6132C13.4523 2.60565 13.4127 2.60182 13.373 2.60176H3.46022L3.30322 1.55144C3.20541 0.853911 2.60876 0.334931 1.90439 0.334717H0.627988C0.281154 0.334717 0 0.61587 0 0.962705C0 1.30954 0.281154 1.59069 0.627988 1.59069H1.90595C1.9858 1.59011 2.05338 1.64957 2.06295 1.72886L3.03004 8.35727C3.16263 9.19953 3.88712 9.8209 4.73975 9.82363H11.2724C12.0933 9.8247 12.8015 9.24777 12.9664 8.44362L13.9884 3.34906C14.0543 3.00854 13.8317 2.67909 13.4912 2.6132Z" fill="white"/>
-													<path d="M6.61539 11.9676C6.57716 11.0948 5.85687 10.4077 4.98324 10.4108C4.08483 10.4471 3.38595 11.2048 3.42225 12.1032C3.45708 12.9653 4.15833 13.6505 5.02092 13.6653H5.06017C5.95846 13.626 6.65474 12.8658 6.61539 11.9676Z" fill="white"/>
-													<clipPath id="clip0_502_906">
-														<rect width="14" height="14" fill="white"/>
-													</clipPath>
-												</svg>
-											</div>
-										</div>
-									</div>
-									<div class="dz-content">
-										<h5 class="title"><a href="/home/shop-list.html">Wooden Cup</a></h5>
-										<ul class="star-rating">
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#E4E5E8"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#E4E5E8"></path>
-												</svg>
-											</li>
-										</ul>
-										<h6 class="price">
-											<del>$89.00</del>
-											$30.00
-										</h6>
-									</div>
-									<div class="product-tag">
-										<span class="badge badge-secondary">-41%</span>
-										<span class="badge badge-primary">Featured</span>
-									</div>
-								</div>
-							</div>
-							<div class="swiper-slide">
-								<div class="shop-card">
-									<div class="dz-media">
-										<img src="/home/images/shop/product/8.png" alt="image">
-										<div class="shop-meta">
-											<a href="/home/javascript:void(0);" class="btn btn-secondary btn-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
-												<i class="fa-solid fa-eye d-md-none d-block"></i>
-												<span class="d-md-block d-none">Quick View</span>
-											</a>
-											<div class="btn btn-primary meta-icon dz-wishicon" >
-												<svg class="dz-heart-fill" width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M13.6412 5.80113C13.0778 6.9649 12.0762 8.02624 11.1657 8.8827C10.5113 9.49731 9.19953 10.7322 7.77683 11.62C7.30164 11.9159 6.69842 11.9159 6.22323 11.62C4.80338 10.7322 3.4888 9.49731 2.83435 8.8827C1.92382 8.02624 0.92224 6.96205 0.358849 5.80113C-0.551681 3.91747 0.344622 1.44196 2.21121 0.557041C3.98674 -0.282354 5.54034 0.292418 7.00003 1.44765C8.45972 0.292418 10.0133 -0.282354 11.786 0.557041C13.6554 1.44196 14.5517 3.91747 13.6412 5.80113Z" fill="white"/>
-												</svg>
-												<svg class="dz-heart feather feather-heart" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-												
-											</div>
-											<div class="btn btn-primary meta-icon dz-carticon" >
-												<svg class="dz-cart-check" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M11.9144 3.73438L5.49772 10.151L2.58105 7.23438" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												</svg>
-												<svg class="dz-cart-out" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M10.6033 10.4092C9.70413 10.4083 8.97452 11.1365 8.97363 12.0357C8.97274 12.9348 9.70097 13.6644 10.6001 13.6653C11.4993 13.6662 12.2289 12.938 12.2298 12.0388C12.2298 12.0383 12.2298 12.0378 12.2298 12.0373C12.2289 11.1391 11.5014 10.4109 10.6033 10.4092Z" fill="white"/>
-													<path d="M13.4912 2.6132C13.4523 2.60565 13.4127 2.60182 13.373 2.60176H3.46022L3.30322 1.55144C3.20541 0.853911 2.60876 0.334931 1.90439 0.334717H0.627988C0.281154 0.334717 0 0.61587 0 0.962705C0 1.30954 0.281154 1.59069 0.627988 1.59069H1.90595C1.9858 1.59011 2.05338 1.64957 2.06295 1.72886L3.03004 8.35727C3.16263 9.19953 3.88712 9.8209 4.73975 9.82363H11.2724C12.0933 9.8247 12.8015 9.24777 12.9664 8.44362L13.9884 3.34906C14.0543 3.00854 13.8317 2.67909 13.4912 2.6132Z" fill="white"/>
-													<path d="M6.61539 11.9676C6.57716 11.0948 5.85687 10.4077 4.98324 10.4108C4.08483 10.4471 3.38595 11.2048 3.42225 12.1032C3.45708 12.9653 4.15833 13.6505 5.02092 13.6653H5.06017C5.95846 13.626 6.65474 12.8658 6.61539 11.9676Z" fill="white"/>
-													<clipPath id="clip0_50_3906">
-														<rect width="14" height="14" fill="white"/>
-													</clipPath>
-												</svg>
-											</div>
-										</div>
-									</div>
-									<div class="dz-content">
-										<h5 class="title"><a href="/home/shop-list.html">Wooden Cup</a></h5>
-										<ul class="star-rating">
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#FF8A00"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#E4E5E8"></path>
-												</svg>
-											</li>
-											<li>
-												<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M7.24805 0.734375L9.22301 5.01608L13.9054 5.57126L10.4436 8.77267L11.3625 13.3975L7.24805 11.0944L3.13355 13.3975L4.0525 8.77267L0.590651 5.57126L5.27309 5.01608L7.24805 0.734375Z" fill="#E4E5E8"></path>
-												</svg>
-											</li>
-										</ul>
-										<h6 class="price">
-											<del>$52.00</del>
-											$40.00
-										</h6>
-									</div>
-									<div class="product-tag">
-										<span class="badge badge-secondary">-10%</span>
-										<span class="badge badge-primary">Featured</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="pagination-align">
-						<div class="tranding-button-prev btn-prev">
-							<i class="flaticon flaticon-left-chevron"></i>
-						</div>
-						<div class="tranding-button-next btn-next">
-							<i class="flaticon flaticon-chevron"></i>
-						</div>
-					</div>
-				</div>
-			</div>
+	
+		
 		</section> -->
 		
 		<!-- Icon Box Start -->
@@ -1494,12 +908,7 @@
     </div>
   </div>
   <!-- Footer Bottom -->
-  <div class="footer-bottom py-3 bg-light">
-    <div class="container d-flex justify-content-between align-items-center">
-      <p class="mb-0">© 2025 HugeBinary. All Rights Reserved.</p>
-      <img src="/home/images/footer-img.png" alt="Payment Methods" height="24">
-    </div>
-  </div>
+
 </footer>
 	<!-- Footer End -->
 	
