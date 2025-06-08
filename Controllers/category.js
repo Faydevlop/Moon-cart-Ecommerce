@@ -164,8 +164,13 @@ const listcategory = async (req, res) => {
             if (result.length > 0) {
                 const name = req.body.categoryname;
                 const rename = await Categeory.aggregate([
-                    { $match: { categoryname: name } }
-                ]);
+    { 
+        $match: { 
+            categoryname: name,
+            _id: { $ne: new mongoose.Types.ObjectId(catid) }  
+        }
+    }
+]);
     
                 if (rename.length > 0) {
                     req.session.error = 'Category already exists';
