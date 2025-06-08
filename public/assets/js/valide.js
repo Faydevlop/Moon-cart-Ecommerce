@@ -22,20 +22,16 @@ const categoryNameInput = document.getElementById('categoryName');
     const regex = /^[A-Z0-9 ]+$/;
 
     if (!categoryName) {
-      categoryNameErrorSpan.textContent = 'Please enter a category name';
-      categoryNameErrorSpan.style.display = 'block';
-      categoryNameInput.focus();
-      return false;
-    } else if (!regex.test(categoryName)) {
-      categoryNameErrorSpan.textContent = 'Category name must not contain special characters and only Capital letters ';
-      categoryNameErrorSpan.style.display = 'block';
-      categoryNameInput.focus();
-      return false;
-    } else {
-      categoryNameErrorSpan.textContent = '';
-      categoryNameErrorSpan.style.display = 'none';
-      return true;
-    }
+  categoryNameErrorSpan.textContent = 'Please enter a category name';
+  categoryNameErrorSpan.style.display = 'block';
+  categoryNameInput.focus();
+  return false;
+} else {
+  categoryNameErrorSpan.textContent = '';
+  categoryNameErrorSpan.style.display = 'none';
+  return true;
+}
+
   };
 
   const validateDescription = () => {

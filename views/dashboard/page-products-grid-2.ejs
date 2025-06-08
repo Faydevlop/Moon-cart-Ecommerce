@@ -180,9 +180,12 @@
     <header class="card card-body mb-4">
         <div class="row gx-3">
             <div class="col-lg-4 col-md-6 me-auto">
-                <form action="/admin/page-listcategory" method="GET"> <input type="text" placeholder="Search categories..." class="form-control" name="search" value="<%= searchQuery %>">
-                    <button type="submit" style="display: none;"></button> </form>
-            </div>
+    <form action="/admin/page-listcategory" method="GET" class="input-group">
+        <input type="text" placeholder="Search categories..." class="form-control" name="search" value="<%= searchQuery %>">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
             </div>
     </header> <div class="col-lg-12">
         <div class="card mb-4">
@@ -204,10 +207,11 @@
                             </thead>
                             <tbody>
                                 <% if(cat.length) { %>
-                                    <% cat.forEach((item)=>{ %>
+                                    <% cat.slice().reverse().forEach((item)=>{ %>
                                         <tr>
                                             <td><%= item.categoryname %></td>
-                                            <td><%= item.categeoryOffers %>%</td>
+                                          <td><%= item.categeoryOffers ? item.categeoryOffers : 'No Offers' %></td>
+
                                             <td>
                                                 <form id="deleteForm" action="" method="post">
                                                     <button type="button" class="btn btn-danger" onclick="confirmDelete('<%= item._id %>')">Delete</button>

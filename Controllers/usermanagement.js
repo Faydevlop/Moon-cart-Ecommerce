@@ -24,8 +24,8 @@ const usermanagement = async (req, res) => {
 
     const users = await User.find(query)
       .skip((page - 1) * limit)
-      .limit(parseInt(limit));
-
+      .limit(parseInt(limit))
+      .sort({'_id':-1})
     const totalUsers = await User.countDocuments(query);
     const totalPages = Math.ceil(totalUsers / limit);
 
