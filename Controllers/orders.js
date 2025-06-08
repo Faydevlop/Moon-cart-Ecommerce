@@ -143,6 +143,8 @@ const detilaspage = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
+
+
 const statusupdate = async (req, res) => {
     console.log('Received status update request');
 

@@ -321,7 +321,7 @@
                     </thead>
                     <tbody>
                         <% if (data && data.length > 0) { %>
-                            <% data.forEach(coupon => { %>
+                            <% data.slice().reverse().forEach(coupon => { %>
                                 <tr>
                                     <td><%= coupon.couponCode %></td>
                                     <td><%= coupon.discripetion %></td>

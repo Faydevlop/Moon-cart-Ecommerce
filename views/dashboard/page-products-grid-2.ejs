@@ -207,15 +207,15 @@
                             </thead>
                             <tbody>
                                 <% if(cat.length) { %>
-                                    <% cat.slice().reverse().forEach((item)=>{ %>
+                                    <% cat.forEach((item)=>{ %>
                                         <tr>
                                             <td><%= item.categoryname %></td>
                                           <td><%= item.categeoryOffers ? item.categeoryOffers : 'No Offers' %></td>
 
                                             <td>
-                                                <form id="deleteForm" action="" method="post">
-                                                    <button type="button" class="btn btn-danger" onclick="confirmDelete('<%= item._id %>')">Delete</button>
-                                                </form>
+                                                <form id="deleteForm-<%= item._id %>" action="/admin/deletecat/<%= item._id %>" method="post">
+    <button type="button" class="btn btn-danger" onclick="confirmDelete('<%= item._id %>')">Delete</button>
+</form>
                                             </td>
                                             <td>
                                                 <a href="/admin/editcat/<%= item._id %>"><button class="btn btn-primary">Edit</button></a>
@@ -347,6 +347,25 @@
             }
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function confirmDelete(catId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById(`deleteForm-${catId}`).submit();
+        }
+    });
+}
+</script>
+
     
     
 </body>

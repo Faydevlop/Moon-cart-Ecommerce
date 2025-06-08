@@ -247,11 +247,15 @@ const homepageget = async (req, res) => {
         users = await Cart.findOne({ user: userId }).populate('products.product');
     }
 
-    const categorys = await cat.find({});
+    // Get active categories
+    const activeCategories = await categorymodel.find({ isActive: true });
 
+   
+
+   
     res.render('homepages/index-3', {
         products,
-        categorys,
+        categorys:activeCategories,
         user,
         userdetials,
         users,
@@ -378,22 +382,32 @@ function generateReferralCode() {
     return referralCode;
   }
 
-const  productpageget = async (req, res) => {
+const productpageget = async (req, res) => {
 
-    const product = req.params.productID
+    const productID = req.params.productID;
     const userId = req.session.iduser;
-    const users = await Cart.findOne({ user: userId }).populate('products.product');
 
-    const products = await productsmodel.findById(product);
-    if (products ) {
-        // console.log(products)
-        res.render('homepages/productpage1', { products , users});
-    } else {
-        res.redirect('/error')
+    const usersCart = await Cart.findOne({ user: userId }).populate('products.product');
+
+    const product = await productsmodel.findById(productID);
+
+    let alreadyInCart = false;
+
+    if (usersCart && usersCart.products.length) {
+        alreadyInCart = usersCart.products.some(item => item.product._id.toString() === productID.toString());
     }
 
-
+    if (product) {
+        res.render('homepages/productpage1', { 
+            products: product,
+            users: usersCart,
+            alreadyInCart
+        });
+    } else {
+        res.redirect('/error');
+    }
 }
+
 const productpagepost = (req, res) => {
 
 
@@ -449,48 +463,87 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage });
 
-  const updatedetials = async (req, res) => {
-    // Use 'single' if you're uploading a single file with the field name 'pimage'
+// Assuming 'upload' is your configured Multer instance
+const updatedetials = async (req, res) => {
     upload.single('pimage')(req, res, async (err) => {
-      try {
-        if (err) {
-          console.error(err);
-          // Handle the error, e.g., send an error response
-          return res.status(500).send('File upload failed');
+        try {
+            if (err) {
+                console.error(err);
+                // Handle Multer errors
+                if (err.code === 'LIMIT_FILE_SIZE') {
+                    return res.status(400).render('dashboard/profile-edit', { error: 'File size too large', users: req.session.user }); // Adjust path and pass users data
+                }
+                return res.status(500).render('dashboard/profile-edit', { error: 'File upload failed', users: req.session.user }); // Adjust path and pass users data
+            }
+
+            const userId = req.session.iduser; // Ensure userId is available, e.g., from session or req.user._id
+
+            if (!userId) {
+                return res.status(400).render('dashboard/profile-edit', { error: 'User ID missing for update', users: req.session.user }); // Adjust path and pass users data
+            }
+
+            // Fetch the current user data from the database before updating
+            const currentUser = await User.findById(userId);
+
+            if (!currentUser) {
+                return res.status(404).render('/', { error: 'User not found.', users: req.session.user }); // Adjust path and pass users data
+            }
+
+            let profileImagePath = currentUser.pimage || null; // Start with current image or null
+
+            // Check if a new file was uploaded
+            if (req.file) {
+                // If a file is uploaded, set the new path
+                profileImagePath = '/uploads/profile/' + req.file.filename;
+                console.log('New photo uploaded: ' + profileImagePath);
+            } else {
+                console.log('No new photo uploaded, retaining existing: ' + profileImagePath);
+            }
+
+            // Prepare the data for update
+            const updateData = {
+                Username: req.body.username,
+                email: req.body.email,
+                Mobile: req.body.Mobile,
+                pimage: profileImagePath // Assign the determined image path
+            };
+
+            // Determine if the email has changed
+            const isEmailChanged = currentUser.email !== req.body.email;
+
+            if (isEmailChanged) {
+                // If email has changed, send OTP and redirect to verification
+                const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
+                req.session.otp = otp;
+
+                // Store the *pending* updated data in session for verification
+                req.session.pendingUpdateData = updateData; // Store all update data here
+
+                await authcontroller.sendVerificationEmail(req.body.email, req.session.otp);
+                return res.redirect('/verification2');
+            } else {
+                // If email has NOT changed, update the user directly
+                const updatedUser = await User.findByIdAndUpdate(userId, updateData, { new: true });
+
+                if (!updatedUser) {
+                    return res.status(404).render('dashboard/profile-edit', { error: 'Failed to update user.', users: currentUser }); // Adjust path
+                }
+                
+                // Update the session user data if you store it
+                req.session.user = updatedUser; 
+
+                // Redirect to a success page or the profile page
+                return res.redirect(`/editac/${userId}`); // Or wherever you want to redirect on successful update
+            }
+
+        } catch (error) {
+            console.error('Error during user update:', error);
+            // Render the page with an error message
+            // Make sure to pass the 'users' object to the EJS template so the form can be re-rendered with current data
+            res.status(500).render('dashboard/profile-edit', { error: 'Internal Server Error during update', users: req.session.user }); // Adjust path
         }
-  
-        // Now, you can access the uploaded file details in req.file
-        if (req.file) {
-          // Save the profile image URL in the session
-          req.session.pimage = '/uploads/profile/' + req.file.filename;
-          console.log('photo' + req.session.pimage);
-  
-          // Continue with the rest of your logic
-          req.session.data = {
-            username: req.body.username,
-            email: req.body.email,
-            Mobile: req.body.Mobile,
-            Pimage:req.session.pimage
-        
-          };
-  
-          const email = req.session.data.email;
-  
-          // The rest of your code...
-          const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
-          req.session.otp = otp;
-          await authcontroller.sendVerificationEmail(email, req.session.otp);
-          res.redirect('/verification2');
-        } else {
-          // Handle the case when no file is uploaded
-          return res.status(400).send('No file uploaded');
-        }
-      } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-      }
     });
-  };
+};
 
 
 const otplogin2 = (req, res) => {

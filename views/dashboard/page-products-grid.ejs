@@ -230,11 +230,10 @@
                                         <a href="/admin/editproducts/<%= product._id %>" class="btn btn-sm font-sm rounded btn-brand">
                                             <i class="material-icons md-edit"></i> Edit
                                         </a>
-                                        <form action="/admin/deleteproductget/<%= product._id %>" method="post">
-                                            <button type="submit" class="btn btn-sm font-sm rounded btn-brand" style="color: red;">
-                                                <i class="material-icons md-edit"></i> Delete
-                                            </button>
-                                        </form>
+                                        <button type="button" class="btn btn-sm font-sm rounded btn-brand delete-btn" 
+    data-id="<%= product._id %>" style="color: red;">
+    <i class="material-icons md-edit"></i> Delete
+</button>
                                     </div>
                                 </div>
                             </div>
@@ -306,6 +305,58 @@
         // endDateInput.addEventListener('change', () => filterForm.submit());
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', async function() {
+            const productId = this.getAttribute('data-id');
+
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(`/admin/deleteproductget/${productId}`, {
+                        method: 'POST'
+                    });
+
+                    if (response.ok) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Product has been deleted.',
+                            'success'
+                        ).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error!',
+                            'Something went wrong.',
+                            'error'
+                        );
+                    }
+                } catch (err) {
+                    Swal.fire(
+                        'Error!',
+                        'Something went wrong.',
+                        'error'
+                    );
+                }
+            }
+        });
+    });
+});
+</script>
+
 </body>
 
 </html>

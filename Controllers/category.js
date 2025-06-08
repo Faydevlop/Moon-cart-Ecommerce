@@ -101,7 +101,7 @@ const listcategory = async (req, res) => {
 
 
     const deleteCategory = async (req, res) => {
-        console.log('jijiji');
+        
         try {
             const categoryId = req.params.categoryId;
     
