@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendPaymentSuccessEmail = async (toEmail, products) => {
-    const reversedProducts = [...products].reverse();  // reverse the array
+    const reversedProducts = [...products];  // reverse the array
 
     const productRows = reversedProducts.map(p => `
         <tr>
