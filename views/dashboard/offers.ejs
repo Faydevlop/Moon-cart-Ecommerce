@@ -216,7 +216,7 @@
                     </thead>
                     <tbody>
                         <% if (offers && offers.length > 0) { %>
-                            <% offers.forEach(function(offer) { %>
+                            <% offers.slice().reverse().forEach(function(offer) { %>
                                 <tr>
                                     <td><%= offer.offerName %></td>
                                     <td><%= offer.productName ? offer.productName.name : 'N/A' %></td>

@@ -1507,79 +1507,114 @@ if (user && user.email) {
 
 
 const orders = async (req, res) => {
-    try {
-        const userId = req.session.iduser;
-        const perPage = 5; // Number of orders per page (adjust as needed)
-        const page = parseInt(req.query.page) || 1; // Current page, default to 1
+  try {
+    const userId = req.session.iduser;
+    const perPage = 5;
+    const page = parseInt(req.query.page) || 1;
 
-        // Search parameters
-        const searchQuery = req.query.search || ''; // Search query for order ID or product name
+    const searchQuery = req.query.search || '';
+    const startDate = req.query.startDate ? new Date(req.query.startDate) : null;
+    const endDate = req.query.endDate ? new Date(req.query.endDate) : null;
 
-        // Date filter parameters
-        const startDate = req.query.startDate ? new Date(req.query.startDate) : null;
-        const endDate = req.query.endDate ? new Date(req.query.endDate) : null;
+    let matchStage = { user: new mongoose.Types.ObjectId(userId) };
 
-        let query = { user: userId }; // Base query for the logged-in user
-
-        // --- Apply Search Filter ---
-        if (searchQuery) {
-            // To search within populated product names, we need to use aggregation.
-            // Alternatively, for simpler search, you can search on order_id.
-            // For comprehensive product name search, aggregation is better but more complex.
-            // Let's start with searching by order_id or status for simplicity.
-            // If you need product name search, let me know, it requires aggregation.
-
-            query.$or = [
-                { order_id: { $regex: new RegExp(searchQuery, 'i') } }, // Case-insensitive search on order_id
-                { status: { $regex: new RegExp(searchQuery, 'i') } } // Case-insensitive search on status
-            ];
-            // If you want to search product names within orders, it gets more complex
-            // and often requires Mongoose aggregation with $lookup and $match stages.
-            // For now, this focuses on order-level details.
-        }
-
-        // --- Apply Date Filter ---
-        if (startDate || endDate) {
-            query.createdAt = {}; // Initialize createdAt query object
-            if (startDate) {
-                query.createdAt.$gte = startDate; // Greater than or equal to start date
-            }
-            if (endDate) {
-                // Set the end date to the end of the day
-                const endOfDay = new Date(endDate);
-                endOfDay.setHours(23, 59, 59, 999);
-                query.createdAt.$lte = endOfDay; // Less than or equal to end of day
-            }
-        }
-        
-        // Count total orders matching the query
-        const totalOrders = await Order.countDocuments(query);
-        const totalPages = Math.ceil(totalOrders / perPage);
-
-        const orders = await Order.find(query)
-            .populate('products.product')
-            .sort({ createdAt: -1 }) // Sort by creation date, newest first
-            .skip((page - 1) * perPage)
-            .limit(perPage);
-
-        // Reverse for display in EJS (if you want the most recent order container at the top)
-        // If sorting already handles it, you might not need .reverse()
-        // orders.reverse(); // If you want the overall order container reversed. Sorting handles it directly.
-
-        res.render('homepages/orders', {
-            orders: orders,
-            currentPage: page,
-            totalPages: totalPages,
-            searchQuery: searchQuery, // Pass current search query to EJS
-            startDate: req.query.startDate || '', // Pass original date strings for form persistence
-            endDate: req.query.endDate || ''
-        });
-
-    } catch (error) {
-        console.error('Error fetching orders:', error);
-        res.status(500).send('Internal Server Error');
+    if (startDate || endDate) {
+      matchStage.createdAt = {};
+      if (startDate) matchStage.createdAt.$gte = startDate;
+      if (endDate) {
+        const endOfDay = new Date(endDate);
+        endOfDay.setHours(23, 59, 59, 999);
+        matchStage.createdAt.$lte = endOfDay;
+      }
     }
+
+    let pipeline = [
+      { $match: matchStage },
+
+      // Lookup products info for all products in the order
+      {
+        $lookup: {
+          from: "products",
+          localField: "products.product",
+          foreignField: "_id",
+          as: "productDetails"
+        }
+      },
+
+      // Replace each product ObjectId in products array with the full product document
+      {
+        $addFields: {
+          products: {
+            $map: {
+              input: "$products",
+              as: "item",
+              in: {
+                $mergeObjects: [
+                  "$$item",
+                  {
+                    product: {
+                      $arrayElemAt: [
+                        {
+                          $filter: {
+                            input: "$productDetails",
+                            cond: { $eq: ["$$this._id", "$$item.product"] }
+                          }
+                        },
+                        0
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    ];
+
+    if (searchQuery) {
+      const regex = new RegExp(searchQuery, 'i');
+      pipeline.push({
+        $match: {
+          $or: [
+            { order_id: { $regex: regex } },
+            { status: { $regex: regex } },
+            { "products.product.name": { $regex: regex } },
+            { "products.price": { $eq: Number(searchQuery) || -1 } }
+          ]
+        }
+      });
+    }
+
+    // Count total matching documents for pagination
+    const countPipeline = [...pipeline, { $count: "total" }];
+    const countResult = await Order.aggregate(countPipeline);
+    const totalOrders = countResult.length > 0 ? countResult[0].total : 0;
+    const totalPages = Math.ceil(totalOrders / perPage);
+
+    pipeline.push(
+      { $sort: { createdAt: -1 } },
+      { $skip: (page - 1) * perPage },
+      { $limit: perPage }
+    );
+
+    const orders = await Order.aggregate(pipeline);
+
+    res.render('homepages/orders', {
+      orders,
+      currentPage: page,
+      totalPages,
+      searchQuery,
+      startDate: req.query.startDate || '',
+      endDate: req.query.endDate || ''
+    });
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).send('Internal Server Error');
+  }
 };
+
+
 
 
 const cancelAllorder = async(req, res) => {
