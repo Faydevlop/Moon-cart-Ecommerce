@@ -81,7 +81,7 @@ const userloginpost = async (req, res) => {
 
         if (passwordmatch) {
             if (loguser.isBlocked) {
-                return res.status(403).render('dashboard/page-account-login', { error: 'You were blocked' });
+                return res.status(403).render('dashboard/login', { error: 'You were blocked' });
             } else {
                 req.session.user = loguser;
                 req.session.orders = loguser._id;
