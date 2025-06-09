@@ -463,39 +463,40 @@
 								</li>
 							</ul>
 							<div class="tab-content pt-4" id="dz-shopcart-sidebar">
-								<div class="tab-pane fade show active" id="shopping-cart-pane" role="tabpanel" aria-labelledby="shopping-cart" tabindex="0">
-									<div class="shop-sidebar-cart">
-										<% if (users && users.products && users.products.length > 0) { %>
-											<% users.products.forEach(cart => { %>
-												<ul class="sidebar-cart-list">
-													<li>
-														<div class="cart-widget">
-															<div class="dz-media me-3">
-																<img src="<%= cart.product.singleImage %>" alt="" class="fixed-size-image">
-															</div>
-															<div class="cart-content">
-																<h6 class="title"><a href="product-thumbnail.html"><%= cart.product.name %></a></h6>
-																<div class="d-flex align-items-center">
-																	<div class="btn-quantity light quantity-sm me-3">
-																		<input type="text" value="1" name="demo_vertical2">
-																	</div>
-																	<h6 class="dz-price text-primary mb-0">$<%= cart.product.price %></h6>
-																</div>
-															</div>
-															<a href="/" class="dz-close">
-																<i class="ti-close"></i>
-															</a>
-														</div>
-													</li>
-												</ul>
-											<% }); %>
-										<% } else { %>
-											<p>No products in the cart.</p>
-										<% } %>
-									</div>
-								</div>
-							</div>
-	
+    <div class="tab-pane fade show active" id="shopping-cart-pane" role="tabpanel" aria-labelledby="shopping-cart" tabindex="0">
+        <div class="shop-sidebar-cart">
+            <% if (users && users.products && users.products.length > 0) { %>
+    <% users.products.forEach(cart => { %>
+        <ul class="sidebar-cart-list">
+            <li>
+                <div class="cart-widget">
+                    <div class="dz-media me-3">
+                        <img src="<%= cart.product.singleImage %>" alt="" class="fixed-size-image">
+                    </div>
+                    <div class="cart-content">
+                        <h6 class="title"><a href="product-thumbnail.html"><%= cart.product.name %></a></h6>
+                        <div class="d-flex align-items-center">
+                            <div class="btn-quantity light quantity-sm me-3">
+                                <input type="text" value="1" name="demo_vertical2">
+                            </div>
+                            <h6 class="dz-price text-primary mb-0">$<%= cart.product.price %></h6>
+                        </div>
+                    </div>
+                    <a href="/" class="dz-close">
+                        <i class="ti-close"></i>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    <% }); %>
+<% } else { %>
+    <p>No products in the cart.</p>
+<% } %>
+
+        </div>
+    </div>
+</div>
+
 	
 												
 										</ul>
