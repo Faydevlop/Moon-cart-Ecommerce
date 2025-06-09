@@ -50,7 +50,7 @@ const usermanagement = async (req, res) => {
                 console.log('user bloked');
                 user.isBlocked = !user.isBlocked;
                 await user.save();
-                res.redirect('/admin/page-list-users');
+                res.redirect('/admin/page-seller-detail');
             }else{
                 console.log('issue');
             }
