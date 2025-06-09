@@ -967,8 +967,14 @@ const address = async (req,res)=>{
     await user.save();
 
     // console.log('Address saved');
-    res.redirect('/editac/'+userId)
+   
+const redirectToCart = req.query.redirectToCart;
 
+        if (redirectToCart === 'true') {
+            res.redirect('/checkout');
+        } else {
+            res.redirect('/editac/'+userId)
+        }
 
         
     } catch (error) {

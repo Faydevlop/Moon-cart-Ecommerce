@@ -462,62 +462,66 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="account-detail" role="tabpanel"
-                                            aria-labelledby="account-detail-tab">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h5>Add New Address</h5>
-                                                </div>
-                                                <div class="card-body">
+    aria-labelledby="account-detail-tab">
+    <div class="card">
+        <div class="card-header">
+            <h5>Add New Address</h5>
+        </div>
+        <div class="card-body">
 
-                                                    <form method="post" action="/address/<%= users._id %>" name="enq"
-                                                        onsubmit="return validateForm()">
-                                                        <div class="row">
-                                                            <div class="form-group col-md-12">
-                                                                <label> Name <span>*</span></label>
-                                                                <input class="form-control square" name="displayName"
-                                                                    type="text">
-                                                                <span id="displayNameError"
-                                                                    class="error- text-danger"></span>
-                                                            </div>
+            <form method="post" action="/address/<%= users._id %>?redirectToCart=false" name="enq"
+                onsubmit="return validateForm()">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label> Name <span>*</span></label>
+                        <input class="form-control square" name="displayName"
+                            type="text">
+                        <span id="displayNameError"
+                            class="error- text-danger"></span>
+                    </div>
 
-                                                            <div class="form-group col-md-12">
-                                                                <label>Mobile <span>*</span></label>
-                                                                <input class="form-control square" name="mobile"
-                                                                    type="number">
-                                                                <span id="mobileError"
-                                                                    class="error- text-danger"></span>
-                                                            </div>
+                    <div class="form-group col-md-12">
+                        <label>Mobile <span>*</span></label>
+                        <input class="form-control square" name="mobile"
+                            type="number">
+                        <span id="mobileError"
+                            class="error- text-danger"></span>
+                    </div>
 
-                                                            <div class="form-group col-md-12">
-                                                                <label>City <span>*</span></label>
-                                                                <input class="form-control square" name="city"
-                                                                    type="text">
-                                                                <span id="cityError" class="error- text-danger"></span>
-                                                            </div>
-                                                            <div class="form-group col-md-12">
-                                                                <label>Postal Code <span>*</span></label>
-                                                                <input class="form-control square" name="postalCode"
-                                                                    type="number">
-                                                                <span id="postalCodeError"
-                                                                    class="error- text-danger"></span>
-                                                            </div>
-                                                            <div class="form-group col-md-12">
-                                                                <label>Country <span>*</span></label>
-                                                                <input class="form-control square" name="country"
-                                                                    type="text">
-                                                                <span id="countryError"
-                                                                    class="error- text-danger"></span>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <button type="submit" class="btn btn-fill-out submit"
-                                                                    name="submit" value="Submit">Add Address</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                    <div class="form-group col-md-12">
+                        <label>City <span>*</span></label>
+                        <input class="form-control square" name="city"
+                            type="text">
+                        <span id="cityError" class="error- text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Postal Code <span>*</span></label>
+                        <input class="form-control square" name="postalCode"
+                            type="number">
+                        <span id="postalCodeError"
+                            class="error- text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Country <span>*</span></label>
+                        <input class="form-control square" name="country"
+                            type="text">
+                        <span id="countryError"
+                            class="error- text-danger"></span>
+                    </div>
 
-                                            </div>
-                                        </div>
+                   <div class="col-md-12 d-flex flex-wrap gap-2">
+    <!-- Default Add Address button -->
+    <button type="submit" class="btn btn-fill-out" name="addAddress" value="Submit">Add Address</button>
+
+    <!-- Save and Go to Cart button -->
+    <button type="button" class="btn btn-success" onclick="saveAndGoToCart()">Save Address & Go to Cart</button>
+</div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
                                     </div>
                                 </div>
                         </div>
@@ -566,195 +570,136 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
     <!-- Template  JS -->
     <script src="/assetss/js/maind134.js?v=3.4"></script>
-    <script>
-        function validateSignupForm(event) {
-            // Reset previous error messages
-            resetErrorMessages();
+   <script>
+    // This validateSignupForm seems unrelated to the address form.
+    // It's recommended to remove it or ensure it's used for a specific signup form.
+    // For now, I'm keeping it separate as it validates 'username', 'email', which aren't in the address form.
+    function validateSignupForm(event) {
+        // Reset previous error messages
+        resetErrorMessages(); // This will clear errors for all fields, including address fields if they share error-message class
 
-            // Validate username, email, and password
-            const usernameInput = document.getElementById('username');
-            const usernameError = document.getElementById('usernameError');
-            const usernameValue = usernameInput.value.trim();
+        // Validate username, email, and password
+        const usernameInput = document.getElementById('username');
+        const usernameError = document.getElementById('usernameError');
+        const usernameValue = usernameInput.value.trim();
 
-            if (usernameValue === '') {
-                usernameError.innerHTML = 'Username is required.';
-                event.preventDefault(); // Prevent form submission
-            }
-
-            const emailInput = document.getElementById('email');
-            const emailError = document.getElementById('emailError');
-            const emailValue = emailInput.value.trim();
-
-            if (emailValue === '') {
-                emailError.innerHTML = 'Email is required.';
-                event.preventDefault(); // Prevent form submission
-            } else if (!isValidEmail(emailValue)) {
-                emailError.innerHTML = 'Email is not valid.';
-                event.preventDefault(); // Prevent form submission
-            } else if (!isValidEmail(emailValue)) {
-                emailError.innerHTML = 'Email is not valid.';
-                event.preventDefault(); // Prevent form submission
-            }
-
-
-
-
-
-
-            const mobileinput = document.getElementById('Mobile');
-            const mobileerror = document.getElementById('MobileError');
-            const mobilevalue = mobileinput.value.trim();
-
-            if (mobilevalue === '') {
-                mobileerror.innerHTML = 'Mobile number is required';
-                event.preventDefault();
-            } else if (mobilevalue.length < 10 || mobilevalue.length > 13) {
-                mobileerror.innerHTML = 'invalid phone number';
-                event.preventDefault();
-            }
-
-
+        if (usernameValue === '') {
+            usernameError.innerHTML = 'Username is required.';
+            event.preventDefault(); // Prevent form submission
         }
 
-        function resetErrorMessages() {
-            const errorMessages = document.querySelectorAll('.error-message');
-            errorMessages.forEach(function (errorMessage) {
-                errorMessage.innerHTML = '';
-            });
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('emailError');
+        const emailValue = emailInput.value.trim();
+
+        if (emailValue === '') {
+            emailError.innerHTML = 'Email is required.';
+            event.preventDefault(); // Prevent form submission
+        } else if (!isValidEmail(emailValue)) {
+            emailError.innerHTML = 'Email is not valid.';
+            event.preventDefault(); // Prevent form submission
         }
 
+        const mobileinput = document.getElementById('Mobile'); // Note: 'Mobile' with a capital M, assuming this is correct ID
+        const mobileerror = document.getElementById('MobileError'); // Note: 'MobileError' with a capital M, assuming this is correct ID
+        const mobilevalue = mobileinput.value.trim();
 
-        function isValidEmail(email) {
-            // Simple email validation, you may need to use a more comprehensive approach
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
+        if (mobilevalue === '') {
+            mobileerror.innerHTML = 'Mobile number is required';
+            event.preventDefault();
+        } else if (mobilevalue.length < 10 || mobilevalue.length > 13) {
+            mobileerror.innerHTML = 'Invalid phone number';
+            event.preventDefault();
+        }
+    }
+
+    function resetErrorMessages() {
+        const errorMessages = document.querySelectorAll('.error-message'); // Ensure your error spans have this class
+        errorMessages.forEach(function (errorMessage) {
+            errorMessage.innerHTML = '';
+        });
+    }
+
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // This is the validation function for your address form
+    function validateForm() {
+        var displayName = document.forms["enq"]["displayName"].value;
+        var mobile = document.forms["enq"]["mobile"].value;
+        var city = document.forms["enq"]["city"].value;
+        var postalCode = document.forms["enq"]["postalCode"].value;
+        var country = document.forms["enq"]["country"].value;
+
+        // Clear previous error messages specific to this form
+        document.getElementById("displayNameError").innerHTML = "";
+        document.getElementById("mobileError").innerHTML = "";
+        document.getElementById("cityError").innerHTML = "";
+        document.getElementById("postalCodeError").innerHTML = "";
+        document.getElementById("countryError").innerHTML = "";
+
+        let isValid = true; // Flag to track overall form validity
+
+        // Validate each field
+        if (displayName === "") {
+            document.getElementById("displayNameError").innerHTML = "Name is required";
+            isValid = false;
+        } else if (!/^[A-Za-z\s]+$/.test(displayName)) {
+            document.getElementById("displayNameError").innerHTML = "Name must contain only letters";
+            isValid = false;
         }
 
-        function resetErrorMessages() {
-            const errorMessages = document.querySelectorAll('.error-message');
-            errorMessages.forEach(function (errorMessage) {
-                errorMessage.innerHTML = '';
-            });
+        if (city === "") {
+            document.getElementById("cityError").innerHTML = "City is required";
+            isValid = false;
+        } else if (!/^[A-Za-z\s]+$/.test(city)) {
+            document.getElementById("cityError").innerHTML = "City must contain only letters";
+            isValid = false;
         }
 
-        function validateForm() {
-    var displayName = document.forms["enq"]["displayName"].value;
-    var mobile = document.forms["enq"]["mobile"].value;
-    var city = document.forms["enq"]["city"].value;
-    var postalCode = document.forms["enq"]["postalCode"].value;
-    var country = document.forms["enq"]["country"].value;
+        if (country === "") {
+            document.getElementById("countryError").innerHTML = "Country is required";
+            isValid = false;
+        } else if (!/^[A-Za-z\s]+$/.test(country)) {
+            document.getElementById("countryError").innerHTML = "Country must contain only letters";
+            isValid = false;
+        }
 
-    // Clear previous error messages
-    document.getElementById("displayNameError").innerHTML = "";
-    document.getElementById("mobileError").innerHTML = "";
-    document.getElementById("cityError").innerHTML = "";
-    document.getElementById("postalCodeError").innerHTML = "";
-    document.getElementById("countryError").innerHTML = "";
+        if (mobile === "") {
+            document.getElementById("mobileError").innerHTML = "Mobile is required";
+            isValid = false;
+        } else if (!/^\d{10}$/.test(mobile)) {
+            document.getElementById("mobileError").innerHTML = "Phone number must be 10 digits";
+            isValid = false;
+        }
 
-    // Validate each field
-    if (displayName === "") {
-        document.getElementById("displayNameError").innerHTML = "Name is required";
-        return false;
-    } else if (!/^[A-Za-z\s]+$/.test(displayName)) {
-        document.getElementById("displayNameError").innerHTML = "Name must contain only letters";
-        return false;
+        if (postalCode === "") {
+            document.getElementById("postalCodeError").innerHTML = "Postal Code is required";
+            isValid = false;
+        } else if (!/^[A-Za-z\d]{6}$/.test(postalCode)) { // This regex allows alphanumeric, adjust if only numbers
+            document.getElementById("postalCodeError").innerHTML = "Postal Code must be 6 alphanumeric characters";
+            isValid = false;
+        }
+
+        return isValid; // Return the overall validity
     }
 
-    if (city === "") {
-        document.getElementById("cityError").innerHTML = "City is required";
-        return false;
-    } else if (!/^[A-Za-z\s]+$/.test(city)) {
-        document.getElementById("cityError").innerHTML = "City must contain only letters";
-        return false;
+    // This function handles the "Save Address & Go to Cart" button click
+    function saveAndGoToCart() {
+        const form = document.forms['enq']; // Get the form by its name attribute
+
+        // First, perform validation
+        if (validateForm()) {
+            // If validation passes, change the form action and submit
+            form.action = '/address/<%= users._id %>?redirectToCart=true';
+            form.submit();
+        }
+        // If validation fails, validateForm() will return false, and the form won't be submitted.
+        // Error messages will be displayed by validateForm().
     }
-
-    if (country === "") {
-        document.getElementById("countryError").innerHTML = "Country is required";
-        return false;
-    } else if (!/^[A-Za-z\s]+$/.test(country)) {
-        document.getElementById("countryError").innerHTML = "Country must contain only letters";
-        return false;
-    }
-
-    if (mobile === "") {
-        document.getElementById("mobileError").innerHTML = "Mobile is required";
-        return false;
-    } else if (!/^\d{10}$/.test(mobile)) {
-        document.getElementById("mobileError").innerHTML = "Phone number must be 10 digits";
-        return false;
-    }
-
-    if (postalCode === "") {
-        document.getElementById("postalCodeError").innerHTML = "Postal Code is required";
-        return false;
-    } else if (!/^[A-Za-z\d]{6}$/.test(postalCode)) {
-        document.getElementById("postalCodeError").innerHTML = "Postal Code must be 6 alphanumeric characters";
-        return false;
-    }
-
-    return true;
-}
-
-        
-                                                                            let cropper;
-                                                                            function cropBanner(id) {
-                                                                                const input = document.getElementById(id);
-                                                                                const canvas = document.getElementById(`show_${id}`);
-                                                                                const file = input.files[0];
-
-                                                                                if (file) {
-                                                                                    const reader = new FileReader();
-
-                                                                                    reader.onload = function (e) {
-                                                                                        canvas.src = e.target.result;
-                                                                                        if (cropper) {
-                                                                                            cropper.destroy();
-                                                                                        }
-
-                                                                                        cropper = new Cropper(canvas, {
-                                                                                            viewMode: 2,
-                                                                                        });
-                                                                                    };
-
-                                                                                    reader.readAsDataURL(file);
-                                                                                    document.getElementById('save_'+id).style.display = 'block'
-                                                                                } else {
-                                                                                    canvas.src = '';
-                                                                                    if (cropper) {
-                                                                                        cropper.destroy();
-                                                                                    }
-                                                                                }
-                                                                            }
-
-                                                                            function uploadBannerImage(id) {
-                                                                                const canvas = cropper.getCroppedCanvas();
-                                                                                if (canvas) {
-                                                                                    canvas.toBlob((blob) => {
-                                                                                        const fileName = 'croppedImage.jpg';
-                                                                                        const file = new File([blob], fileName, { type: 'image/jpeg' });
-                                                                                        const input = document.getElementById(id);
-
-                                                                                        if (DataTransfer && FileList) {
-                                                                                            const dataTransfer = new DataTransfer();
-                                                                                            dataTransfer.items.add(file);
-                                                                                            input.files = dataTransfer.files;
-                                                                                        } else {
-                                                                                            console.error('FileList and DataTransfer are not supported in this browser.');
-                                                                                        }
-
-                                                                                        const showImg = document.getElementById(`show_${id}`);
-                                                                                        showImg.src = URL.createObjectURL(blob);
-
-                                                                                        cropper.destroy();
-                                                                                    });
-                                                                                    document.getElementById('save_' + id).style.display = 'none'
-                                                                                }
-                                                                            }
-
-
-                                                                        
-
-    </script>
+</script>
     
 </body>
 
