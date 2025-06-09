@@ -685,13 +685,16 @@
 																	</div>
 																</div> -->
 															</div>
-															<div class="d-flex">
-																<a href="/productpage/<%= product._id  %>" class="btn btn-secondary btn-md btn-icon">
-																	<i class="icon feather icon-shopping-cart d-md-none d-block"></i>
-																	<span class="d-md-block d-none">Shop Now</span>
-																</a>
-																
-															</div>
+									<div class="d-flex justify-content-between gap-2">
+    <a href="/productpage/<%= product._id  %>" class="btn btn-secondary btn-md btn-icon flex-fill text-center">
+        <i class="icon feather icon-shopping-cart d-md-none d-block"></i>
+        <span class="d-md-block d-none">Shop Now</span>
+    </a>
+    <form action="/wishlist/add/<%= product._id %>" method="POST" class="flex-fill text-center">
+        <button type="submit" class="btn btn-primary text-uppercase w-100">Add to Wishlist</button>
+    </form>
+</div>
+
 														</div>
 													</div>
 												</div>

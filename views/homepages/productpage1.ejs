@@ -521,244 +521,506 @@
 				</ul>
 			</nav>
 		</div>
-		<% if(products) {%>
-		<section class="content-inner py-0">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-xl-6 col-md-6">
-						<div class="dz-product-detail sticky-top">
-							<div class="swiper-btn-center-lr">
-								<div class="swiper product-gallery-swiper2">
-									<div class="swiper-wrapper" id="lightgallery">
-										<div class="swiper-slide">
-											<div class="dz-media DZoomImage">
-												<a class="mfp-link lg-item" href="<%= products.singleImage %>" data-src="<%= products.singleImage %>">
-													<i class="feather icon-maximize dz-maximize top-right"></i>
-												</a>
-												<img src="<%= products.singleImage %>" style="width: 500px; margin-left: 50px;" alt="image">
-											</div>
-										</div>
-										<div class="swiper-slide">
-											<div class="dz-media DZoomImage">
-												<a class="mfp-link lg-item" href="<%= products.multipleImages[0] %>" data-src="<%= products.multipleImages[0] %>">
-													<i class="feather icon-maximize dz-maximize top-right"></i>
-												</a>
-												<img src="<%= products.multipleImages[0] %>" alt="image">
-											</div>
-										</div>
-										<div class="swiper-slide">
-											<div class="dz-media DZoomImage">
-												<a class="mfp-link lg-item" href="<%= products.multipleImages[1] %>" data-src="<%= products.multipleImages[1] %>">
-													<i class="feather icon-maximize dz-maximize top-right"></i>
-												</a>
-												<img src="<%= products.multipleImages[1] %>" alt="image">
-											</div>
-										</div>
-										<div class="swiper-slide">
-											<div class="dz-media DZoomImage">
-												<a class="mfp-link lg-item" href="<%= products.multipleImages[2] %>" data-src="<%= products.multipleImages[2] %>">
-													<i class="feather icon-maximize dz-maximize top-right"></i>
-												</a>
-												<img src="<%= products.multipleImages[2] %>" alt="image">
-											</div>
-										</div>
-									</div>
-								</div>
-								
-								<div class="swiper product-gallery-swiper thumb-swiper-lg swiper-vertical">
-									<div class="swiper-wrapper">
-										<div class="swiper-slide">
-											<img src="<%= products.singleImage %>"  alt="image" style="width: 100px; height: 100px;">
-										</div>
-										<div class="swiper-slide">
-											<img src="<%= products.multipleImages[0] %>" alt="image">
-										</div>
-										<div class="swiper-slide">
-											<img src="<%= products.multipleImages[1] %>" alt="image">
-										</div>
-										<div class="swiper-slide">
-											<img src="<%= products.multipleImages[2] %>" alt="image">
-										</div>
-									</div>
-								</div>
-							</div>	
-						</div>	
-					</div>
-					
-					<div class="col-xl-6 col-md-6">
-						<div class="dz-product-detail style-2 p-t50">
-							<div class="dz-content">
-								<div class="dz-content-footer">
-									<div class="dz-content-start">
-										<span class="badge badge-danger"> ₹<%= Math.round(products.discount) %> Off</span>
+		
+<% if(products) {%>
 
-										<h4 class="title mb-1"><a href="/home/shop-list.html"><%= products.name %></a></h4>
-										<div class="review-num">
-										
-											
-										</div>
-									</div>
-								</div>
-								<p class="para-text">
-									<%= products.description %>
-								</p>
-								<div class="meta-content m-b20 d-flex align-items-end">
-									<div class="me-3">
-										<span class="price-name">Price</span>
-										<span class="price-num">₹<%= products.price %><del></del></span>
-									</div>
-								
-									<div class="btn-quantity quantity-sm light d-xl-none d-blcok d-sm-block me-0">
-										<label class="form-label">Quantity</label>
-										<input  type="text" value="1" name="numof">
-									</div>
-								</div>
-								<div class="product-num">
-									<div class="btn-quantity light d-xl-block d-sm-none d-none">
-										<label class="form-label">Availabel Quantity : <%= products.stock %></label>
-										<!-- <input  type="text" value="1" name="demo_vertical2"> -->
-									</div>
-									<div class="d-block">
-										<!-- <label class="form-label">Size</label>
-										<div class="btn-group product-size mb-0">
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradio11" checked="">
-											<label class="btn btn-light" for="btnradio11">S</label>
+        <section class="content-inner py-0">
 
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradio21">
-											<label class="btn btn-light" for="btnradio21">M</label>
+            <div class="container-fluid">
 
-											<input type="radio" class="btn-check" name="btnradio1" id="btnradio31">
-											<label class="btn btn-light" for="btnradio31">L</label>
-										</div> -->
-									</div>
-									<div class="meta-content">
-										<!-- <label class="form-label">Color</label>
-										<div class="d-flex align-items-center color-filter">
-											<div class="form-check">
-												<input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel1" value="#24262B" aria-label="..." checked>
-												<span></span>
-											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel2" value="#8CB2D1" aria-label="...">
-												<span></span>
-											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel3" value="#0D775E" aria-label="...">
-												<span></span>
-											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel4" value="#C7D1CF" aria-label="...">
-												<span></span>
-											</div>
-										</div> -->
-									</div>
-								</div>
-								<div class="btn-group cart-btn">
-									<% if(products.stock === '0') {%>
-										<P>"Temporarily out of stock, but stay tuned for its triumphant return. Your patience is about to be rewarded!"</P>
-										<%} else {%>
-											<div class="d-flex">
+                <div class="row">
+
+                    <div class="col-xl-6 col-md-6">
+
+                        <div class="dz-product-detail sticky-top">
+
+                            <div class="swiper-btn-center-lr">
+
+                                <div class="swiper product-gallery-swiper2">
+
+                                    <div class="swiper-wrapper" id="lightgallery">
+
+                                        <!-- Main single image -->
+                                        <div class="swiper-slide">
+
+                                            <div class="dz-media DZoomImage">
+
+                                                <a class="mfp-link lg-item" href="<%= products.singleImage %>" data-src="<%= products.singleImage %>">
+
+                                                    <i class="feather icon-maximize dz-maximize top-right"></i>
+
+                                                </a>
+
+                                                <img src="<%= products.singleImage %>" style="width: 500px; margin-left: 50px;" alt="image">
+
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Multiple images with conditional rendering -->
+                                        <% if (products.multipleImages && products.multipleImages.length > 0) { %>
+
+                                            <% products.multipleImages.slice(0, 3).forEach((image, index) => { %>
+
+                                                <div class="swiper-slide">
+
+                                                    <div class="dz-media DZoomImage">
+
+                                                        <a class="mfp-link lg-item" href="<%= image %>" data-src="<%= image %>">
+
+                                                            <i class="feather icon-maximize dz-maximize top-right"></i>
+
+                                                        </a>
+
+                                                        <img src="<%= image %>" alt="image">
+
+                                                    </div>
+
+                                                </div>
+
+                                            <% }); %>
+
+                                        <% } %>
+
+                                    </div>
+
+                                </div>
+
+                                
+
+                                <div class="swiper product-gallery-swiper thumb-swiper-lg swiper-vertical">
+
+                                    <div class="swiper-wrapper">
+
+                                        <!-- Main single image thumbnail -->
+                                        <div class="swiper-slide">
+
+                                            <img src="<%= products.singleImage %>"  alt="image" style="width: 100px; height: 100px;">
+
+                                        </div>
+
+                                        <!-- Multiple images thumbnails with conditional rendering -->
+                                        <% if (products.multipleImages && products.multipleImages.length > 0) { %>
+
+                                            <% products.multipleImages.slice(0, 3).forEach((image, index) => { %>
+
+                                                <div class="swiper-slide">
+
+                                                    <img src="<%= image %>" alt="image">
+
+                                                </div>
+
+                                            <% }); %>
+
+                                        <% } %>
+
+                                    </div>
+
+                                </div>
+
+                            </div>  
+
+                        </div>  
+
+                    </div>
+
+                    
+
+                    <div class="col-xl-6 col-md-6">
+
+                        <div class="dz-product-detail style-2 p-t50">
+
+                            <div class="dz-content">
+
+                                <div class="dz-content-footer">
+
+                                    <div class="dz-content-start">
+
+                                        <span class="badge badge-danger"> ₹<%= Math.round(products.discount) %> Off</span>
+
+
+
+                                        <h4 class="title mb-1"><a href="/home/shop-list.html"><%= products.name %></a></h4>
+
+                                        <div class="review-num">
+
+                                        
+
+                                            
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <p class="para-text">
+
+                                    <%= products.description %>
+
+                                </p>
+
+                                <div class="meta-content m-b20 d-flex align-items-end">
+
+                                    <div class="me-3">
+
+                                        <span class="price-name">Price</span>
+
+                                        <span class="price-num">₹<%= products.price %><del></del></span>
+
+                                    </div>
+
+                                
+
+                                    <div class="btn-quantity quantity-sm light d-xl-none d-blcok d-sm-block me-0">
+
+                                        <label class="form-label">Quantity</label>
+
+                                        <input  type="text" value="1" name="numof">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="product-num">
+
+                                    <div class="btn-quantity light d-xl-block d-sm-none d-none">
+
+                                        <label class="form-label">Available Quantity : <%= products.stock %></label>
+
+                                        <!-- <input  type="text" value="1" name="demo_vertical2"> -->
+
+                                    </div>
+
+                                    <div class="d-block">
+
+                                        <!-- <label class="form-label">Size</label>
+
+                                        <div class="btn-group product-size mb-0">
+
+                                            <input type="radio" class="btn-check" name="btnradio1" id="btnradio11" checked="">
+
+                                            <label class="btn btn-light" for="btnradio11">S</label>
+
+
+
+                                            <input type="radio" class="btn-check" name="btnradio1" id="btnradio21">
+
+                                            <label class="btn btn-light" for="btnradio21">M</label>
+
+
+
+                                            <input type="radio" class="btn-check" name="btnradio1" id="btnradio31">
+
+                                            <label class="btn btn-light" for="btnradio31">L</label>
+
+                                        </div> -->
+
+                                    </div>
+
+                                    <div class="meta-content">
+
+                                        <!-- <label class="form-label">Color</label>
+
+                                        <div class="d-flex align-items-center color-filter">
+
+                                            <div class="form-check">
+
+                                                <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel1" value="#24262B" aria-label="..." checked>
+
+                                                <span></span>
+
+                                            </div>
+
+                                            <div class="form-check">
+
+                                                <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel2" value="#8CB2D1" aria-label="...">
+
+                                                <span></span>
+
+                                            </div>
+
+                                            <div class="form-check">
+
+                                                <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel3" value="#0D775E" aria-label="...">
+
+                                                <span></span>
+
+                                            </div>
+
+                                            <div class="form-check">
+
+                                                <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel4" value="#C7D1CF" aria-label="...">
+
+                                                <span></span>
+
+                                            </div>
+
+                                        </div> -->
+
+                                    </div>
+
+                                </div>
+
+                                <div class="btn-group cart-btn">
+
+                                    <% if(products.stock === '0') {%>
+
+                                        <P>"Temporarily out of stock, but stay tuned for its triumphant return. Your patience is about to be rewarded!"</P>
+
+                                        <%} else {%>
+
+                                            <div class="d-flex">
+
     <% if (alreadyInCart) { %>
+
         <a href="/cartpage" class="btn btn-dark ">
+
     <span class="d-md-block d-none">ALREADY IN CART</span>
+
 </a>
 
+
+
     <% } else { %>
+
         <a href="/cart/<%= products._id  %>" class="btn btn-secondary text-uppercase">Add To Cart</a>
+
     <% } %>
+
 </div>
 
-										<form action="/wishlist/add/<%= products._id %>" method="POST">
+
+
+                                        <form action="/wishlist/add/<%= products._id %>" method="POST">
+
   <button type="submit" class="btn btn-primary text-uppercase" > Add to Wishlist</button>
+
 </form>
 
-											<%}%>
-									
-								
-									
-								</div>
-								<div class="dz-info">
-									<ul>
-									
-										<li>
-											<strong>Brand:</strong>
-											<span><%= products.brand %></span>
-										</li>
-										
-									</ul>
-								</div>
-								
-							</div>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-			
-		</section>
-		<section class="content-inner-3 pb-0">
-    <div class="container">
-        <div class="product-description">
-            <div class="dz-tabs">
-                <ul class="nav nav-tabs center" id="myTab1" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Description</button>
-                    </li>
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                        <div class="row">
-                            <div class="col-lg-6 m-lg-b0 m-md-b30">
-                                <div class="section-head style-2 d-block">
-                                    <h2 class="title"><%= products.name %></h2>
-                                    <p><%= products.description %></p>
-                                </div>
+
+
+                                            <%}%>
+
+                                    
+
                                 
-                                <div class="product-media row g-xl-4 g-2 m-b40">
-                                   
-                                    <% if (products.multipleImages && products.multipleImages.length > 0) { %>
-                                        <% products.multipleImages.forEach((image, index) => { %>
-                                            <div class="col-md-3 col-3 col-sm-3 product-media-inner">
-                                                <a href="#" class="dz-media">
-                                                    <img src="<%= image %>" alt="<%= products.name %> image <%= index + 1 %>">
-                                                </a>
-                                            </div>
-                                        <% }); %>
-                                    <% } %>
+
+                                    
+
                                 </div>
-                               
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <% if (products.highlightedFeatures && products.highlightedFeatures.length > 0) { %>
-                                        <% products.highlightedFeatures.forEach(feature => { %>
-                                            <div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
-                                                <a href="#" class="about-product-wrapper">
-                                                    <div class="product-content bg-light">
-                                                        <h4 class="product-title"><%= feature.title %></h4>
-                                                        <p class="product-text"><%= feature.text %></p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        <% }); %>
-                                    <% } else { %>
+
+                                
+
+                                <!-- Social Media Share Section -->
+                                <div class="social-share mt-4">
+                                    <h6 class="share-title mb-3">Share this product:</h6>
+                                    <div class="social-icons d-flex gap-3">
+                                        <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent('https://mooncart.fayisnambiyath.in/productpage/' + products._id) %>" 
+                                           target="_blank" 
+                                           class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center" 
+                                           style="width: 40px; height: 40px;"
+                                           title="Share on Facebook">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                        <a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent('https://mooncart.fayisnambiyath.in/productpage/' + products._id) %>&text=<%= encodeURIComponent('Check out this amazing product: ' + products.name) %>" 
+                                           target="_blank" 
+                                           class="btn btn-outline-info btn-sm rounded-circle d-flex align-items-center justify-content-center" 
+                                           style="width: 40px; height: 40px;"
+                                           title="Share on Twitter">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                        <a href="https://wa.me/?text=<%= encodeURIComponent('Check out this amazing product: ' + products.name + ' - https://mooncart.fayisnambiyath.in/productpage/' + products._id) %>" 
+                                           target="_blank" 
+                                           class="btn btn-outline-success btn-sm rounded-circle d-flex align-items-center justify-content-center" 
+                                           style="width: 40px; height: 40px;"
+                                           title="Share on WhatsApp">
+                                            <i class="fab fa-whatsapp"></i>
+                                        </a>
+                                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= encodeURIComponent('https://mooncart.fayisnambiyath.in/productpage/' + products._id) %>" 
+                                           target="_blank" 
+                                           class="btn btn-outline-primary btn-sm rounded-circle d-flex align-items-center justify-content-center" 
+                                           style="width: 40px; height: 40px;"
+                                           title="Share on LinkedIn">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                        <a href="https://pinterest.com/pin/create/button/?url=<%= encodeURIComponent('https://mooncart.fayisnambiyath.in/productpage/' + products._id) %>&media=<%= encodeURIComponent(products.singleImage) %>&description=<%= encodeURIComponent(products.name + ' - ' + products.description) %>" 
+                                           target="_blank" 
+                                           class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center" 
+                                           style="width: 40px; height: 40px;"
+                                           title="Share on Pinterest">
+                                            <i class="fab fa-pinterest-p"></i>
+                                        </a>
+                                        <button onclick="copyToClipboard('<%= 'https://mooncart.fayisnambiyath.in/productpage/' + products._id %>')" 
+                                                class="btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center" 
+                                                style="width: 40px; height: 40px;"
+                                                title="Copy Link">
+                                            <i class="fas fa-link"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                
+
+                                <div class="dz-info">
+
+                                    <ul>
+
+                                    
+
+                                        <li>
+
+                                            <strong>Brand:</strong>
+
+                                            <span><%= products.brand %></span>
+
+                                        </li>
+
                                         
-                                    <% } %>
+
+                                    </ul>
+
                                 </div>
-								
-                                <div class="dz-product-media dz-media"><img src="<%= products.singleImage %>" alt="<%= products.name %> main image"></div>
-								
+
+                                
+
                             </div>
+
+                            
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
+            
+
+        </section>
+
+        <section class="content-inner-3 pb-0">
+
+    <div class="container">
+
+        <div class="product-description">
+
+            <div class="dz-tabs">
+
+                <ul class="nav nav-tabs center" id="myTab1" role="tablist">
+
+                    <li class="nav-item" role="presentation">
+
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Description</button>
+
+                    </li>
+
+                </ul>
+
+                <div class="tab-content" id="myTabContent">
+
+                    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                        <div class="row">
+
+                            <div class="col-lg-6 m-lg-b0 m-md-b30">
+
+                                <div class="section-head style-2 d-block">
+
+                                    <h2 class="title"><%= products.name %></h2>
+
+                                    <p><%= products.description %></p>
+
+                                </div>
+
+                                
+
+                                <div class="product-media row g-xl-4 g-2 m-b40">
+
+                                   
+
+                                    <% if (products.multipleImages && products.multipleImages.length > 0) { %>
+
+                                        <% products.multipleImages.forEach((image, index) => { %>
+
+                                            <div class="col-md-3 col-3 col-sm-3 product-media-inner">
+
+                                                <a href="#" class="dz-media">
+
+                                                    <img src="<%= image %>" alt="<%= products.name %> image <%= index + 1 %>">
+
+                                                </a>
+
+                                            </div>
+
+                                        <% }); %>
+
+                                    <% } %>
+
+                                </div>
+
+                               
+
+                            </div>
+
+                            <div class="col-lg-6">
+
+                                <div class="row">
+
+                                    <% if (products.highlightedFeatures && products.highlightedFeatures.length > 0) { %>
+
+                                        <% products.highlightedFeatures.forEach(feature => { %>
+
+                                            <div class="col-lg-6 col-md-6 m-sm-b20 m-b30">
+
+                                                <a href="#" class="about-product-wrapper">
+
+                                                    <div class="product-content bg-light">
+
+                                                        <h4 class="product-title"><%= feature.title %></h4>
+
+                                                        <p class="product-text"><%= feature.text %></p>
+
+                                                    </div>
+
+                                                </a>
+
+                                            </div>
+
+                                        <% }); %>
+
+                                    <% } else { %>
+
+                                        
+
+                                    <% } %>
+
+                                </div>
+
+                                
+
+                                <div class="dz-product-media dz-media"><img src="<%= products.singleImage %>" alt="<%= products.name %> main image"></div>
+
+                                
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
+
     </div>
+
 </section>
-		
-		
-		<%}%>
+
+<%}%>
 	
 		
 		</section> -->
@@ -1063,6 +1325,33 @@
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
 	
+</script>
+<script>
+// Function to copy link to clipboard
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        // Show success message
+        alert('Product link copied to clipboard!');
+    }, function(err) {
+        // Fallback for older browsers
+        var textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            var successful = document.execCommand('copy');
+            if (successful) {
+                alert('Product link copied to clipboard!');
+            } else {
+                alert('Failed to copy link. Please copy manually: ' + text);
+            }
+        } catch (err) {
+            alert('Failed to copy link. Please copy manually: ' + text);
+        }
+        document.body.removeChild(textArea);
+    });
+}
 </script>
 
 
