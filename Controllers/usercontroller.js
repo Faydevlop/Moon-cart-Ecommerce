@@ -280,38 +280,36 @@ const homeshop = async (req, res) => {
     const limit = 16;
     
     const products = await productsmodel.find({
-        
+        // Your existing search criteria
         $or:[
             {name:{$regex:'.*'+search+'.*',$options:'i'}},
-            
+            // Add any other fields you want to search here, e.g.:
+            // {description:{$regex:'.*'+search+'.*',$options:'i'}},
+            // {category:{$regex:'.*'+search+'.*',$options:'i'}},
         ]
         
-    }).limit(limit * 1)
+    })
+    .sort({ _id: -1 }) // Sort by _id in descending order to get latest first
+    .limit(limit * 1)
     .skip((page - 1) * limit)
     .exec();
 
-    const count = await productsmodel.find({
-        
+    const count = await productsmodel.countDocuments({ // Use countDocuments for counting
+        // Your existing search criteria for counting
         $or:[
             {name:{$regex:'.*'+search+'.*',$options:'i'}},
-            
+            // Add any other fields you want to search here
         ]
         
-    }).countDocuments();
+    });
 
-
-
-
-
-    const categorys = await cat.find({})
+    const categorys = await cat.find({});
 
     const users = await Cart.findOne({user:req.session.iduser}).populate('products.product');
-    console.log(users)
-    
+    // console.log(users); // You might want to remove this console.log in production
 
-    res.render('homepages/shop1', { products, categorys,users:users,totalpages:Math.ceil(count/limit),currentpage:page  });
+    res.render('homepages/shop1', { products, categorys, users: users, totalpages:Math.ceil(count/limit), currentpage:page });
 }
-
 
 const otplogin = (req, res) => {
     if(req.session.wrongotp){
