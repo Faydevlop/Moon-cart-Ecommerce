@@ -199,7 +199,7 @@
                             <thead>
                                 <tr>
                                     <th>Category Name</th>
-                                    <th>Category Offers</th>
+                                  
                                     <th>Delete</th>
                                     <th>Edit</th>
                                     <th>Listing</th>
@@ -210,7 +210,7 @@
                                     <% cat.forEach((item)=>{ %>
                                         <tr>
                                             <td><%= item.categoryname %></td>
-                                          <td><%= item.categeoryOffers ? item.categeoryOffers : 'No Offers' %></td>
+                                          <!-- <td><%= item.categeoryOffers ? item.categeoryOffers : 'No Offers' %></td> -->
 
                                             <td>
                                                 <form id="deleteForm-<%= item._id %>" action="/admin/deletecat/<%= item._id %>" method="post">

@@ -3,8 +3,6 @@
 
 <head>
     <meta charset="utf-8">
-
-
     <title>bs5 edit profile account details - Bootdey.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -78,6 +76,14 @@
             margin-left: 1rem;
             margin-right: 1rem;
         }
+
+        /* Error message styling */
+        .error-message {
+            color: #dc3545; /* Bootstrap danger color */
+            font-size: 0.875em;
+            margin-top: 0.25rem;
+            display: block; /* Ensures it takes full width below the input */
+        }
     </style>
 </head>
 
@@ -88,31 +94,28 @@
             <a class="nav-link active ms-0"
                 href="bs5_edit_profile_account_details.html"
                 target="__blank">Edit address</a>
-          
         </nav>
         <hr class="mt-0 mb-4">
         <div class="row">
             <div class="col-xl-4">
-
-               
             </div>
             <div class="col-xl-12">
                 <% if(locals.address) {%>
                 <div class="card mb-4">
                     <div class="card-header">Account Details</div>
                     <div class="card-body">
-                        <form action="/editaddress/<%= address._id %>" method="post"  name="enq" onsubmit="return validateForm()" >
+                        <form action="/editaddress/<%= address._id %>" method="post" name="enq" onsubmit="return validateForm()">
                             <div class="row gx-3 mb-3">
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputName">Name</label>
                                     <input class="form-control" id="inputName" value="<%= address.name %>" type="text" placeholder="Enter your name" name="displayName">
-                                    <span id="displayNameError" class="error- text-danger"></span>
+                                    <span id="displayNameError" class="error-message"></span>
                                 </div>
                         
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputMobile">Mobile</label>
                                     <input class="form-control" id="inputMobile" type="text" value="<%= address.mobile %>" placeholder="Enter your mobile number" name="mobile">
-                                    <span id="mobileError" class="error- text-danger"></span>
+                                    <span id="mobileError" class="error-message"></span>
                                 </div>
                             </div>
                         
@@ -120,13 +123,13 @@
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputCity">City</label>
                                     <input class="form-control" id="inputCity" type="text" value="<%= address.city %>"  placeholder="Enter your city"  name="city">
-                                    <span id="cityError" class="error- text-danger"></span>
+                                    <span id="cityError" class="error-message"></span>
                                 </div>
                         
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputPostalCode">Postal Code</label>
                                     <input class="form-control" id="inputPostalCode" type="text" value="<%= address.postalCode %>"  placeholder="Enter your postal code" name="postalCode" >
-                                    <span id="postalCodeError" class="error- text-danger"></span>
+                                    <span id="postalCodeError" class="error-message"></span>
                                 </div>
                             </div>
                         
@@ -134,70 +137,76 @@
                                 <div class="col-md-12">
                                     <label class="small mb-1" for="inputCountry">Country</label>
                                     <input class="form-control" id="inputCountry" type="text" value="<%= address.country %>"  placeholder="Enter your country" name="country">
-                                    <span id="countryError" class="error- text-danger"></span>
+                                    <span id="countryError" class="error-message"></span>
                                 </div>
                             </div>
                         
                             <button class="btn btn-primary" type="submit">Save changes</button>
                         </form>
-                        
                     </div>
                 </div>
                 <%}%>
-                
-                
             </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script >
+    <script>
         function validateForm() {
-        var displayName = document.forms["enq"]["displayName"].value;
-        var mobile = document.forms["enq"]["mobile"].value;
-        var city = document.forms["enq"]["city"].value;
-        var postalCode = document.forms["enq"]["postalCode"].value;
-        var country = document.forms["enq"]["country"].value;
+            // Get input values and trim whitespace
+            var displayName = document.forms["enq"]["displayName"].value.trim();
+            var mobile = document.forms["enq"]["mobile"].value.trim();
+            var city = document.forms["enq"]["city"].value.trim();
+            var postalCode = document.forms["enq"]["postalCode"].value.trim();
+            var country = document.forms["enq"]["country"].value.trim();
 
-        // Clear previous error messages
-        document.getElementById("displayNameError").innerHTML = "";
-        document.getElementById("mobileError").innerHTML = "";
-        document.getElementById("cityError").innerHTML = "";
-        document.getElementById("postalCodeError").innerHTML = "";
-        document.getElementById("countryError").innerHTML = "";
+            // Clear previous error messages
+            document.getElementById("displayNameError").innerHTML = "";
+            document.getElementById("mobileError").innerHTML = "";
+            document.getElementById("cityError").innerHTML = "";
+            document.getElementById("postalCodeError").innerHTML = "";
+            document.getElementById("countryError").innerHTML = "";
 
-        // Validate each field
-        if (displayName === "") {
-            document.getElementById("displayNameError").innerHTML = "Name is required";
-            return false;
+            let isValid = true; // Flag to track overall form validity
+
+            // Validate each field
+            if (displayName === "") {
+                document.getElementById("displayNameError").innerHTML = "Name cannot be empty.";
+                isValid = false;
+            }
+
+            // Basic mobile number validation (e.g., 10 digits)
+            const mobileRegex = /^[0-9]{10}$/; // Assumes a 10-digit mobile number
+            if (mobile === "") {
+                document.getElementById("mobileError").innerHTML = "Mobile number cannot be empty.";
+                isValid = false;
+            } else if (!mobileRegex.test(mobile)) {
+                document.getElementById("mobileError").innerHTML = "Please enter a valid 10-digit mobile number.";
+                isValid = false;
+            }
+
+            if (city === "") {
+                document.getElementById("cityError").innerHTML = "City cannot be empty.";
+                isValid = false;
+            }
+
+            // Basic postal code validation (e.g., 6 digits for India)
+            const postalCodeRegex = /^[0-9]{6}$/; // Assumes a 6-digit postal code for India
+            if (postalCode === "") {
+                document.getElementById("postalCodeError").innerHTML = "Postal Code cannot be empty.";
+                isValid = false;
+            } else if (!postalCodeRegex.test(postalCode)) {
+                document.getElementById("postalCodeError").innerHTML = "Please enter a valid 6-digit postal code.";
+                isValid = false;
+            }
+
+            if (country === "") {
+                document.getElementById("countryError").innerHTML = "Country cannot be empty.";
+                isValid = false;
+            }
+
+            return isValid; // Return the overall validity status
         }
-
-  
-
-        if (mobile === "") {
-            document.getElementById("mobileError").innerHTML = "Mobile is required";
-            return false;
-        }
-
-        if (city === "") {
-            document.getElementById("cityError").innerHTML = "City is required";
-            return false;
-        }
-
-        if (postalCode === "") {
-            document.getElementById("postalCodeError").innerHTML = "Postal Code is required";
-            return false;
-        }
-
-        if (country === "") {
-            document.getElementById("countryError").innerHTML = "Country is required";
-            return false;
-        }
-
-        return true;
-    }
-
-
     </script>
 </body>
 
