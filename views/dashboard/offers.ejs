@@ -227,10 +227,11 @@
                                     <td><%= offer.isActive ? 'Active' : 'Inactive' %></td>
                                     <td>
                                         <% if(offer.isActive) {%>
-                                            <button class="btn btn-primary btn-sm" onclick="isproduct(`<%= offer._id %>`)">Deactivate</button>
-                                        <%} else {%>
-                                            <button class="btn btn-primary btn-sm" onclick="isproduct(`<%= offer._id %>`)">Activate</button>
-                                        <%}%>
+    <button class="btn btn-primary btn-sm" onclick="isactive(`<%= offer._id %>`)">Deactivate</button>
+<%} else {%>
+    <button class="btn btn-primary btn-sm" onclick="isactive(`<%= offer._id %>`)">Activate</button>
+<%}%>
+
                                     </td>
                                     <td>
                                         <button class="btn btn-danger btn-sm" onclick="productdelete(`<%= offer._id %>`)">Delete</button>
@@ -329,11 +330,12 @@
                                     <td><%= new Date(offer.endDate).toLocaleDateString() %></td>
                                     <td><%= offer.isActive ? 'Active' : 'Inactive' %></td>
                                     <td>
-                                        <% if(offer.isActive) {%>
-                                            <button class="btn btn-primary btn-sm" onclick="iscat(`<%= offer._id %>`)">Deactivate</button>
-                                        <%} else {%>
-                                            <button class="btn btn-primary btn-sm" onclick="iscat(`<%= offer._id %>`)">Activate</button>
-                                        <%}%>
+                                        
+<% if(offer.isActive) {%>
+    <button class="btn btn-primary btn-sm" onclick="isActive(`<%= offer._id %>`)">Deactivate</button>
+<%} else {%>
+    <button class="btn btn-primary btn-sm" onclick="isActive(`<%= offer._id %>`)">Activate</button>
+<%}%>
                                     </td>
                                     <td>
                                         <button class="btn btn-danger btn-sm" onclick="catdelet(`<%= offer._id %>`)">Delete</button>
@@ -543,7 +545,7 @@
                     if (validateForm()) {
                         document.getElementById('productDiscountForm').submit();
                     }
-                }
+        }
 
                 document.getElementById('selectionType').addEventListener('change', function () {
                     var productSelection = document.getElementById('productSelection');
@@ -564,6 +566,7 @@
                     // let iddd = id
                     // console.log(iddd)
 
+                    
                     const response = await fetch('/admin/isproduct', {
                     method: 'POST', // You can use 'GET' or 'POST' based on your server setup
                     headers: {
@@ -625,8 +628,9 @@
                 async function isActive(idd){
                     // alert(idd)
                     // let iddd = id
-                    // console.log(iddd)
+                    console.log('category is here',idd)
 
+                 
                     const response = await fetch('/admin/iscat', {
                     method: 'POST', // You can use 'GET' or 'POST' based on your server setup
                     headers: {

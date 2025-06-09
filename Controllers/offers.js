@@ -317,93 +317,130 @@ const offerpost = async (req,res)=>{
 }
 const iscat = async (req, res) => {
     try {
-      const offerId = req.body.idd;
-      const offer = await categoryoffers.findOne({ _id: offerId }).populate('categoryName');
-      
-      if (!offer) {
-        return res.status(404).json({ message: 'Offer not found' });
-      }
+        const offerId = req.body.idd;
+        const offer = await categoryoffers.findOne({ _id: offerId }).populate('categoryName');
 
-    //   chceking the current date is applicable or not
-    
-    const currentDate = new Date();
-    if(currentDate < offer.startDate || currentDate > offer.endDate){
-        return res.status(200).json({ message: 'Offer is not valid. Start date or end date is not within the range.' });  
-    }
-  
-      const categoryId = offer.categoryName;
-      const category = await categorymodel.findOne({ _id: categoryId });
-  
-      if (!category) {
-        return res.status(404).json({ message: 'Category not found' });
-      }
-  
-      const products = await prodectmodel.find({ category: categoryId });
-  
-      console.log(category);
-  
-      offer.isActive = !offer.isActive;
-  
-      for (const product of products) {
-        if (offer.isActive) {
-          product.price = product.price - category.categeoryOffers;
-          console.log(`Updated price for product ${product._id}: ${product.price}`);
-        } else {
-          product.price = product.price + category.categeoryOffers;
-          console.log(`Updated price for product ${product._id}: ${product.price}`);
+        if (!offer) {
+            return res.status(404).json({ message: 'Offer not found' });
         }
-        await product.save(); // Save the updated product price to the database
-        await offer.save()
-      }
-  
-      return res.status(200).json({ message: 'Category offer updated successfully' });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Internal server error' });
+
+        const currentDate = new Date();
+        // Check if the current date is outside the offer's start and end dates
+        const offerExpiredOrNotStarted = currentDate < offer.startDate || currentDate > offer.endDate;
+
+        // Fetch category details
+        const category = await categorymodel.findOne({ _id: offer.categoryName });
+
+        if (!category) {
+            return res.status(404).json({ message: 'Category not found' });
+        }
+
+        // Find all products belonging to the category associated with this offer
+        const products = await prodectmodel.find({ category: offer.categoryName });
+
+        // --- Handle Offer Deactivation Due to Date Invalidity ---
+        if (offerExpiredOrNotStarted) {
+            if (offer.isActive) {
+                // If the offer is currently active but its dates are invalid, deactivate it.
+                offer.isActive = false;
+                // Revert all associated product prices to their original 'oldprice'.
+                for (const product of products) {
+                    product.price = product.oldprice; // Revert to original price
+                    await product.save();
+                }
+                await offer.save(); // Save the deactivated offer status
+                return res.status(200).json({ message: 'Offer automatically deactivated as dates are invalid.' });
+            } else {
+                // If the offer is already inactive and dates are invalid, just inform the user.
+                return res.status(200).json({ message: 'Offer is not valid. Start date or end date is not within the range.' });
+            }
+        }
+
+        // --- Toggle Offer Status and Apply/Remove Discount ---
+        // Determine the target state of the offer (i.e., what its 'isActive' status will become)
+        const willBeActive = !offer.isActive; 
+
+        console.log(`Toggling offer: ${offer.offerName}. Current isActive: ${offer.isActive}. Will be Active: ${willBeActive}`);
+
+       for (const product of products) {
+    if (willBeActive) {
+        if (offer.discountType === 'percentage') {
+            const discountAmount = product.oldprice * (offer.discountValue / 100);
+            product.price = product.oldprice - discountAmount;
+            product.discount = discountAmount;  // Save how much off
+        } else if (offer.discountType === 'flat') {
+            product.price = product.oldprice - offer.discountValue;
+            product.discount = offer.discountValue;  // Save how much off
+        }
+
+        // Ensure price doesn't go negative
+        if (product.price < 0) product.price = 0;
+
+        console.log(`Activating: Product ${product._id} price changed from ${product.oldprice} to ${product.price}, discount: ${product.discount}`);
+    } else {
+        product.price = product.oldprice;
+        product.discount = 0;  // Reset discount to 0
+        console.log(`Deactivating: Product ${product._id} price reverted to ${product.price}`);
     }
-  };
-  // product
-const isproduct= async (req,res)=>{
-    const offerid = req.body.id;
-    const offer = await productOffer.findOne({_id:offerid}).populate('productName')
-    const productid = offer.productName
-    const product = await prodectmodel.findOne({_id:productid})
-    console.log('product'+product)
-    // console.log('product'+offer)
 
-    const currentDate = new Date();
-    if(currentDate < offer.startDate || currentDate > offer.endDate){
-        return res.status(200).json({ message: 'Offer Cannot be activate. Start date or end date is not within the range.' });
-    }
-
-    if(!offer){
-        return res.send('somthin went wrong');
-     }
-
-    offer.isActive = !offer.isActive;
-    req.session.productprice = offer.productName.price;
-
-    if(offer.isActive){
-        product.price = product.price - product.discount;
-      
-    }else{
-        product.price = product.price + product.discount;
-       
-    }
-    await offer.save();
-    await product.save()
-    console.log('product'+product)
-    if(offer.isActive){
-        return res.status(200).json({ message: 'Offer listed' });
-    }
-    
-    
-
-
-
-    return res.status(200).json({ message: 'Offer unlisted' });
-
+    await product.save();
 }
+
+
+        // After updating all affected products, update the offer's isActive status.
+        // This is done only once to avoid race conditions or unnecessary database writes.
+        offer.isActive = willBeActive;
+        await offer.save(); 
+
+        return res.status(200).json({ message: 'Category offer updated successfully' });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
+  // product
+    const isproduct= async (req,res)=>{
+        const offerid = req.body.id;
+        const offer = await productOffer.findOne({_id:offerid}).populate('productName')
+        const productid = offer.productName
+        const product = await prodectmodel.findOne({_id:productid})
+        console.log('product'+product)
+        // console.log('product'+offer)
+
+        const currentDate = new Date();
+        if(currentDate < offer.startDate || currentDate > offer.endDate){
+            return res.status(200).json({ message: 'Offer Cannot be activate. Start date or end date is not within the range.' });
+        }
+
+        if(!offer){
+            return res.send('somthin went wrong');
+        }
+
+        offer.isActive = !offer.isActive;
+        req.session.productprice = offer.productName.price;
+
+        if(offer.isActive){
+            product.price = product.price - product.discount;
+        
+        }else{
+            product.price = product.price + product.discount;
+        
+        }
+        await offer.save();
+        await product.save()
+        console.log('product'+product)
+        if(offer.isActive){
+            return res.status(200).json({ message: 'Offer listed' });
+        }
+        
+        
+
+
+
+        return res.status(200).json({ message: 'Offer unlisted' });
+
+    }
 
 const deletcat = async (req,res)=>{
     try {

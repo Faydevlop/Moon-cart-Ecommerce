@@ -600,7 +600,8 @@
 							<div class="dz-content">
 								<div class="dz-content-footer">
 									<div class="dz-content-start">
-										<span class="badge badge-danger">	₹<%= products.discount %> Off</span>
+										<span class="badge badge-danger"> ₹<%= Math.round(products.discount) %> Off</span>
+
 										<h4 class="title mb-1"><a href="/home/shop-list.html"><%= products.name %></a></h4>
 										<div class="review-num">
 											<ul class="dz-rating me-2">

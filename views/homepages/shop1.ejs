@@ -525,12 +525,12 @@
 												<del>₹<%= product.oldprice + 1 %></del>
 
 											
-												₹<%= product.price %>
+												₹	
 										</h6>
 									</div>
 									<% if(product.discount) {%>
 										<div class="product-tag">
-											<span class="badge badge-danger">	₹<%= product.discount %> Off</span>
+											<span class="badge badge-danger">	₹<%= Math.round(product.discount) %>  Off</span>
 										</div>
 										<%}%>
 								</div>

@@ -16,38 +16,38 @@ const Categeory = require('../models/categorymodel');
         res.render('dashboard/page-form-product-2');
     }
 
-    const categorypagepost = async (req,res)=>{
-        
-        try {
-            
-            const category = await Categeory.aggregate([
-                { $match: { categoryname: req.body.name } }
-            ]);
-            if(category.length > 0 ){
-                
-                req.session.error = 'category already exist';
-                
-                return res.redirect('/admin/page-add-categorys')
-                
-            }
-            const cat = new Categeory({
-                categoryname:req.body.name,
-                description:req.body.description,
-                categeoryOffers:req.body.categoryOffers
-            })
+   const categorypagepost = async (req, res) => {
+    try {
+        const categoryNameInput = req.body.name;
 
-            await cat.save();
-            req.session.done = 'category added';
-           
-           return res.redirect('/admin/page-add-categorys')
+        // Use a regular expression for case-insensitive matching
+        // 'i' flag makes the regex case-insensitive
+        const category = await Categeory.aggregate([
+            { $match: { categoryname: { $regex: new RegExp(`^${categoryNameInput}$`, 'i') } } }
+        ]);
 
-
-
-        } catch (error) {
-            console.error(error)
+        if (category.length > 0) {
+            req.session.error = 'Category already exists'; // Updated message for clarity
+            return res.redirect('/admin/page-add-categorys');
         }
 
+        const cat = new Categeory({
+            categoryname: categoryNameInput,
+            description: req.body.description,
+            categeoryOffers: req.body.categoryOffers
+        });
+
+        await cat.save();
+        req.session.done = 'Category added successfully'; // Updated message for clarity
+
+        return res.redirect('/admin/page-add-categorys');
+
+    } catch (error) {
+        console.error("Error adding category:", error); // More specific error logging
+        req.session.error = 'An error occurred while adding the category.'; // Generic error message for user
+        return res.redirect('/admin/page-add-categorys');
     }
+};
 
 const listcategory = async (req, res) => {
     try {
@@ -67,7 +67,7 @@ const listcategory = async (req, res) => {
         const categories = await Categeory.find(query)
             .skip((page - 1) * perPage)
             .limit(perPage)
-            .sort({ createdAt: -1 }); // Sort by creation date, newest first (adjust as needed)
+            .sort({ _id: -1 }); // Changed from createdAt: -1 to _id: -1 for newest first
 
         let donee = '';
         if (req.session.donee) {
@@ -75,24 +75,23 @@ const listcategory = async (req, res) => {
             req.session.donee = ''; // Clear the session message
         }
 
-        let errorr = ''; // Corrected variable name to match EJS
-        if (req.session.error) { // Assuming it's req.session.error, not errorr
-            errorr = req.session.error;
-            req.session.error = ''; // Clear the session message
+        let errorr = ''; 
+        if (req.session.errorr) { // Assuming 'errorr' is the correct session key now
+            errorr = req.session.errorr;
+            req.session.errorr = ''; // Clear the session message
         }
 
-
         res.render('dashboard/page-products-grid-2', {
-            cat: categories, // Renamed to 'categories' for clarity, but passed as 'cat' to match EJS
+            cat: categories, 
             currentPage: page,
             totalPages: totalPages,
             searchQuery: searchQuery,
-            donee: donee, // Pass the messages to the EJS
-            errorr: errorr // Pass the messages to the EJS
+            donee: donee, 
+            errorr: errorr 
         });
 
     } catch (error) {
-        console.error('Error fetching categories:', error); // Use console.error for errors
+        console.error('Error fetching categories:', error);
         res.status(500).send('Internal Server Error');
     }
 };

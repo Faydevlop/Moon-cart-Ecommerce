@@ -21,8 +21,15 @@ app.use(session({
   resave:false,
   saveUninitialized:false, 
 }))
-
-//mongo connection 
+app.use((req, res, next) => {
+    // Expose session messages to res.locals
+    res.locals.successMessage = req.session.successMessage;
+    res.locals.errorMessage = req.session.errorMessage;
+    // Clear them immediately after exposing
+    delete req.session.successMessage;
+    delete req.session.errorMessage;
+    next();
+});
 
 
 // console.log(process.env.MONGODB_URI);

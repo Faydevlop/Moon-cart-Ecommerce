@@ -19,7 +19,11 @@ const categeryschema = mongoose.Schema({
         default: true
     }
     
+    
 
+},
+{
+    timestamps: true // <--- Make sure this is present in your Categeory schema definition
 })
 
 module.exports=mongoose.model("Category",categeryschema)

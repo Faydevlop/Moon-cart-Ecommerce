@@ -38,6 +38,7 @@
       type: Number,
       required: true,
     },
+    
     category:{
       type:mongoose.Schema.Types.ObjectId,
       ref:'Category',
@@ -47,10 +48,10 @@
     type:Number,
     default:0
     }
-    // You might want to include additional fields like 'color', 'size', etc., based on your needs.
+   
   },{
-    timestamps: true // <--- Add this! This automatically adds `createdAt` and `updatedAt`
-    // OR manually add: createdAt: { type: Date, default: Date.now }
+    timestamps: true 
+   
 });
 
   const Product = mongoose.model('Product', productSchema);

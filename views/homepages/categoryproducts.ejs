@@ -648,7 +648,7 @@
 													<img src="<%= product.singleImage %>" alt="image" style="width: 300px;">
 													<div class="product-tag">
 														<% if(product.discount){ %>
-															<span class="badge badge-danger">₹<%= product.discount %> off</span>
+															<span class="badge badge-danger">₹<%= Math.round(product.discount) %>  off</span>
 															<%}%>
 													
 														

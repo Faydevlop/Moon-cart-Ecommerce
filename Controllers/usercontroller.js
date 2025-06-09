@@ -469,78 +469,78 @@ const updatedetials = async (req, res) => {
         try {
             if (err) {
                 console.error(err);
-                // Handle Multer errors
                 if (err.code === 'LIMIT_FILE_SIZE') {
-                    return res.status(400).render('dashboard/profile-edit', { error: 'File size too large', users: req.session.user }); // Adjust path and pass users data
+                    req.session.errorMessage = 'File size too large. Max 1MB allowed.';
+                } else {
+                    req.session.errorMessage = 'File upload failed. Please try again.';
                 }
-                return res.status(500).render('dashboard/profile-edit', { error: 'File upload failed', users: req.session.user }); // Adjust path and pass users data
+                return res.redirect(`/editac/${req.session.iduser}`);
             }
 
-            const userId = req.session.iduser; // Ensure userId is available, e.g., from session or req.user._id
+            const userId = req.session.iduser;
 
             if (!userId) {
-                return res.status(400).render('dashboard/profile-edit', { error: 'User ID missing for update', users: req.session.user }); // Adjust path and pass users data
+                req.session.errorMessage = 'User ID missing for update. Please log in again.';
+                return res.redirect('/login');
             }
 
-            // Fetch the current user data from the database before updating
             const currentUser = await User.findById(userId);
 
             if (!currentUser) {
-                return res.status(404).render('/', { error: 'User not found.', users: req.session.user }); // Adjust path and pass users data
+                req.session.errorMessage = 'User not found.';
+                return res.redirect('/');
             }
 
-            let profileImagePath = currentUser.pimage || null; // Start with current image or null
+            let profileImagePath = currentUser.pimage || null;
 
-            // Check if a new file was uploaded
             if (req.file) {
-                // If a file is uploaded, set the new path
                 profileImagePath = '/uploads/profile/' + req.file.filename;
                 console.log('New photo uploaded: ' + profileImagePath);
+                // Optional: Implement logic to delete old image file from server if currentUser.pimage exists
             } else {
                 console.log('No new photo uploaded, retaining existing: ' + profileImagePath);
             }
 
-            // Prepare the data for update
+            // Prepare the data for update, including the image path
             const updateData = {
                 Username: req.body.username,
-                email: req.body.email,
+                email: req.body.email, // This is the email from the form
                 Mobile: req.body.Mobile,
-                pimage: profileImagePath // Assign the determined image path
+                pImage: profileImagePath // Ensure this matches your schema field name if it's 'pimage' lowercase
             };
 
-            // Determine if the email has changed
             const isEmailChanged = currentUser.email !== req.body.email;
 
             if (isEmailChanged) {
-                // If email has changed, send OTP and redirect to verification
-                const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
+                // If email has changed, trigger OTP verification
+                const otp = Math.floor(100000 + Math.random() * 900000);
                 req.session.otp = otp;
+                req.session.pendingUpdateData = updateData; // Store all pending data
+                req.session.pendingUpdateUserId = userId;   // Store the user ID
 
-                // Store the *pending* updated data in session for verification
-                req.session.pendingUpdateData = updateData; // Store all update data here
+                await authcontroller.sendVerificationEmail(req.body.email, req.session.otp); // Send OTP to the NEW email
+                req.session.successMessage = 'Email changed! Please check your new email for a verification code.';
+                return res.redirect('/verification2'); // Redirect to OTP verification page
 
-                await authcontroller.sendVerificationEmail(req.body.email, req.session.otp);
-                return res.redirect('/verification2');
             } else {
-                // If email has NOT changed, update the user directly
+                // If email has NOT changed, proceed with immediate update of other fields
                 const updatedUser = await User.findByIdAndUpdate(userId, updateData, { new: true });
 
                 if (!updatedUser) {
-                    return res.status(404).render('dashboard/profile-edit', { error: 'Failed to update user.', users: currentUser }); // Adjust path
+                    req.session.errorMessage = 'Failed to update profile details.';
+                    return res.redirect(`/editac/${userId}`);
                 }
                 
-                // Update the session user data if you store it
-                req.session.user = updatedUser; 
+                req.session.user = updatedUser; // Update session user data immediately
 
-                // Redirect to a success page or the profile page
-                return res.redirect(`/editac/${userId}`); // Or wherever you want to redirect on successful update
+                req.session.successMessage = 'Profile updated successfully!';
+                return res.redirect(`/editac/${userId}`); // Redirect back to the profile edit page
             }
 
         } catch (error) {
             console.error('Error during user update:', error);
-            // Render the page with an error message
-            // Make sure to pass the 'users' object to the EJS template so the form can be re-rendered with current data
-            res.status(500).render('dashboard/profile-edit', { error: 'Internal Server Error during update', users: req.session.user }); // Adjust path
+            req.session.errorMessage = 'An internal server error occurred. Please try again.';
+            return res.redirect(`/editac/${req.session.iduser}`);
         }
     });
 };
@@ -558,46 +558,68 @@ const otplogin2 = (req, res) => {
 
 
 const otploginpost2 = async (req, res) => {
-
-    // req.session.enteredOtp = req.body.enteredOtp;
-    console.log(req.body.enteredOtp, req.session.otp)
+    console.log("Entered OTP:", req.body.enteredOtp, "Session OTP:", req.session.otp);
 
     try {
+        // Check if pending update data exists (meaning an email change was initiated)
+        const pendingUpdateData = req.session.pendingUpdateData;
+        const userId = req.session.pendingUpdateUserId;
+
+        if (!pendingUpdateData || !userId || !req.session.otp) {
+            // This indicates the user is trying to access verification2 directly
+            // or session expired/data is missing for an email update flow.
+            req.session.errorMessage = 'No pending email verification found. Please try updating your profile again.';
+            return res.redirect('/editac/' + (req.session.iduser || '')); // Redirect to profile edit or home
+        }
+
         if (Number(req.body.enteredOtp) === Number(req.session.otp)) {
+            // OTP is correct! Proceed with updating the user's data
+            const user = await User.findById(userId);
 
-            console.log(req.session.data.username, req.session.data.email);
-
-            const email = req.session.data.email;
-            
-            const user = await User.findOne({email:email})
-            if(user){
-
-                user.Username = req.session.data.username,
-                user.email = req.session.data.email,
-                user.Mobile = req.session.data.Mobile,
-                user.pImage = req.session.data.Pimage
-
-                await user.save();
-
+            if (!user) {
+                req.session.errorMessage = 'User not found for update. Please try again.';
+                // Clear session data as it's no longer valid for this user
+                delete req.session.otp;
+                delete req.session.pendingUpdateData;
+                delete req.session.pendingUpdateUserId;
+                return res.redirect('/editac/' + (req.session.iduser || ''));
             }
 
+            // Apply ALL the pending updates from the session
+            user.Username = pendingUpdateData.Username;
+            user.email = pendingUpdateData.email; // This is the crucial email update
+            user.Mobile = pendingUpdateData.Mobile;
+            user.pimage = pendingUpdateData.pimage; // Update photo if it was part of the pending data
+
+            await user.save();
+
+            // Clear all relevant session data after successful verification
+            delete req.session.otp;
+            delete req.session.pendingUpdateData;
+            delete req.session.pendingUpdateUserId;
             
-           
-        
-            // req.session.done = 'Verification Completed Please login'
-            return res.redirect('/');
+            // Update the user data in the current session
+            req.session.user = user; 
+
+            req.session.successMessage = 'Email and profile updated successfully!';
+            return res.redirect('/editac/' + userId); // Redirect to the updated profile page
         } else {
             // Incorrect OTP
-            req.session.wrongotp = 'incorrect otp';
-            return res.redirect('/verification2')
-            
+            req.session.errorMessage = 'Incorrect OTP. Please try again.';
+            // Do NOT clear pendingUpdateData, userId, or the correct OTP, so the user can re-enter
+            return res.redirect('/verification2'); // Stay on verification page to re-enter OTP
         }
     } catch (error) {
-        console.error('Error verifying OTP:', error);
-        res.status(500).send('Internal Server Error');
+        console.error('Error verifying OTP or updating user:', error);
+        req.session.errorMessage = 'An internal server error occurred during verification or update.';
+        // Clear session data to prevent repeated attempts with invalid data
+        delete req.session.otp;
+        delete req.session.pendingUpdateData;
+        delete req.session.pendingUpdateUserId;
+        // Attempt to redirect back to the edit page, or a suitable fallback
+        return res.redirect('/editac/' + (req.session.iduser || '')); 
     }
-
-}
+};
 
 
 const resendOtp2 =async(req,res)=>{
@@ -1484,24 +1506,80 @@ if (user && user.email) {
 
 
 
-const   orders = async(req,res)=>{
-    
+const orders = async (req, res) => {
     try {
-        const user = req.session.iduser;
-        // console.log("User:",user)
+        const userId = req.session.iduser;
+        const perPage = 5; // Number of orders per page (adjust as needed)
+        const page = parseInt(req.query.page) || 1; // Current page, default to 1
 
-        const orders = await Order.find({user:user}).populate('products.product');
-        
-        if(orders){
-            return  res.render('homepages/orders',{orders:orders});
+        // Search parameters
+        const searchQuery = req.query.search || ''; // Search query for order ID or product name
+
+        // Date filter parameters
+        const startDate = req.query.startDate ? new Date(req.query.startDate) : null;
+        const endDate = req.query.endDate ? new Date(req.query.endDate) : null;
+
+        let query = { user: userId }; // Base query for the logged-in user
+
+        // --- Apply Search Filter ---
+        if (searchQuery) {
+            // To search within populated product names, we need to use aggregation.
+            // Alternatively, for simpler search, you can search on order_id.
+            // For comprehensive product name search, aggregation is better but more complex.
+            // Let's start with searching by order_id or status for simplicity.
+            // If you need product name search, let me know, it requires aggregation.
+
+            query.$or = [
+                { order_id: { $regex: new RegExp(searchQuery, 'i') } }, // Case-insensitive search on order_id
+                { status: { $regex: new RegExp(searchQuery, 'i') } } // Case-insensitive search on status
+            ];
+            // If you want to search product names within orders, it gets more complex
+            // and often requires Mongoose aggregation with $lookup and $match stages.
+            // For now, this focuses on order-level details.
         }
-        res.send('no products found');
-    } catch (error) {
-        console.error(error);
+
+        // --- Apply Date Filter ---
+        if (startDate || endDate) {
+            query.createdAt = {}; // Initialize createdAt query object
+            if (startDate) {
+                query.createdAt.$gte = startDate; // Greater than or equal to start date
+            }
+            if (endDate) {
+                // Set the end date to the end of the day
+                const endOfDay = new Date(endDate);
+                endOfDay.setHours(23, 59, 59, 999);
+                query.createdAt.$lte = endOfDay; // Less than or equal to end of day
+            }
+        }
         
-    } 
- 
-} 
+        // Count total orders matching the query
+        const totalOrders = await Order.countDocuments(query);
+        const totalPages = Math.ceil(totalOrders / perPage);
+
+        const orders = await Order.find(query)
+            .populate('products.product')
+            .sort({ createdAt: -1 }) // Sort by creation date, newest first
+            .skip((page - 1) * perPage)
+            .limit(perPage);
+
+        // Reverse for display in EJS (if you want the most recent order container at the top)
+        // If sorting already handles it, you might not need .reverse()
+        // orders.reverse(); // If you want the overall order container reversed. Sorting handles it directly.
+
+        res.render('homepages/orders', {
+            orders: orders,
+            currentPage: page,
+            totalPages: totalPages,
+            searchQuery: searchQuery, // Pass current search query to EJS
+            startDate: req.query.startDate || '', // Pass original date strings for form persistence
+            endDate: req.query.endDate || ''
+        });
+
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
 
 
 const cancelAllorder = async(req, res) => {
