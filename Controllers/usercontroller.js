@@ -1065,11 +1065,19 @@ const forgetpasspost = async (req, res) => {
 
     // Email options
     const mailOptions = {
-        from: 'zenwrists@gmail.com',
-        to: user.email,
-        subject: 'Mooncart - Password Reset Link',
-        html: `<p>Click on the following link to reset your password: <a href=${link}>Click here</a></p>`
-    };
+    from: process.env.EMAIL_USER,
+    to: user.email,
+    subject: 'MoonCart - Password Reset Link',
+    html: `
+        <p>Dear ${user.name || 'Customer'},</p>
+        <p>We received a request to reset your password.</p>
+        <p>Click on the following link to reset your password: <a href="${link}">Click here</a></p>
+        <br>
+        <p>Thank you for using MoonCart!</p>
+        <p>Best regards,<br>MoonCart Team</p>
+    `
+};
+
 
     // Send email
     transporter.sendMail(mailOptions, (error, info) => {
