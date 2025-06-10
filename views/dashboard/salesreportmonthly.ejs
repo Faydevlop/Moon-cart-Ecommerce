@@ -92,21 +92,34 @@
                         <% let totalSales = 0; %>
                         <% orders.reverse().forEach(order => { %>
                             <% if (order.status !== 'Cancelled') { %>
-                            <% order.products.forEach(product => { %>
-                                <tr>
-                                    <td><%= order.createdAt.toISOString().split('T')[0] %></td>
-                                    <td>#<%= order.order_id %></td>
-                                    <td><%= product.product.name %></td>
-                                    <td>₹<%=  product.product.oldprice %></td>
-                                    
-                                    <td>₹<%=  product.price %></td>
-                                    <td><%= product.quantity %></td>
-                                    <td><%= product.quantity * product.price %></td>
-                                    <!-- Add more columns as needed -->
-                                </tr>
-                                <% totalSales += (product.price * product.quantity); %>
-                            <% }); %>
-                            <%}%>
+    <% order.products.forEach(product => { %>
+        <tr>
+            <td><%= order.createdAt.toISOString().split('T')[0] %></td>
+            <td>#<%= order.order_id %></td>
+            <td>
+                <% if (product.product) { %>
+                    <%= product.product.name %>
+                <% } else { %>
+                    [Product Not Found]
+                <% } %>
+            </td>
+            <td>
+                <% if (product.product) { %>
+                    ₹<%= product.product.oldprice %>
+                <% } else { %>
+                    N/A
+                <% } %>
+            </td>
+            
+            <td>₹<%= product.price %></td>
+            <td><%= product.quantity %></td>
+            <td><%= product.quantity * product.price %></td>
+            </tr>
+        <% if (product.product) { %>
+            <% totalSales += (product.price * product.quantity); %>
+        <% } %>
+    <% }); %>
+<%}%>
                         <% }); %>
                         <tr>
                             <td colspan="5"></td>

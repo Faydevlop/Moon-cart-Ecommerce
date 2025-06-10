@@ -48,7 +48,7 @@ const usermanagement = async (req, res) => {
             const user = await User.findById(userId);
             if(user){
                 console.log('user bloked');
-                user.isBlocked = !user.isBlocked;
+                user.isBlocked = true
                 await user.save();
                 res.redirect('/admin/page-seller-detail');
             }else{
@@ -74,9 +74,9 @@ const usermanagement = async (req, res) => {
             const user = await User.findById(userId);
             if(user){
                 console.log('user unblocked');
-                user.isBlocked = user.isBlocked;
+                user.isBlocked = false
                 await user.save();
-                res.redirect('/admin/page-list-users');
+                res.redirect('/admin/page-seller-detail');
             }else{
                 console.log('issue');
             }

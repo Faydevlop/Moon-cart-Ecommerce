@@ -70,7 +70,7 @@ router.get('/dashboard', isadmin, controller.admindashboardget);
 // User Management
 router.get('/page-seller-detail', isadmin, usermanagementcontroll.usermanagement);
 router.post('/block-user/:userId', isadmin, usermanagementcontroll.blockuserpost);
-router.post('/unblock-user/:userId', isadmin, usermanagementcontroll.blockuserpost);
+router.post('/unblock-user/:userId', isadmin, usermanagementcontroll.unblockuser);
 
 // Product Management
 router.get('/page-add-products', isadmin, productscontroll.productspage1get);
