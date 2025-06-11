@@ -330,96 +330,108 @@
     <script src="/assets/js/validation.js" type="text/javascript"></script>
     <script>
 
-function ValidateProduct() {
-    
-   
-    // Get the values of the form fields
-    const name = document.getElementById('addproductname').value.trim();
-    const brand = document.getElementById('addproductbrand').value.trim();
-    const model = document.getElementById('product_model').value.trim();
-    const category = document.getElementById('addproductcategory').value;
-    const price = document.getElementById('addproductprice').value.trim();
-    const description = document.getElementById('addproductdescription').value.trim();
-    const singleImage = document.getElementById('addproductimage').files[0];
-    const multipleImages = document.getElementById('addproductimages').files;
-    const stock = document.getElementById('addproductcount').value.trim();
-  
-    // Validate the name field
-   if (!name) {
-  showError('addproductname', 'Please enter a product name.');
-  return false;
-} else if (!/^[a-zA-Z0-9\s]+$/.test(name)) {
-  showError('addproductname', 'Product name must contain only letters, numbers, and spaces.');
-  return false;
-}
 
-  
-    // Validate the brand field
-    if (!brand) {
-      showError('addproductbrand', 'Please enter a product brand.');
-      return false;
+    function ValidateProduct() {
+        // Clear previous errors (this is a good practice to keep)
+        document.querySelectorAll('.validation-error').forEach(span => span.textContent = '');
+
+        // Get the values of the form fields
+        const name = document.getElementById('addproductname').value.trim();
+        const brand = document.getElementById('addproductbrand').value.trim();
+        const model = document.getElementById('product_model').value.trim();
+        const category = document.getElementById('addproductcategory').value;
+        const price = document.getElementById('addproductprice').value.trim();
+        const description = document.getElementById('addproductdescription').value.trim();
+        const singleImage = document.getElementById('addproductimage').files[0];
+        const multipleImages = document.getElementById('addproductimages').files;
+        const stock = document.getElementById('addproductcount').value.trim();
+
+        // Define maximum allowed file size (1MB)
+        const MAX_FILE_SIZE_BYTES = 1 * 1024 * 1024; // 1 MB
+
+        // Validate the name field
+        if (!name) {
+            showError('addproductname', 'Please enter a product name.');
+            return false;
+        } else if (!/^[a-zA-Z0-9\s]+$/.test(name)) {
+            showError('addproductname', 'Product name must contain only letters, numbers, and spaces.');
+            return false;
+        }
+
+        // Validate the brand field
+        if (!brand) {
+            showError('addproductbrand', 'Please enter a product brand.');
+            return false;
+        }
+
+        // Validate the category field
+        if (!category) {
+            showError('addproductcategory', 'Please select a product category.');
+            return false;
+        }
+
+        // Validate the price field
+        if (!price) {
+            showError('addproductprice', 'Please enter a product price.');
+            return false;
+        } else if (!/^\d+\.?\d*$/.test(price)) {
+            showError('addproductprice', 'Product price must be a valid number.');
+            return false;
+        }
+
+        // Validate the description field
+        if (!description) {
+            showError('addproductdescription', 'Please enter a product description.');
+            return false;
+        }
+
+        // Validate the singleImage field
+        if (singleImage) {
+            const fileExtension = singleImage.name.split('.').pop().toLowerCase();
+            if (!['jpeg', 'jpg', 'png'].includes(fileExtension)) {
+                showError('productSingleImage', 'Please upload a valid JPEG or PNG image.');
+                return false;
+            }
+            // Add file size validation for single image
+            if (singleImage.size > MAX_FILE_SIZE_BYTES) {
+                showError('productSingleImage', `Single image size exceeds ${MAX_FILE_SIZE_BYTES / (1024 * 1024)}MB. Please choose a smaller image.`);
+                return false;
+            }
+        } else {
+            showError('productSingleImage', 'Please select a file for the single image.');
+            return false;
+        }
+
+        // Validate the multipleImages field
+        if (multipleImages && multipleImages.length > 0) {
+            for (const image of multipleImages) {
+                const fileExtension = image.name.split('.').pop().toLowerCase();
+                if (!['jpeg', 'jpg', 'png'].includes(fileExtension)) {
+                    showError('productMultipleImages', 'Please upload only valid JPEG or PNG images.');
+                    return false;
+                }
+                // Add file size validation for each multiple image
+                if (image.size > MAX_FILE_SIZE_BYTES) {
+                    showError('productMultipleImages', `One or more images exceed ${MAX_FILE_SIZE_BYTES / (1024 * 1024)}MB. Please choose smaller images.`);
+                    return false;
+                }
+            }
+        } else {
+            showError('productMultipleImages', 'Please select at least one file for multiple images.');
+            return false;
+        }
+
+        // Validate the stock field
+        if (!stock) {
+            showError('addproductcount', 'Please enter a product stock quantity.');
+            return false;
+        } else if (!/^\d+$/.test(stock)) {
+            showError('addproductcount', 'Product stock quantity must be a valid number.');
+            return false;
+        }
+
+        return true;
     }
-  
-    // Validate the category field
-    if (!category) {
-      showError('addproductcategory', 'Please select a product category.');
-      return false;
-    }
-  
-    // Validate the price field
-    if (!price) {
-      showError('addproductprice', 'Please enter a product price.');
-      return false;
-    } else if (!/^\d+\.?\d*$/.test(price)) {
-      showError('addproductprice', 'Product price must be a valid number.');
-      return false;
-    }
-  
-    // Validate the description field
-    if (!description) {
-      showError('addproductdescription', 'Please enter a product description.');
-      return false;
-    }
-  
-    // Validate the singleImage field
-    if (singleImage) {
-  const fileExtension = singleImage.name.split('.').pop().toLowerCase();
-  if (!['jpeg', 'jpg', 'png'].includes(fileExtension)) {
-    showError('productSingleImage', 'Please upload a valid JPEG or PNG image.');
-    return false;
-  }
-} else {
-  showError('productSingleImage', 'Please select a file for the single image.');
-  return false;
-}
-  
-    // Validate the multipleImages field
-    // For multiple images
-if (multipleImages && multipleImages.length > 0) {
-  for (const image of multipleImages) {
-    const fileExtension = image.name.split('.').pop().toLowerCase();
-    if (!['jpeg', 'jpg', 'png'].includes(fileExtension)) {
-      showError('productMultipleImages', 'Please upload only valid JPEG or PNG images.');
-      return false;
-    }
-  }
-} else {
-  showError('productMultipleImages', 'Please select at least one file for multiple images.');
-  return false;
-}
-  
-    // Validate the stock field
-    if (!stock) {
-      showError('addproductcount', 'Please enter a product stock quantity.');
-      return false;
-    } else if (!/^\d+$/.test(stock)) {
-      showError('addproductcount', 'Product stock quantity must be a valid number.');
-      return false;
-    }
-  
-    return true;
-  }
-  
   function showError(id, message) {
     const errorSpan = document.getElementById(id + '-error');
     errorSpan.textContent = message;
