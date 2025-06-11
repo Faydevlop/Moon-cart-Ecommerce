@@ -5,7 +5,7 @@ const controller = require('../Controllers/usercontroller')
 const ordercontroller = require('../Controllers/orders')
 const staticcontroller = require('../Controllers/staticcontroller');
 const verifyUser = require('../middleware/verifyUser'); // Is this used for token verification?
-const { createWishLIst, removeWishlist, getWishList } = require('../Controllers/wishlistController');
+const { createWishLIst, removeWishlist, getWishList, createWishLIstShort, removeWishlistShort } = require('../Controllers/wishlistController');
 
 
 // Your isBlocked middleware (moved for clarity, but can stay where it is if you prefer)
@@ -110,6 +110,9 @@ router.post('/removecop',isBlocked,controller.removecopen)
 router.post('/wishlist/add/:productId',isBlocked,createWishLIst)
 router.post('/wishlist/remove/:productId',isBlocked,removeWishlist)
 router.get('/wishlist',isBlocked,getWishList)
+
+router.post('/wishlistshort/add/:productId',isBlocked,createWishLIstShort)
+router.post('/wishlistshort/remove/:productId',isBlocked,removeWishlistShort)
 
 // Other protected routes
 router.get('/category/:id',controller.categorywiseproducts) // Depends: if category view is public, don't protect. If it shows user-specific categories, protect.

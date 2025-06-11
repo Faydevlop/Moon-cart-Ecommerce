@@ -464,59 +464,62 @@
 					<div class="clearfix">
 						<!-- start -->
 	
-						<ul id="masonry" class="row g-xl-4 g-3">
-							<% if(products.length) {%>
-								<% products.forEach((product, item) => { %>
-							<li class="card-container col-6 col-xl-3 col-lg-3 col-md-4 col-sm-6 Begs wow fadeInUp" data-wow-delay="0.1s">
-								<div class="shop-card">
-									<div class="dz-media">
-										<img src="<%= product.singleImage %>" alt="image" class="product-image">
-										<div class="shop-meta">
-											<a href="/productpage/<%= product._id  %>" class="btn btn-secondary btn-icon" >
-												<i class="fa-solid fa-eye d-md-none d-block"></i>
-												<span class="d-md-block d-none">Shop now</span>
-											</a>
-											
-											<div class="btn btn-primary meta-icon dz-carticon" onclick="addtocart(`<%= product._id %>`)">
-												<svg class="dz-cart-check" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-												<path d="M11.9144 3.73438L5.49772 10.151L2.58105 7.23438" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-												</svg>
-												<svg class="dz-cart-out" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path d="M10.6033 10.4092C9.70413 10.4083 8.97452 11.1365 8.97363 12.0357C8.97274 12.9348 9.70097 13.6644 10.6001 13.6653C11.4993 13.6662 12.2289 12.938 12.2298 12.0388C12.2298 12.0383 12.2298 12.0378 12.2298 12.0373C12.2289 11.1391 11.5014 10.4109 10.6033 10.4092Z" fill="white"/>
-													<path d="M13.4912 2.6132C13.4523 2.60565 13.4127 2.60182 13.373 2.60176H3.46022L3.30322 1.55144C3.20541 0.853911 2.60876 0.334931 1.90439 0.334717H0.627988C0.281154 0.334717 0 0.61587 0 0.962705C0 1.30954 0.281154 1.59069 0.627988 1.59069H1.90595C1.9858 1.59011 2.05338 1.64957 2.06295 1.72886L3.03004 8.35727C3.16263 9.19953 3.88712 9.8209 4.73975 9.82363H11.2724C12.0933 9.8247 12.8015 9.24777 12.9664 8.44362L13.9884 3.34906C14.0543 3.00854 13.8317 2.67909 13.4912 2.6132Z" fill="white"/>
-													<path d="M6.61539 11.9676C6.57716 11.0948 5.85687 10.4077 4.98324 10.4108C4.08483 10.4471 3.38595 11.2048 3.42225 12.1032C3.45708 12.9653 4.15833 13.6505 5.02092 13.6653H5.06017C5.95846 13.626 6.65474 12.8658 6.61539 11.9676Z" fill="white"/>
-												</svg>
-											</div>
-										</div>	
-									</div>
-									<div class="dz-content">
-										<h5 class="title"><a href="/productpage/<%= product._id  %>"><%= product.name %></a></h5>
-										<ul class="star-rating">
-											
-										</ul>
-										<h6 class="price">
-											<% if(product.discount) {%>
-											
-												<%}%>
-												<del>₹<%= product.oldprice + 1 %></del>
+					<ul id="masonry" class="row g-xl-4 g-3">
+    <% if(products.length) {%>  
+        <% products.forEach((product, item) => { %>
+        <li class="card-container col-6 col-xl-3 col-lg-3 col-md-4 col-sm-6 Begs wow fadeInUp" data-wow-delay="0.1s">
+            <div class="shop-card">
+                <div class="dz-media">
+                    <img src="<%= product.singleImage %>" alt="image" class="product-image">
+                    <div class="shop-meta">
+                        <a href="/productpage/<%= product._id  %>" class="btn btn-secondary btn-icon" >
+                            <i class="fa-solid fa-eye d-md-none d-block"></i>
+                            <span class="d-md-block d-none">Shop now</span>
+                        </a>
 
-											
-												₹	
-										</h6>
-									</div>
-									<% if(product.discount) {%>
-										<div class="product-tag">
-											<span class="badge badge-danger">	₹<%= Math.round(product.discount) %>  Off</span>
-										</div>
-										<%}%>
-								</div>
-							</li>
-							<%})%>
-							<% } else { %>
-								<div> No products </div>
-							  <% } %>
-							<!-- end -->
-						</ul>
+                        <div class="btn btn-primary meta-icon dz-carticon" onclick="addtocart(`<%= product._id %>`)">
+                            <svg class="dz-cart-check" width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.9144 3.73438L5.49772 10.151L2.58105 7.23438" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <svg class="dz-cart-out" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10.6033 10.4092C9.70413 10.4083 8.97452 11.1365 8.97363 12.0357C8.97274 12.9348 9.70097 13.6644 10.6001 13.6653C11.4993 13.6662 12.2289 12.938 12.2298 12.0388C12.2298 12.0383 12.2298 12.0378 12.2298 12.0373C12.2289 11.1391 11.5014 10.4109 10.6033 10.4092Z" fill="white"/>
+                                <path d="M13.4912 2.6132C13.4523 2.60565 13.4127 2.60182 13.373 2.60176H3.46022L3.30322 1.55144C3.20541 0.853911 2.60876 0.334931 1.90439 0.334717H0.627988C0.281154 0.334717 0 0.61587 0 0.962705C0 1.30954 0.281154 1.59069 0.627988 1.59069H1.90595C1.9858 1.59011 2.05338 1.64957 2.06295 1.72886L3.03004 8.35727C3.16263 9.19953 3.88712 9.8209 4.73975 9.82363H11.2724C12.0933 9.8247 12.8015 9.24777 12.9664 8.44362L13.9884 3.34906C14.0543 3.00854 13.8317 2.67909 13.4912 2.6132Z" fill="white"/>
+                                <path d="M6.61539 11.9676C6.57716 11.0948 5.85687 10.4077 4.98324 10.4108C4.08483 10.4471 3.38595 11.2048 3.42225 12.1032C3.45708 12.9653 4.15833 13.6505 5.02092 13.6653H5.06017C5.95846 13.626 6.65474 12.8658 6.61539 11.9676Z" fill="white"/>
+                            </svg>
+                        </div>
+
+                        <div class="btn meta-icon dz-wishlist-icon <%= users?.wishlist.includes(product._id) ? 'active' : '' %>" onclick="toggleWishlist('<%= product._id %>', this)">
+
+                            <svg class="wishlist-heart" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.64119 10.4097C1.74702 7.61808 2.79202 4.42724 5.72285 3.48308C7.26452 2.98558 8.96619 3.27891 10.2479 4.24308C11.4604 3.30558 13.2245 2.98891 14.7645 3.48308C17.6954 4.42724 18.747 7.61808 17.8537 10.4097C16.462 14.8347 10.2479 18.2431 10.2479 18.2431C10.2479 18.2431 4.07952 14.8864 2.64119 10.4097Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M13.5813 6.32781C14.473 6.61614 15.103 7.41197 15.1788 8.34614" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="dz-content">
+                    <h5 class="title"><a href="/productpage/<%= product._id  %>"><%= product.name %></a></h5>
+                    <ul class="star-rating">
+                        </ul>
+                    <h6 class="price">
+                        <% if(product.discount) {%>
+                            <del>₹<%= product.oldprice + 1 %></del>
+                        <%}%>
+                        ₹<%= product.price || product.newprice %>
+                    </h6>
+                </div>
+                <% if(product.discount) {%>
+                    <div class="product-tag">
+                        <span class="badge badge-danger">₹<%= Math.round(product.discount) %> Off</span>
+                    </div>
+                <%}%>
+            </div>
+        </li>
+        <%})%>
+    <% } else { %>
+        <div> No products </div>
+    <% } %>
+</ul>
 					</div>
 				</div>
 			</section>
@@ -902,6 +905,95 @@
 
 	}
 </script
+</script>
+<!-- <script>
+	function toggleWishlist(productId, element) {
+    const isWished = element.classList.contains("wished");
+
+    fetch(`/wishlist/${isWished ? 'remove' : 'add'}/${productId}`, {
+        method: 'POST'
+    }).then(res => {
+        if (res.ok) {
+            element.classList.toggle("wished");
+            const svg = element.querySelector("svg");
+            if (element.classList.contains("wished")) {
+                svg.style.stroke = "red";
+            } else {
+                svg.style.stroke = "white";
+            }
+        }
+    }).catch(err => {
+        console.error("Wishlist toggle failed:", err);
+    });
+}
+
+</script> -->
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    async function toggleWishlist(productId, el) {
+        const isActive = el.classList.contains('active');
+        const method = isActive ? 'remove' : 'add';
+        const url = `/wishlistshort/${method}/${productId}`;
+
+        try {
+            const res = await fetch(url, { method: 'POST' });
+
+            // Check if the response is OK (status 200-299)
+            if (!res.ok) {
+                // If the response is not OK, it might be an HTML page for unauthorized access, etc.
+                const text = await res.text(); // Get the raw text of the response
+                console.error('Server responded with non-OK status:', res.status, text);
+
+                // Attempt to parse as JSON in case it's a valid JSON error,
+                // but fall back to a generic message if it's HTML.
+                try {
+                    const errorData = JSON.parse(text);
+                    if (errorData.redirectTo) {
+                        Swal.fire({
+                            title: 'Login Required',
+                            text: errorData.message || 'Please log in to manage your wishlist.',
+                            icon: 'warning',
+                            showCancelButton: false,
+                            confirmButtonText: 'Login'
+                        }).then(() => {
+                            window.location.href = errorData.redirectTo;
+                        });
+                        return; // Stop execution after redirecting
+                    }
+                    Swal.fire('Error', errorData.message || 'Something went wrong on the server.', 'error');
+                } catch (parseError) {
+                    // This means the response was not JSON (e.g., HTML)
+                    Swal.fire(
+                        'Error',
+                        'An unexpected error occurred. You might need to log in or something went wrong on the server.',
+                        'error'
+                    );
+                }
+                return; // Stop execution if response not OK
+            }
+
+            // If response is OK, proceed to parse as JSON
+            const data = await res.json();
+
+            if (data.success) {
+                if (method === 'add') {
+                    el.classList.add('active');
+                    Swal.fire('Added!', 'Product added to wishlist', 'success');
+                } else {
+                    el.classList.remove('active');
+                    Swal.fire('Removed!', 'Product removed from wishlist', 'info');
+                }
+            } else {
+                // Server explicitly sent success: false in JSON
+                Swal.fire('Error', data.message || 'Something went wrong', 'error');
+            }
+        } catch (error) {
+            // This catch block handles network errors or issues with res.json() if the server returns malformed JSON
+            console.error('Fetch or JSON parsing error:', error);
+            Swal.fire('Login Required', 'Please Login to add Products to your wishlist', 'error');
+        }
+    }
 </script>
 
 </body>

@@ -268,48 +268,73 @@ const homepageget = async (req, res) => {
 
 const homeshop = async (req, res) => {
     let search = '';
-    if(req.query.search){
+    if (req.query.search) {
         search = req.query.search;
     }
 
     let page = 1;
-    if(req.query.page){
-        page = req.query.page
+    if (req.query.page) {
+        page = req.query.page;
     }
 
     const limit = 16;
-    
+
     const products = await productsmodel.find({
-        // Your existing search criteria
-        $or:[
-            {name:{$regex:'.*'+search+'.*',$options:'i'}},
-            // Add any other fields you want to search here, e.g.:
-            // {description:{$regex:'.*'+search+'.*',$options:'i'}},
-            // {category:{$regex:'.*'+search+'.*',$options:'i'}},
+        $or: [
+            { name: { $regex: '.*' + search + '.*', $options: 'i' } },
+            // Add any other fields you want to search here
         ]
-        
     })
-    .sort({ _id: -1 }) // Sort by _id in descending order to get latest first
+    .sort({ _id: -1 })
     .limit(limit * 1)
     .skip((page - 1) * limit)
     .exec();
 
-    const count = await productsmodel.countDocuments({ // Use countDocuments for counting
-        // Your existing search criteria for counting
-        $or:[
-            {name:{$regex:'.*'+search+'.*',$options:'i'}},
+    const count = await productsmodel.countDocuments({
+        $or: [
+            { name: { $regex: '.*' + search + '.*', $options: 'i' } },
             // Add any other fields you want to search here
         ]
-        
     });
 
     const categorys = await cat.find({});
 
-    const users = await Cart.findOne({user:req.session.iduser}).populate('products.product');
-    // console.log(users); // You might want to remove this console.log in production
+    // --- Start of FIX for 'users' and 'wishlist' ---
 
-    res.render('homepages/shop1', { products, categorys, users: users, totalpages:Math.ceil(count/limit), currentpage:page });
-}
+    let userWishlistData = null; // Initialize to null
+
+    // Check if the user is logged in (req.session.iduser exists)
+    if (req.session.iduser) {
+        try {
+            // Fetch the User document to get their wishlist
+            // Assuming your User model has a 'wishlist' field
+            userWishlistData = await User.findById(req.session.iduser)
+                                        .select('wishlist') // Only fetch the wishlist field for efficiency
+                                        .lean(); // Use .lean() for faster query if you don't need Mongoose document methods
+            // console.log('Fetched user wishlist data:', userWishlistData); // For debugging
+        } catch (err) {
+            console.error('Error fetching user wishlist:', err);
+            // Handle error, e.g., session might be invalid, user ID not found
+            userWishlistData = null; // Ensure it's null on error
+        }
+    }
+
+    // You still need the cart data for other parts of your template, if used
+    const userCartData = await Cart.findOne({ user: req.session.iduser }).populate('products.product');
+
+    // --- End of FIX ---
+
+    res.render('homepages/shop1', {
+        products,
+        categorys,
+        // Pass the fetched user's wishlist data. This will be 'users' in your EJS.
+        users: userWishlistData, // Pass the user's wishlist directly
+        // Pass the cart data if you need it for other parts of the template
+        // cart: userCartData, // You might rename 'users' in EJS to 'currentUser' and pass cart separately
+        totalpages: Math.ceil(count / limit),
+        currentpage: page
+    });
+};
 
 const otplogin = (req, res) => {
     if(req.session.wrongotp){

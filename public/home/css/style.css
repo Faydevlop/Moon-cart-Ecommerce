@@ -30980,6 +30980,18 @@ table.wishlist_table {
     .faq-end-content {
       padding: 20px 20px 10px; } }
 
+.dz-wishlist-icon.active svg path {
+  stroke: red;
+}
+
+.dz-wishlist-icon.active::after {
+  content: "✔";
+  color: green;
+  font-size: 14px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 
 
 .logo-header {

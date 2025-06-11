@@ -20,6 +20,26 @@ const removeWishlist = async(req, res) => {
   res.redirect('/wishlist');
 }
 
+
+// Add to Wishlist
+const createWishLIstShort = async (req, res) => {
+  const userId = req.session.iduser;
+  const productId = req.params.productId;
+
+  await User.findByIdAndUpdate(userId, { $addToSet: { wishlist: productId } });
+  res.json({ success: true, message: 'Product added to wishlist' });
+};
+
+// Remove from Wishlist
+const removeWishlistShort = async (req, res) => {
+  const userId = req.session.iduser;
+  const productId = req.params.productId;
+
+  await User.findByIdAndUpdate(userId, { $pull: { wishlist: productId } });
+  res.json({ success: true, message: 'Product removed from wishlist' });
+};
+
+
 // wishlist page - get
 const getWishList = async(req,res)=>{
   
@@ -39,5 +59,7 @@ const getWishList = async(req,res)=>{
 module.exports = {
     createWishLIst,
     getWishList,
-    removeWishlist
+    removeWishlist,
+    createWishLIstShort,
+    removeWishlistShort
 }
