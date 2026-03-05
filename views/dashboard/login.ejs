@@ -426,6 +426,12 @@
 						<%if(locals.error){%>
 							<p class="mb-4 text-center" style="color: rgb(255, 0, 0);" ><%= locals.error %></p>
 							<%}%>
+						<div class="m-b20 p-3" style="background: #f5f7fa; border: 1px solid #dce3ea; border-radius: 8px;">
+							<p style="margin: 0 0 4px 0; font-weight: 600;">Demo Login</p>
+							<p style="margin: 0;">Email: <strong>user@gmail.com</strong></p>
+							<p style="margin: 0;">Password: <strong>Client@123</strong></p>
+							<p style="margin: 4px 0 0 0;">Admin login: <a href="/admin/login">/admin/login</a></p>
+						</div>
 						<form action="/login" class="signin-form" method="post" id="loginForm">
 							<div class="m-b30">
 								<label class="label-title">Email Address</label>
