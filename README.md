@@ -37,8 +37,8 @@ Moon-cart Ecommerce is a full-stack e-commerce web application built using Node.
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/yourusername/moon-cart-ecommerce.git
-    cd moon-cart-ecommerce
+    git clone https://github.com/Faydevlop/Moon-cart-Ecommerce.git
+    cd Moon-cart-Ecommerce
     ```
 
 2.  **Install dependencies:**
