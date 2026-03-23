@@ -7,8 +7,7 @@ const cat = require('../models/categorymodel');
 const categorymodel = require('../models/categorymodel');
 const Cart = require('../models/addtocartmodel')
 const Address = require('../models/address');
-const multer = require('multer')
-const path = require('path')
+const { upload } = require('../UTILS/multer');
 const couponmodel = require('../models/coupen')
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
@@ -18,7 +17,6 @@ const nodemailer =require('nodemailer');
 const Order = require('../models/orders');
 const shortid = require('shortid');;
 
-require('dotenv').config();
 const Razorpay = require('razorpay');
 const { sendPaymentSuccessEmail } = require('../UTILS/orderMailer');
 
@@ -473,19 +471,6 @@ const updateuserget = async(req,res)=>{
 
 };
 
-// Set up Multer for handling file uploads
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'public/uploads/profile'); // Set the destination folder for profile images
-    },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-      cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-    },
-  });
-  
-  const upload = multer({ storage: storage });
-
 // Assuming 'upload' is your configured Multer instance
 const updatedetials = async (req, res) => {
     upload.single('pimage')(req, res, async (err) => {
@@ -514,12 +499,12 @@ const updatedetials = async (req, res) => {
                 return res.redirect('/');
             }
 
-            let profileImagePath = currentUser.pimage || null;
+            let profileImagePath = currentUser.pImage || null;
 
             if (req.file) {
-                profileImagePath = '/uploads/profile/' + req.file.filename;
+                profileImagePath = req.file.path;
                 console.log('New photo uploaded: ' + profileImagePath);
-                // Optional: Implement logic to delete old image file from server if currentUser.pimage exists
+                // Optional: Implement logic to delete old image from Cloudinary if needed
             } else {
                 console.log('No new photo uploaded, retaining existing: ' + profileImagePath);
             }
@@ -529,7 +514,7 @@ const updatedetials = async (req, res) => {
                 Username: req.body.username,
                 email: req.body.email, // This is the email from the form
                 Mobile: req.body.Mobile,
-                pImage: profileImagePath // Ensure this matches your schema field name if it's 'pimage' lowercase
+                pImage: profileImagePath
             };
 
             const isEmailChanged = currentUser.email !== req.body.email;
@@ -612,7 +597,7 @@ const otploginpost2 = async (req, res) => {
             user.Username = pendingUpdateData.Username;
             user.email = pendingUpdateData.email; // This is the crucial email update
             user.Mobile = pendingUpdateData.Mobile;
-            user.pimage = pendingUpdateData.pimage; // Update photo if it was part of the pending data
+            user.pImage = pendingUpdateData.pImage; // Update photo if it was part of the pending data
 
             await user.save();
 
@@ -1757,8 +1742,12 @@ const updatesingleimage = async (req, res) => {
         // Find the product in the database using the product ID
         const product = await productsmodel.findOne({ _id: productid });
 
-        // Get the file path from the uploaded file
-        const file = req.file.path.replace(/\\/g, '/').replace('public/', '/');
+        if (!req.file || !req.file.path) {
+            return res.status(400).json({ success: false, message: 'Image upload failed' });
+        }
+
+        // Cloudinary URL from multer-storage-cloudinary
+        const file = req.file.path;
 
         // Log information for debugging
         console.log(productid, index, file);

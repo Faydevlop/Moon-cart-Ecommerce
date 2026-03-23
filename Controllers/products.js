@@ -1,6 +1,5 @@
 
 const productmodel = require('../models/prodectmodel')
-const path = require('path')
 const categoryModel = require('../models/categorymodel')
 
 // no needed
@@ -42,14 +41,14 @@ const productspagepost = async (req, res) => {
 
         // Process single image
         const singleImage = req.files && req.files['singleimage']
-            ? req.files['singleimage'][0].path.replace(/\\/g, '/').replace('public/', '/')
+            ? req.files['singleimage'][0].path
             : null;
         console.log("single image" + singleImage);
 
         
         // Process multiple images
         const multipleImages = req.files && req.files['multipleImages']
-            ? req.files['multipleImages'].map(file => file.path.replace(/\\/g, '/').replace('public/', '/'))
+            ? req.files['multipleImages'].map(file => file.path)
             : [];
         console.log("multiple imagew " + multipleImages);
         if (!singleImage && multipleImages.length === 0) {
@@ -210,12 +209,12 @@ const editproductspost = async (req, res) => {
         const { name, brand, model, price, description, stock, category } = req.body;
 
         // Process single image
-        const singleImage = req.files && req.files['singleImage'] ? req.files['singleImage'][0].path.replace(/\\/g, '/').replace('public/', '/') : null;
+        const singleImage = req.files && req.files['singleImage'] ? req.files['singleImage'][0].path : null;
         console.log(singleImage);
 
         // Process multiple images
         const multipleImages = req.files && req.files['multipleImages']
-            ? req.files['multipleImages'].map(file => file.path.replace(/\\/g, '/').replace('public/', '/'))
+            ? req.files['multipleImages'].map(file => file.path)
             : product.multipleImages; // Retain existing images if not updated
         console.log(multipleImages);
 
