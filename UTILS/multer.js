@@ -1,21 +1,26 @@
 const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('./cloudinary');
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public/uploads/'); // Define the upload directory (create it if it doesn't exist)
-    },
-    filename: function (req, file, cb) {
-        req.body.Imagename= Date.now() + '-' + file.originalname
-        cb(null, Date.now() + '-' + file.originalname); // Define the filename
+const storage = new CloudinaryStorage({
+    cloudinary,
+    params: async (req, file) => {
+        const isProfileImage = file.fieldname === 'pimage';
+
+        return {
+            folder: isProfileImage ? 'mooncart/profiles' : 'mooncart/products',
+            resource_type: 'image',
+            allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'gif', 'avif'],
+            public_id: `${Date.now()}-${Math.round(Math.random() * 1e9)}`
+        };
     }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+    storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024
+    }
+});
 
-module.exports = {storage , upload}
-
-// // Create Multer instances
-// const uploadSingle = multer({ storage: singleStorage }).single('singleimage');
-// const uploadMultiple = multer({ storage: multiStorage }).array('multipleImages', 3);
-
-// module.exports = { uploadSingle, uploadMultiple };
+module.exports = { storage, upload };

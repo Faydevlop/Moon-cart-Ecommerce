@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const multer = require('multer'); // Assuming you have multer configured
 
 const controller = require('../Controllers/admincontroller')
 const usermanagementcontroll = require('../Controllers/usermanagement')
@@ -10,7 +9,7 @@ const salesreportcontroll = require('../Controllers/salesreport')
 const usercontroll = require('../Controllers/usercontroller') // Double check if this is meant for admin actions
 const brandscontroll = require('../Controllers/brands')
 const categorycontroll = require('../Controllers/category');
-const {storage , upload} = require('../UTILS/multer') // Ensure `upload` is correctly configured
+const { upload } = require('../UTILS/multer')
 const referalcontroller = require('../Controllers/refaralcontroller')
 const offercontroll = require('../Controllers/offers')
 const Admin = require("../models/admin"); // Import the Admin model for the middleware
