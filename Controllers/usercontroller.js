@@ -231,9 +231,17 @@ const homepageget = async (req, res) => {
 
     const limit = 16;
 
-    const categoryId = await categorymodel.findOne({ categoryname: 'WOODEN FURNITURE COLLECTION  ' });
-    const newproducts = await productsmodel.find();
-    const products = newproducts.filter(product => product.category.toString() === categoryId._id.toString());
+    const featuredCategory = await categorymodel.findOne({
+        categoryname: { $regex: /^WOODEN FURNITURE COLLECTION\s*$/i }
+    });
+
+    let products = [];
+    if (featuredCategory?._id) {
+        products = await productsmodel.find({ category: featuredCategory._id }).limit(limit);
+    } else {
+        // Fallback keeps homepage stable when the named category is missing/renamed.
+        products = await productsmodel.find().sort({ _id: -1 }).limit(limit);
+    }
 
     let userdetials = null;
     let users = null;
